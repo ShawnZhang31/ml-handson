@@ -9,3 +9,4 @@
    5-3_svm_regression.ipynb
    5-4_svm_working_principle.ipynb
    5-5_exercise.ipynb
+   5-5_8_exercise.ipynb
