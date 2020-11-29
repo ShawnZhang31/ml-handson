@@ -1,0 +1,78 @@
+name: SphinxBuildTest
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      # strategy:
+      #   matrix:
+      #     python-version: [3.6, 3.7, 3.8]
+
+      steps:
+          # 在ubuntu-latest上签出代码
+          - name: Checkout Source
+            uses: actions/checkout@v2
+            with:
+              lfs: true
+              ref: dev
+
+          # - name: Checkout dev branch
+          #   run: |
+          #     git checkout dev
+          
+          - name: Set up Python 3.7
+            uses: actions/setup-python@v2
+            with:
+              python-version: 3.7
+
+          - name: Install dependencies
+            run: |
+              python -m pip install --upgrade pip
+              if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+          - name: Install pandoc
+            run: |
+              sudo apt-get update -y
+              sudo apt-get install -y pandoc
+          # - name: Set Env
+          #   env:
+          #     PAGES_DEPLOY_PRI: ${{ secrets.DEPLOY_GITHUB_PAGES }}
+          #   run: |
+          #     mkdir -p ~/.ssh/
+          #     echo "$PAGES_DEPLOY_PRI" > ~/.ssh/id_rsa
+          #     chmod 600 ~/.ssh/id_rsa
+          #     ssh-keyscan github.com >> ~/.ssh/known_hosts
+          #     git config --global user.email "shawnzhang31@gmail.com"
+          #     git config --global user.name "shawnzhang"
+
+          - name: Build Pages
+            run: |
+              cd docs
+              make clean && make html
+
+          # - name: push gitee_pages
+          #   run: |
+          #     rm -rf .git
+          #     cd .deploy_git
+          #     git init
+          #     git add .
+          #     commitMSG="update pages at "$(date "+%Y-%m-%d %H:%M:%S")
+          #     git commit -m "$commitMSG"
+          #     git remote add origin git@gitee.com:shawnzhang31/handson-ml.git
+          #     git push origin master
+
+
+
+
+          # 安装Hexo环境
+          # - name: Setup Hexo
+          #   uses: 
+
