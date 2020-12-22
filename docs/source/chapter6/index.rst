@@ -9,3 +9,5 @@
    :maxdepth: 1
 
    6-1_decision_tree_train_visual.ipynb
+   6-2_make_prediction.ipynb
+   6-3_make_prob.ipynb
