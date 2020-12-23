@@ -1,4 +1,4 @@
-jupyte
+jupyter
 kaggle
 matplotlib
 nbsphinx
@@ -13,13 +13,8 @@ scikit-learn
 Sphinx
 sphinx-copybutton
 sphinx-rtd-theme
-sphinxcontrib-applehelp
-sphinxcontrib-devhelp
-sphinxcontrib-htmlhelp
 sphinxcontrib-jsmath
 sphinxcontrib-katex
-sphinxcontrib-qthelp
-sphinxcontrib-serializinghtml
 tqdm
 xgboost
 graphviz
