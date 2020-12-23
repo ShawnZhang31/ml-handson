@@ -13,3 +13,4 @@
    6-3_make_prob.ipynb
    6-4_cart_training.ipynb
    6-5_computation_complex.ipynb
+   6-6_geni_pure.ipynb
