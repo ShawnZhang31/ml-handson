@@ -12,3 +12,4 @@
    6-2_make_prediction.ipynb
    6-3_make_prob.ipynb
    6-4_cart_training.ipynb
+   6-5_computation_complex.ipynb
