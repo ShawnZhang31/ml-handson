@@ -17,3 +17,4 @@
    6-7_regularized_hyperparamers.ipynb
    6-8_regression.ipynb
    6-9_unstable.ipynb
+   6-10_exercises.ipynb
