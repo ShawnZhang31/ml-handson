@@ -16,3 +16,4 @@
    6-6_geni_pure.ipynb
    6-7_regularized_hyperparamers.ipynb
    6-8_regression.ipynb
+   6-9_unstable.ipynb
