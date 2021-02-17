@@ -1,0 +1,1104 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>练习 3-4 垃圾邮件分类 &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="4. 训练模型" href="../chapter4/index.html" />
+    <link rel="prev" title="Titanic Model with 90% accuracy" href="kaggle_titantic_official2.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. 分类</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="chapter3.html">3. 分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp_exercise_1.html">练习 3-1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_2.html">练习3-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_3.html">练习 3-3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kaggle_titantic_official2.html">Titanic Model with 90% accuracy</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">练习 3-4 垃圾邮件分类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#1.-从Apache-SpamAssassin的公共数据集(http://spamassassin.apache.org/old/publiccorpus/)中下载垃圾邮件和非垃圾邮件">1. 从Apache SpamAssassin的公共数据集(http://spamassassin.apache.org/old/publiccorpus/)中下载垃圾邮件和非垃圾邮件</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">3. 分类</a> &raquo;</li>
+        
+      <li>练习 3-4 垃圾邮件分类</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter3/cp3_exercise_4.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="练习-3-4-垃圾邮件分类">
+<h1>练习 3-4 垃圾邮件分类<a class="headerlink" href="#练习-3-4-垃圾邮件分类" title="永久链接至标题">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 定义一个提示下载进度的方法</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span><span class="p">,</span> <span class="n">tqdm_notebook</span>
+<span class="k">def</span> <span class="nf">progress_hook</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    封装一个tqdm实例。当结束的时候不要忘了调用close()或者__exit__()，最简单的方法是使用with语法</span>
+
+<span class="sd">    示例</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    &gt;&gt;&gt; with tqdm() as t:</span>
+<span class="sd">    ...     reporthook = my_hook(t)</span>
+<span class="sd">    ...     urllib.urlretrieve(..., reporthook=reporthook)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">last_b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        b   : int, optional</span>
+<span class="sd">              已经处理的blocks的数量，默认为1</span>
+<span class="sd">        bsize   : int, optional</span>
+<span class="sd">                    每个block的大小（以tqdm的单位计算）， 默认为1</span>
+<span class="sd">        tsize   : int, optional</span>
+<span class="sd">                    总共的size（tqdm单位），默认为None，表示不变</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="n">tsize</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">update</span><span class="p">((</span><span class="n">b</span> <span class="o">-</span> <span class="n">last_b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">bsize</span><span class="p">)</span>
+        <span class="n">last_b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">inner</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="1.-从Apache-SpamAssassin的公共数据集(http://spamassassin.apache.org/old/publiccorpus/)中下载垃圾邮件和非垃圾邮件">
+<h2>1. 从Apache SpamAssassin的公共数据集(<a class="reference external" href="http://spamassassin.apache.org/old/publiccorpus/">http://spamassassin.apache.org/old/publiccorpus/</a>)中下载垃圾邮件和非垃圾邮件<a class="headerlink" href="#1.-从Apache-SpamAssassin的公共数据集(http://spamassassin.apache.org/old/publiccorpus/)中下载垃圾邮件和非垃圾邮件" title="永久链接至标题">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tarfile</span>
+
+<span class="n">DOWNLOAD_ROOT</span> <span class="o">=</span> <span class="s2">&quot;http://spamassassin.apache.org/old/publiccorpus/&quot;</span>
+<span class="n">HAM_URL</span> <span class="o">=</span> <span class="n">DOWNLOAD_ROOT</span> <span class="o">+</span> <span class="s2">&quot;20030228_easy_ham.tar.bz2&quot;</span>
+<span class="n">SPAM_URL</span> <span class="o">=</span> <span class="n">DOWNLOAD_ROOT</span> <span class="o">+</span> <span class="s2">&quot;20030228_spam.tar.bz2&quot;</span>
+<span class="n">SPAM_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;./datasets&quot;</span><span class="p">,</span> <span class="s2">&quot;spam&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">fetch_spam_data</span><span class="p">(</span><span class="n">spam_url</span><span class="o">=</span><span class="n">SPAM_URL</span><span class="p">,</span> <span class="n">spam_path</span><span class="o">=</span><span class="n">SPAM_PATH</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">spam_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">spam_path</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;ham.tar.bz2&quot;</span><span class="p">,</span> <span class="n">HAM_URL</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;spam.tar.bz2&quot;</span><span class="p">,</span> <span class="n">SPAM_URL</span><span class="p">)):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">spam_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;from </span><span class="si">{}</span><span class="s2"> download file saved to </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+            <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">unit_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">miniters</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">reporthook</span><span class="o">=</span><span class="n">progress_hook</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+        <span class="n">tar_bz2_file</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">tar_bz2_file</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">SPAM_PATH</span><span class="p">)</span>
+        <span class="n">tar_bz2_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fetch_spam_data</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+0.00B [00:00, ?B/s]from http://spamassassin.apache.org/old/publiccorpus/20030228_easy_ham.tar.bz2 download file saved to ./datasets/spam/ham.tar.bz2
+
+1.61MB [02:16, 11.8kB/s]
+0.00B [00:00, ?B/s]from http://spamassassin.apache.org/old/publiccorpus/20030228_spam.tar.bz2 download file saved to ./datasets/spam/spam.tar.bz2
+
+1.19MB [01:13, 16.2kB/s]
+</pre></div></div>
+</div>
+<p>加载所有的邮件数据</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">HAM_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SPAM_PATH</span><span class="p">,</span> <span class="s1">&#39;easy_ham&#39;</span><span class="p">)</span>
+<span class="n">SPAM_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SPAM_PATH</span><span class="p">,</span> <span class="s1">&#39;spam&#39;</span><span class="p">)</span>
+<span class="n">ham_filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">HAM_DIR</span><span class="p">))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">]</span>
+<span class="n">spam_filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">SPAM_DIR</span><span class="p">))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">HAM_DIR</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ &#39;00536.ee0a85c68f0db6388d6f8a3468af70ac&#39;,
+ &#39;00537.0b676300c214afdc2dd6a5007e8b8e2a&#39;,
+ &#39;00538.313057481a3b1638c05066fad46ae65f&#39;,
+ &#39;00539.f3a3a009e8410ed004b045e724be525a&#39;,
+ &#39;00540.c9e660864381381e6a16c599c8f2e1fe&#39;,
+ &#39;00541.cbdcefd1a6109b8f95e1c8dddfbd7bb2&#39;,
+ &#39;00542.1db9cca8020648c0ed80436b9aea4d33&#39;,
+ &#39;00543.0641e755767b41b404070e155708cee6&#39;,
+ &#39;00544.5a9365cf80100b89b50656045cb8b80c&#39;,
+ &#39;00545.99996f28814c7028ce6aac44270ff3cd&#39;,
+ &#39;00546.30fed3b8e986dc41b1865b9285e84e56&#39;,
+ &#39;00547.59bf01e07cf08c7e3a778b747e020989&#39;,
+ &#39;00548.120e45c5d33311bc09e844bf236521d2&#39;,
+ &#39;00549.a847ea8934802a0ec67a7fd1d136d26d&#39;,
+ &#39;00550.02e6c81fb637ae555b997d6fd72df731&#39;,
+ &#39;00551.1c59fd8e4f3176c859b79b9a75fcc3b6&#39;,
+ &#39;00552.2a17c933697e682b93c2f32b66230a3b&#39;,
+ &#39;00553.d1e0ab732c8cbe70432e98301e352954&#39;,
+ &#39;00554.a01a74aee9653a7ae8d1d558c75f0a5d&#39;,
+ &#39;00555.4139b207075574b3774942a3a42013d8&#39;,
+ &#39;00556.eea9a26e128c1b4b676b4180adbd547a&#39;,
+ &#39;00557.62ed7b82fd342ca4d7932ccee2552337&#39;,
+ &#39;00558.95b8c2677759a2f569a5dc0bd70b8cc0&#39;,
+ &#39;00559.caa975fbe7e1641a76de679bdf213adc&#39;,
+ &#39;00560.e49654efbb65ad7539d43d356457a322&#39;,
+ &#39;00561.4fb75fe802e36488a6acbbcccbcde3c1&#39;,
+ &#39;00562.3f2a351171504facae22864c794c26b6&#39;,
+ &#39;00563.8c8efdf5034a0ba771e48494fd2d8099&#39;,
+ &#39;00564.e6fc359c277f507a2e01198b9c60ae61&#39;,
+ &#39;00565.4ef76da45577ee17827cec345ac543b0&#39;,
+ &#39;00566.4ce66e249726f98555ef3a7ba1f666d5&#39;,
+ &#39;00567.aa0b1a5ccd63ce58ca09389b7dd7a5aa&#39;,
+ &#39;00568.e5478bfa670cbd9bc3d26ed23e7b3eb6&#39;,
+ &#39;00569.d6da87140fd0ef187bcf217a57153cca&#39;,
+ &#39;00570.d98ca90ac201b5d881f2397c95838eb2&#39;,
+ &#39;00571.8f35c46bee6d7a238eabf207a5696b0c&#39;,
+ &#39;00572.c406ac5bc5c42bedbce48f5661d29976&#39;,
+ &#39;00573.f36b8bb4af93f6b0736e7475eb6cbcba&#39;,
+ &#39;00574.6c736036ab8317e753dae53ef19123e9&#39;,
+ &#39;00575.c4b32c1dc29245ce6298f5abf2f0b085&#39;,
+ &#39;00576.36892439c0a6bdd5b4231b639b639399&#39;,
+ &#39;00577.8f3db8ab8b69d38bddf8e5a91b353da2&#39;,
+ &#39;00578.8c710aa944374d631b9969a806e32a30&#39;,
+ &#39;00579.566d8e05220571bff1c2f392a1c7bf41&#39;,
+ &#39;00580.41f4f9793351fe7c7d3abe77cedc5528&#39;,
+ &#39;00581.9922b0f34aa8f51fb4adf4bf4ecf1464&#39;,
+ &#39;00582.25153a03da1710fd133d6ff373d612d3&#39;,
+ &#39;00583.7db5166f3ec5a8bcf81bf1b639b48361&#39;,
+ &#39;00584.1994033689471c5000d715aeaaf7be24&#39;,
+ &#39;00585.a55a40c5fca535871d78848d27efd540&#39;,
+ &#39;00586.7ca83d6acc8e5b0e44b78a4fe8bab72c&#39;,
+ &#39;00587.8d78332c747a44bf017724d66bf71647&#39;,
+ &#39;00588.708ecb20113d4c80b91936cd1c86b186&#39;,
+ &#39;00589.38f809ae603fbabb0d3f2389011e9150&#39;,
+ &#39;00590.3b596d6b2e6ad9b9f5cf3593a398260b&#39;,
+ &#39;00591.3bca4fff29ae5e89e2e2948401a24ab8&#39;,
+ &#39;00592.9608ca87c212f35feae1ebde5567c0e2&#39;,
+ &#39;00593.f71a708b88b51c4d428bb3bd741ece2d&#39;,
+ &#39;00594.805dae98d1ad6f99a7792418c1faccfd&#39;,
+ &#39;00595.7182665eb052808e2061bacbc75ed5ee&#39;,
+ &#39;00596.73c2473a9c778e096f3a9160d72567e9&#39;,
+ &#39;00597.d69fd43248612845c272cc277b890e1a&#39;,
+ &#39;00598.583ed313ddee00f0dc9929f76d3bb24e&#39;,
+ &#39;00599.94c013ab7037d45045aafbac3389bef0&#39;,
+ &#39;00600.a1c1bac6e4b69ad676c35512fec98e05&#39;,
+ &#39;00601.3db4b70f50e83050fcec38b75dee609e&#39;,
+ &#39;00602.2dc7ba42179a34e52badfe383f7fe08a&#39;,
+ &#39;00603.712b15c7b1e7bef7235068a3e4d9bd39&#39;,
+ &#39;00604.2241c022167d341022d1f345689801d7&#39;,
+ &#39;00605.63a8dd42dd6ce5499718d03acfeb0746&#39;,
+ &#39;00606.9733a34d34069bbc9671b0292068449d&#39;,
+ &#39;00607.5032b5e20289cecc351fc872b92c2003&#39;,
+ &#39;00608.36856bbc19336f3fd57897105b32c720&#39;,
+ &#39;00609.07f3cfa331e44f1fc138217fc9f9eb86&#39;,
+ &#39;00610.ef7ca9c067516bdd7e29aebc488d1edd&#39;,
+ &#39;00611.62116da308e2b9eb2e57ee12de12b677&#39;,
+ &#39;00612.97d0559a45fd4630e954b8687dfff55a&#39;,
+ &#39;00613.b8dd681e75a5583349b54f16991b096b&#39;,
+ &#39;00614.2487f80400eb954b7c3ab257771ed393&#39;,
+ &#39;00615.4762e05d7ff70fa43cccbad6745b34cb&#39;,
+ &#39;00616.1111fc61de078f069db9d72e961ab5a1&#39;,
+ &#39;00617.5433c6be9644f6d773afef39392cb24c&#39;,
+ &#39;00618.bec430e993398552fbf09c76e04b9994&#39;,
+ &#39;00619.b2a33ba25583113a3d435bcbc8759244&#39;,
+ &#39;00620.8d1ccac5b4a36e47f5f168c19e6ac573&#39;,
+ &#39;00621.2b161b5c7c09b45b568c1982ed49a008&#39;,
+ &#39;00622.80ded6eb7b17a2bb45d502b85244dad1&#39;,
+ &#39;00623.37932984e4241279e60e9c28f7fd6706&#39;,
+ &#39;00624.2847b091fbcbd97af477c23439e0f22f&#39;,
+ &#39;00625.bc9f45777515eeeb8da0c8898c0526c4&#39;,
+ &#39;00626.349d4ef602ebce0ec03f1505989ab135&#39;,
+ &#39;00627.fcd38764f184dd61db99e15081590e7c&#39;,
+ &#39;00628.4a185fee450d8239cf82bee902dbd1af&#39;,
+ &#39;00629.370fec99ddca8da57ef5cb0bf30375e5&#39;,
+ &#39;00630.d4dad4b8734a30afbf8c80499e652c2c&#39;,
+ &#39;00631.585978ee5a109ebd04ea2289ddaa3f20&#39;,
+ &#39;00632.5aaf2a16e34b00ee971d17bd4343e61e&#39;,
+ &#39;00633.a3d861bf0435fda936962c572ce0956a&#39;,
+ &#39;00634.3215eb7dfc919ae5ca49520f9fcd43df&#39;,
+ &#39;00635.b30f8636725812c0d15a96f31c07f8b6&#39;,
+ &#39;00636.f15c6eabe3d5204cb8704b0a4b845403&#39;,
+ &#39;00637.0f0bbdfd5cab1e45883719f70f691862&#39;,
+ &#39;00638.62a452b9264fb77572bb34181f71a325&#39;,
+ &#39;00639.bf2aca6432694667dc120fff4224e5be&#39;,
+ &#39;00640.bd6aaf961fe455813d6cd9448c29f312&#39;,
+ &#39;00641.96719d053974ef201283237fc146f384&#39;,
+ &#39;00642.19131d951ee16af5a157685213dbc7b8&#39;,
+ &#39;00643.25062169a6a9d2109b047a95c633f885&#39;,
+ &#39;00644.47e9eaa5c1cac5f991f30201ae7fda6e&#39;,
+ &#39;00645.2d95a6a89614625aafb7b333e799e111&#39;,
+ &#39;00646.866a1abeab0f141ef2de39b398134d0b&#39;,
+ &#39;00647.7d9cd4058b01e8b7f5f788e7fc159aae&#39;,
+ &#39;00648.d3808dc202cff72d0326d74d23eaad17&#39;,
+ &#39;00649.b630711c0f63812f552cbe85b22f4568&#39;,
+ &#39;00650.2c20a3ae4da8ff5186f738ee5d833fda&#39;,
+ &#39;00651.10adacfbcf0526d9aa331dbecc1a9509&#39;,
+ &#39;00652.dde353b33fdd09f8daa33ffcdb016188&#39;,
+ &#39;00653.5bf375439fd118575f08b85000c0d3c7&#39;,
+ &#39;00654.820dea38bee9162874d734e791ef5ab9&#39;,
+ &#39;00655.cf1f1255898932a567c5f7c39faab3b9&#39;,
+ &#39;00656.7d0db073b656ae5ecd234e0c59e97623&#39;,
+ &#39;00657.9095f1e5c94587ee44a269318647bf4d&#39;,
+ &#39;00658.b990e54a957ef200aa8d668dff83e83c&#39;,
+ &#39;00659.1217006d88c29f2f900a9406c51feb64&#39;,
+ &#39;00660.91d1af396b1bc7b8703f5fae9de020d8&#39;,
+ &#39;00661.e779083f6d4522af5231edf0b9371a1d&#39;,
+ &#39;00662.020708cee6e991e3c3a58aa83df7f8d0&#39;,
+ &#39;00663.cbfae39e27122415329840060e7619e8&#39;,
+ &#39;00664.dd3769251f79f493bd990b8c3f870f24&#39;,
+ &#39;00665.f1547d981d26d8c8ccfa9375dcd7d222&#39;,
+ &#39;00666.9f288224f19ca69b2663b5b9a85d8d62&#39;,
+ &#39;00667.dfa0ab3eb4214034892b8cda76d9d750&#39;,
+ &#39;00668.c788422df192a179d3a6ddbcb8b8b612&#39;,
+ &#39;00669.1324e7460b86ccd5cf81ea949704351d&#39;,
+ &#39;00670.be029e37187b8615a231865e3663dcf9&#39;,
+ &#39;00671.daf16d838d9b71f5f6cf09d54ebc1e3c&#39;,
+ &#39;00672.f7e4f9c91f81b7506b0e9a22ef1fdfe5&#39;,
+ &#39;00673.aa68749868d6679697146490282dc908&#39;,
+ &#39;00674.6dcadfb64e1a333f826a1c7b5c722f5f&#39;,
+ &#39;00675.2b3aefd8378ddbd20396c4b9d961a0bd&#39;,
+ &#39;00676.5a7325cc70b1732867ec5b831da86eca&#39;,
+ &#39;00677.b957e34b4dd0d9263b56bf71b1168d8a&#39;,
+ &#39;00678.28c4d8cffba35f7a4fa077efb4836fc0&#39;,
+ &#39;00679.7c3eae8e28aadb8ea378fb5c04bc5d29&#39;,
+ &#39;00680.fba9fe0db5780caca8155fb4defdc679&#39;,
+ &#39;00681.fd01c0551b4b72201697bfbd55bccd25&#39;,
+ &#39;00682.7b96194cc45dfc4d54679a198dda3244&#39;,
+ &#39;00683.7d0233053c9421fe2bf29e23a4aa5b18&#39;,
+ &#39;00684.1969c6baadceb721cc2a565b93e7f63f&#39;,
+ &#39;00685.0c2b26b54c5bb9e9072515d58ccc14ea&#39;,
+ &#39;00686.24376d10c9d96b5aad34a8ed8e6b7586&#39;,
+ &#39;00687.a044e978152b1411bd3ea6ddc0f537b2&#39;,
+ &#39;00688.b05bdac7f180a6947d701b974b413dec&#39;,
+ &#39;00689.baf30774fe011781f6822746345015d5&#39;,
+ &#39;00690.f56ab439b3ce565dd3fbbefa5fefd0bc&#39;,
+ &#39;00691.fe0daf79c97e1e314de953d18efc37e2&#39;,
+ &#39;00692.9761f9740766106c5f982e773069a76d&#39;,
+ &#39;00693.6849440c3e1d1584a9f05b067d0062aa&#39;,
+ &#39;00694.d04cd6e81d2ff9a678a18607d32e229d&#39;,
+ &#39;00695.4ea4110f03a11a6f24b27420647d375f&#39;,
+ &#39;00696.767a9ee8575785978ea5174d3ad3ee26&#39;,
+ &#39;00697.edd28212eb2b368046311fd1918aae7d&#39;,
+ &#39;00698.09cdefd75c1242540db1183f9fc54461&#39;,
+ &#39;00699.29e599983f044aee500f3a58c34acffc&#39;,
+ &#39;00700.7eee792482a5a8cf20f1e4225f905f6b&#39;,
+ &#39;00701.4c1a296394c3afdcb38020e8283d1a5d&#39;,
+ &#39;00702.bf064c61d1ba308535d0d8af3bcb1789&#39;,
+ &#39;00703.ec6e20ebdbfec16d51db2989785583ed&#39;,
+ &#39;00704.e077ad131955ba1fa3b9ba7a68b78f62&#39;,
+ &#39;00705.e481bd3281b960fad92e6dfaeb567d14&#39;,
+ &#39;00706.a5e10c660dcdf09e6e760d87c0589b9b&#39;,
+ &#39;00707.72dce8440a545f840d53765a11adce4f&#39;,
+ &#39;00708.d3270ed75122fa3989cec02ffb5b3066&#39;,
+ &#39;00709.ab6879788945a66541ed05b4f23edbed&#39;,
+ &#39;00710.ab32156df4d26cf061b7e553b51547b5&#39;,
+ &#39;00711.cd5fd593ba9d0f75c0af12f4fd2d64f0&#39;,
+ &#39;00712.89e45eecae00da0b8207bc79d2e843f1&#39;,
+ &#39;00713.7b4a3ad6c8b6bbcf358ee5ee23dcdc12&#39;,
+ &#39;00714.16c4d34ab2c9622fe82de9570946f9ef&#39;,
+ &#39;00715.ca0843463580080429cb2d0192b9ce0a&#39;,
+ &#39;00716.c0e0c922db8f605b6475839d8fec9985&#39;,
+ &#39;00717.041b5d95813b24c07616f52509bb9fd9&#39;,
+ &#39;00718.1fc4cf16dbe6d0395c754671b24782e1&#39;,
+ &#39;00719.6d73cfb0bea6fe5002fbd3b260d480e6&#39;,
+ &#39;00720.60fb431980df487172ca5ba412bbedc4&#39;,
+ &#39;00721.9f0c973b343b808cdf4ab26c9e9b3b50&#39;,
+ &#39;00722.6520838870f11a569a006ac7e119782f&#39;,
+ &#39;00723.e72e8e80f67f30983c089943e184f5e6&#39;,
+ &#39;00724.06d186a9890c1bc07b1e0bd89b7efb8f&#39;,
+ &#39;00725.5d2dec63252bb5fc57f3de280129656a&#39;,
+ &#39;00726.96933510684f33c2eea5711f969fe444&#39;,
+ &#39;00727.ea5bab335cc61c1d3d85a8566232f5e8&#39;,
+ &#39;00728.b5de363dc254b32b4a44fc37743d9322&#39;,
+ &#39;00729.d8f3ba695fd4f3c1ac6361f2e118ae55&#39;,
+ &#39;00730.b2c9b979063d66d1a14f8d834a1c6dfa&#39;,
+ &#39;00731.23dbba60cc6ea56f735599461109200d&#39;,
+ &#39;00732.3ed34429d759468e94c14ca1e2bb231c&#39;,
+ &#39;00733.8cd99b24ae020e6028d85ad0c4f06186&#39;,
+ &#39;00734.e37922bdfd9e3246c18322e4b07a4b23&#39;,
+ &#39;00735.97b119b8e994bfd0c9a3455b407e52a3&#39;,
+ &#39;00736.ca47a5a3b86318e4f1ae4d6bcaa7fc80&#39;,
+ &#39;00737.fe2d8d182d9bc421411c9ca9012f3afc&#39;,
+ &#39;00738.5c6ce770da4cc06ebea777b8be30abaa&#39;,
+ &#39;00739.9034df113ffe0cff225c698efcea7426&#39;,
+ &#39;00740.aef9889d927eccf01a365d72db48882e&#39;,
+ &#39;00741.03396e9c6182ba4f821ba2cd3740d1e4&#39;,
+ &#39;00742.1be305d2baafb0b3699c2750ee546787&#39;,
+ &#39;00743.1ee0d64b26edd4ab988d5b848232f554&#39;,
+ &#39;00744.667c8aba4400684b27c339f72ad86968&#39;,
+ &#39;00745.d2df6fc9d5de220dc9b34cf04addf9e2&#39;,
+ &#39;00746.0ca47650bbc1a73fcfdb519b04fb635e&#39;,
+ &#39;00747.39967f26d6c1cba3713e2b9f318d0531&#39;,
+ &#39;00748.d6ca40c29f4224487fc8d802cb5dca88&#39;,
+ &#39;00749.5f32bf86d99139f3256aa4afdd607f58&#39;,
+ &#39;00750.5bf605243948976794d149274a18159b&#39;,
+ &#39;00751.1e509bcc1e777532f90081474defea62&#39;,
+ &#39;00752.3ce51c783c3d6160d34de35e429dc470&#39;,
+ &#39;00753.880e08a60a1c96760d26d37f2d6b1cbb&#39;,
+ &#39;00754.35836a337d451aa3b7cfc7a7e617c2b2&#39;,
+ &#39;00755.798a2e0b9045d90a9bddbb501dc1fcfb&#39;,
+ &#39;00756.286dd5a4431bc1a94af390a6bf4d0349&#39;,
+ &#39;00757.0c98cd042bf54bed37dc526f0b57bf26&#39;,
+ &#39;00758.af02ef2952273218fb9d6c7ddbec7910&#39;,
+ &#39;00759.1c5ec35412195e0c2d80ae829d68e8e9&#39;,
+ &#39;00760.705760ac23c26098abf407bfdfd30499&#39;,
+ &#39;00761.b4bbbb76fb1fa8407236f5cb167c33d8&#39;,
+ &#39;00762.c95ecbfb41e18e9ae4b9aceb4a7de176&#39;,
+ &#39;00763.509a13b8ff69430aacaa8b786b322939&#39;,
+ &#39;00764.13a2828e7c0475a4d67413331b3f7b2d&#39;,
+ &#39;00765.ea01c46568902b1338c9685b55d77f6c&#39;,
+ &#39;00766.9ac5716a891643ea31d43388a282cbbb&#39;,
+ &#39;00767.d5b223070f2a19834daa88bc4338354d&#39;,
+ &#39;00768.ce54703f83eb3bf04a04f665dbf55e96&#39;,
+ &#39;00769.25bf9a767b5db0ed93f03c1637281663&#39;,
+ &#39;00770.b6b328aeb18316cabd60aa75025771d0&#39;,
+ &#39;00771.2ce14d08f77127e0720658404cc4ce11&#39;,
+ &#39;00772.ab8da3bd11afb162b0ccbd65edaf6cc8&#39;,
+ &#39;00773.d8b19e7b6c9a53f4f37242b3f1ca1276&#39;,
+ &#39;00774.1af9be3cd1aba6a371ee11dacc7d1025&#39;,
+ &#39;00775.0e012f373467846510d9db297e99a008&#39;,
+ &#39;00776.20cdc88a69e453f1ef0dd3b5f55cc717&#39;,
+ &#39;00777.5abc0824f35b966cf589b15c4f10f2d2&#39;,
+ &#39;00778.d83af9d544ca2957ea6f326728ad004c&#39;,
+ &#39;00779.d5e815dc2dda6819f41227fce324b31d&#39;,
+ &#39;00780.3c407d4d7361184c739b0346741036dd&#39;,
+ &#39;00781.f2f409be2c85d1303022b58db1551d85&#39;,
+ &#39;00782.6600ba2aef2816e4852a4c8e43130591&#39;,
+ &#39;00783.14a724489223eda0063e308c6914ee38&#39;,
+ &#39;00784.372fcb5f8a0507aa4a8fa0de1e76fe79&#39;,
+ &#39;00785.95b5f5d3a4210fd76015c4659c5b3ca0&#39;,
+ &#39;00786.ca79d7745b67c62712e5a5553c3b83e1&#39;,
+ &#39;00787.2ffb20c151e974ecf6dceb42547761d8&#39;,
+ &#39;00788.cae8367898a24746723decabdd20ac38&#39;,
+ &#39;00789.87278efee0d73a7e902af35c49084230&#39;,
+ &#39;00790.226ce4b62d85d7ca13f3f837b731b082&#39;,
+ &#39;00791.0150510afcb54992415d2eff33d5a8cb&#39;,
+ &#39;00792.f321af7901fa6c9e85362d921eadf2ae&#39;,
+ &#39;00793.6da29475fba399c38bb0a93efabcae5c&#39;,
+ &#39;00794.ce4c417f911968e4be6ee1203db0bd94&#39;,
+ &#39;00795.ea9b54832cc27bb552e483a6aefbde47&#39;,
+ &#39;00796.1c06b1656c17f8aa92a42a82ef0ad2e9&#39;,
+ &#39;00797.f9905519971d08a70a6d9815016f8295&#39;,
+ &#39;00798.789e730c08cdcd58675c1f273fe507ab&#39;,
+ &#39;00799.160a04b5935b5a9610b4dc15951b5d30&#39;,
+ &#39;00800.0a94761ce8069732112ac9fe52b14e9d&#39;,
+ &#39;00801.0a1ec38cd598d6c2e02323487c74e53c&#39;,
+ &#39;00802.c2f1957d9e67ae45f06a7c0845b02f3f&#39;,
+ &#39;00803.a9faabf181ecae3ece9f7003a005aeea&#39;,
+ &#39;00804.a27b268d92e03d488d534b6e69d98f43&#39;,
+ &#39;00805.15e21951a8e03def748ffb6b0de7220a&#39;,
+ &#39;00806.eed01b7d2bc05e5490e75f366a534353&#39;,
+ &#39;00807.ee4df461634d0e9d9c7ef72046c3fa2c&#39;,
+ &#39;00808.1398044c30f7120129aed031ce56ba58&#39;,
+ &#39;00809.93dfdb8801515083fde97a7fe6c921e4&#39;,
+ &#39;00810.a290b36b1210ae7d5ad8d224aef851bf&#39;,
+ &#39;00811.caf6de89b99d2266288dfeff16359be3&#39;,
+ &#39;00812.5c9165b987d6010d672516ea28ffe213&#39;,
+ &#39;00813.3bb7842dbc6ea433e2fa5fb94f3d2571&#39;,
+ &#39;00814.6095f126eed33df37a63e3a37b2728fb&#39;,
+ &#39;00815.141d4c82a4df4a06f0c0967a608109e6&#39;,
+ &#39;00816.5fa114769164d0ff93317bc714a3f68f&#39;,
+ &#39;00817.6dd747cab2629ac615233a528525bb8f&#39;,
+ &#39;00818.02224a14a25dd7014fd4f48518f48e5b&#39;,
+ &#39;00819.cbb61ae5d168944f5a02eccfd7217173&#39;,
+ &#39;00820.13f6cb2d10777d8b8ff18399657607e8&#39;,
+ &#39;00821.610507766f9b9a60431a96042fc135a5&#39;,
+ &#39;00822.9d70f64546100d8f04b7394760cf512b&#39;,
+ &#39;00823.187ae0372c96a338a86a19fc3215010d&#39;,
+ &#39;00824.77239fe11a4e1336ea49ba0bfc2de54b&#39;,
+ &#39;00825.49de040a4a48997da11b0e751d40c211&#39;,
+ &#39;00826.6ab31aba455701b24c69fd1f6dd59184&#39;,
+ &#39;00827.b863d1780c6c6ed248a3e9136bd52b72&#39;,
+ &#39;00828.709e1ec58a2bf04455cdf5c0c83f444c&#39;,
+ &#39;00829.7c74d7c59a6a5f0d0e54562ef671d14b&#39;,
+ &#39;00830.3a2cadbd29e654a7cbbf64ba4bdc378d&#39;,
+ &#39;00831.dfa70bbdaef79d5863917ba90097ba7a&#39;,
+ &#39;00832.e30b18b8b964c0252bfcfbfe2b99efd6&#39;,
+ &#39;00833.cc61a5d9b6ac040ef4ce65d1ee5ec069&#39;,
+ &#39;00834.a73f96c83f5f638954df85ede58a3709&#39;,
+ &#39;00835.9068443a73e2e4b91c9117ef9b022675&#39;,
+ &#39;00836.0270377f02e23355cca97c0805001c03&#39;,
+ &#39;00837.d989d85087fd0d2297bdfc4c4d9039fb&#39;,
+ &#39;00838.5d38f350c098436eb6d9cccda1e054e2&#39;,
+ &#39;00839.e4777b19e2429f9cece122c1d56998d8&#39;,
+ &#39;00840.fd947072df20db5eebb0d015f20073a4&#39;,
+ &#39;00841.d62d1f4d0dd8f02d0595dd52875776ef&#39;,
+ &#39;00842.85c0352fd0fd5ed7b6008fbe62b42bb2&#39;,
+ &#39;00843.0c778329d09499853d99746d0f6f2dc1&#39;,
+ &#39;00844.4af56580a8f02ae25ec39faffafba8ce&#39;,
+ &#39;00845.c74b7d7bdbbbab316dcb7498825bba9c&#39;,
+ &#39;00846.cd171eed5306de66f8ebf444aa61e718&#39;,
+ &#39;00847.f752ba326e2f6670fb6fecc5fd655d3a&#39;,
+ &#39;00848.a99e7c1ff97407816f4c0b323421b5c9&#39;,
+ &#39;00849.5ff774a5add00c6739307f6950b4ddf5&#39;,
+ &#39;00850.9435ce0e094b16d0f2c9c458f2900706&#39;,
+ &#39;00851.51d3571c945fd64a210d477de46e14b7&#39;,
+ &#39;00852.8be48f515c9ecb089aa3fc5983eaf038&#39;,
+ &#39;00853.8b209d0398d8c0f76b676097759e24e5&#39;,
+ &#39;00854.357b5bdeea553ec020631b131b7e2278&#39;,
+ &#39;00855.8e0647984e6592b6400021a5b87ee133&#39;,
+ &#39;00856.b71f98991ee068f642498810ba0c5383&#39;,
+ &#39;00857.cea46b6fc4077476d49923b4d56621e7&#39;,
+ &#39;00858.54a727ce6b2e452f05e2719d99393999&#39;,
+ &#39;00859.54a8c500034dd8056834ee17cec9c4cc&#39;,
+ &#39;00860.a2a3bca553c3ec8e6ce24f45b3f2a9a4&#39;,
+ &#39;00861.6e526bc95d6eb4736211696fec13d9f0&#39;,
+ &#39;00862.b3e793b7c8e41cd45a0eccaa7abaf722&#39;,
+ &#39;00863.f20cfe969a2e3162ce6ce19fd80188bd&#39;,
+ &#39;00864.95da38aac2ee9c6c8d36d0f2f1e8c8e5&#39;,
+ &#39;00865.ffa802dadbaca77b74f05cc1c23c30bd&#39;,
+ &#39;00866.670508b848fa453d194f443f4737b351&#39;,
+ &#39;00867.9e8b300d814c941ba6bbedba138239f0&#39;,
+ &#39;00868.f6059340a945c22b175f306ee79e674e&#39;,
+ &#39;00869.96acf5a2b0543fd7c1767e5562891eae&#39;,
+ &#39;00870.cf6be25af593cc88d0c7f58e7deccea4&#39;,
+ &#39;00871.f3bb3f8e157f00992af581a509234858&#39;,
+ &#39;00872.b037dfd3ef82cc1690c6692ed42c4dd5&#39;,
+ &#39;00873.9fa4518a4adfab3e6b194ee33a89b2e0&#39;,
+ &#39;00874.d9f0374ce55cb5e03ca46a5459894e34&#39;,
+ &#39;00875.b8e33b6137c804fbf4e77135aeae2283&#39;,
+ &#39;00876.f075a944de6d2290fd7a1965ac72d94f&#39;,
+ &#39;00877.fb94c382f9f10548db78b9d0339621e7&#39;,
+ &#39;00878.23aea042030421f155edaf41a36b3701&#39;,
+ &#39;00879.798415ecafdee535a11c68481f5d66b2&#39;,
+ &#39;00880.146f15b727deb84e2459cecd3fd67088&#39;,
+ &#39;00881.c1a373126fc964123ffbc018433b21d5&#39;,
+ &#39;00882.7d2cb3dcfbe9ae110726e656347c0628&#39;,
+ &#39;00883.c44a035e7589e83076b7f1fed8fa97d5&#39;,
+ &#39;00884.48ae15dc5f48f6caafa8c235d148782a&#39;,
+ &#39;00885.5923b3938b5b422e7d514cc4bf403316&#39;,
+ &#39;00886.6d792e0aa2cd6975ef5e050f7b0173b5&#39;,
+ &#39;00887.07d5efdf4a700dc6d1a7926e0008e57f&#39;,
+ &#39;00888.b1cc484869abb3e20ae3843f597dc307&#39;,
+ &#39;00889.8f1ca88d8dc661c9ffcd25a2104efe7a&#39;,
+ &#39;00890.85334af70442efdbf0b83768fb1d2eb3&#39;,
+ &#39;00891.e165e538480dcd42dc62b43b7622ecb3&#39;,
+ &#39;00892.9dc7dadb7e1258d9d1256673f2ae741c&#39;,
+ &#39;00893.6edf02e68e0e172b2142e5a75d467057&#39;,
+ &#39;00894.5b21597d342d44631ebc33acf460883c&#39;,
+ &#39;00895.0c7898bdc5199ca3efd6af04c80430d0&#39;,
+ &#39;00896.73f4eb6d676530f00ca391dd522034ac&#39;,
+ &#39;00897.116b99f81aa0d54498bca28abf4c29ab&#39;,
+ &#39;00898.611a5a9738e5905aaff6344c1cdaf32a&#39;,
+ &#39;00899.d7f9c80cf9bbd1355322a75886903b65&#39;,
+ &#39;00900.04d3fc4b18f2def855155994cd956529&#39;,
+ &#39;00901.dd49a05f9b0b28396c8a91b5b2fb0e2a&#39;,
+ &#39;00902.1e45b913616e9e1f42bab6b6f31ea830&#39;,
+ &#39;00903.49d4e076baf5a4d6272fa9a4e510dc5b&#39;,
+ &#39;00904.42d2e7951496bc3b1ee4b67185ce2746&#39;,
+ &#39;00905.05268a196c3e0e6464a45e41958a4554&#39;,
+ &#39;00906.bdc0d543b54cc81cf378c33bdfa39d4d&#39;,
+ &#39;00907.647447c8ce096234074b65ea25655a10&#39;,
+ &#39;00908.0be94e6d9ef62596e0dd488fc4d98b8f&#39;,
+ &#39;00909.777e83e14a0637cb3ffae7b5c8b0e77f&#39;,
+ &#39;00910.ba4833ce4dbc0ae64d1c148cf41aedcf&#39;,
+ &#39;00911.dcbdde154d9f25c1afe32f4b8f5f1f9b&#39;,
+ &#39;00912.f7faf669f2794a54dd91d62e7ac3b904&#39;,
+ &#39;00913.bc83c1f37836dee281cc5282e61acdee&#39;,
+ &#39;00914.a24840d53c5f49a00e66fa4425e4626d&#39;,
+ &#39;00915.22a9c52df39c264be488f62bba9d621c&#39;,
+ &#39;00916.1ea7a40e892220d43795fee49ab4849e&#39;,
+ &#39;00917.b633b615b29b9483b6e3ec54dd6914b9&#39;,
+ &#39;00918.4fb416f486e8b21ffe522b4074598b69&#39;,
+ &#39;00919.3ca1925f3bab9136611b8222f8cb047b&#39;,
+ &#39;00920.d7c069763cedddefa021e23cae0dd259&#39;,
+ &#39;00921.0407865778a278e577c287a9a04763a7&#39;,
+ &#39;00922.699506b21f6625eaaa1482c7fa034e1d&#39;,
+ &#39;00923.1a2af021ec7490b689a04ecd0226f9d5&#39;,
+ &#39;00924.4dbdc2c81ad764bfe29627498857b6f3&#39;,
+ &#39;00925.f32ef12bc4c8a7f4831cdfecd3b743e5&#39;,
+ &#39;00926.11b20c87f289b3743af174cd5a1d2c4f&#39;,
+ &#39;00927.acbc1da1de97d9257d57b4f46ed7a3f4&#39;,
+ &#39;00928.83cc6f8987cb3dd6090a8928f04bd608&#39;,
+ &#39;00929.8de0f155d0404d74ae006c0edff6b957&#39;,
+ &#39;00930.dd136d3d36e14ab324b79c3cf8c9e6e2&#39;,
+ &#39;00931.c27bf5c9bcb24c213aafe1b28fcbcc7a&#39;,
+ &#39;00932.659c11cb26c11baa33395f6f6c363ef6&#39;,
+ &#39;00933.20b1ef5013048f152931fb6c4e92e9ce&#39;,
+ &#39;00934.f9ba910a655535304bf26a3e281cb324&#39;,
+ &#39;00935.8ecbeab3ef30caba2c29e25744a2265a&#39;,
+ &#39;00936.e8fd8c240b680e948f85f2326cc87250&#39;,
+ &#39;00937.1442bfa30552275d60548860104339c3&#39;,
+ &#39;00938.e1a61251ecebf0f323c7815e68bdaa27&#39;,
+ &#39;00939.e48ae1c641ef0958595719db1befb0d9&#39;,
+ &#39;00940.2d6167e70e2aaa01e531409f1dbdd551&#39;,
+ &#39;00941.6805692546cf6517f808151dcc9dd6f4&#39;,
+ &#39;00942.727cb1619115cdee240fa418da19dd1f&#39;,
+ &#39;00943.c87bed16cca1b008f6e796a9e652ddbf&#39;,
+ &#39;00944.4c4f3aa0e543af3cab4859ad1b1b16be&#39;,
+ &#39;00945.e6eb589db145071f678c95f19b162b9b&#39;,
+ &#39;00946.36ac3a6b0fc1b34bb8c125fe75cff193&#39;,
+ &#39;00947.488310e3c7ba27ec9d99d390007b8c53&#39;,
+ &#39;00948.12717d1c7815c5e226f5b4324220dcd8&#39;,
+ &#39;00949.5a860f580179b99a227c4064ac28724c&#39;,
+ &#39;00950.552f3425d82204ce19d468127085b7d9&#39;,
+ &#39;00951.23649926ba46e21259b518be64d300af&#39;,
+ &#39;00952.61bd88dce9acd2fd68dfd2c2e2d9b675&#39;,
+ &#39;00953.39959392b9ccbbcbcacdb4211f2986f0&#39;,
+ &#39;00954.64e0c6e4f6fad8027420d8082164331d&#39;,
+ &#39;00955.34c902aff03e7a4911b6d5e378f69635&#39;,
+ &#39;00956.f566e64727b8f438aa73ee8d26e8f31d&#39;,
+ &#39;00957.7a0420bc5e7ed1ce8333c98dc766e702&#39;,
+ &#39;00958.82f86525742d7ae45f4e6a9df49fb674&#39;,
+ &#39;00959.68fb2328c01cd34b7e0f1763c85f9c66&#39;,
+ &#39;00960.c4805da3c25d516184adc9343144c909&#39;,
+ &#39;00961.509b19e210cc3cda4ae6615a47663d68&#39;,
+ &#39;00962.52e0a3b43febe264a7010803f7909f88&#39;,
+ &#39;00963.0cc9003be43ed6a642376156e98f5fb1&#39;,
+ &#39;00964.4c5e48c8c2668559fbc379616893f3a7&#39;,
+ &#39;00965.5732172f491041028b563a9c919d9b4f&#39;,
+ &#39;00966.2a4fb2559839748a35516c870f765211&#39;,
+ &#39;00967.e95bd7ad9ef796e4b8f762d898bfc690&#39;,
+ &#39;00968.747f6cb40f4a18a2e7185454549d06c2&#39;,
+ &#39;00969.2d5fb4b3c8c376b12157cc8e0a2e7111&#39;,
+ &#39;00970.b567daf8f05ff88b2cc4418bdc993913&#39;,
+ &#39;00971.5b0ba338d08a9077b1256678781e4a93&#39;,
+ &#39;00972.b94b5871ba0d2d042da63d0fcaa2fa32&#39;,
+ &#39;00973.42545038686536033b1032380502ae09&#39;,
+ &#39;00974.e075ae7ee23cfacb24d0d1b59ae5af83&#39;,
+ &#39;00975.23aa3095e145bf342502ee60bc602c28&#39;,
+ &#39;00976.13ecce82e8d787ee17ae688d4c70737d&#39;,
+ &#39;00977.8046655ae38293b58a69a94389f20020&#39;,
+ &#39;00978.a136387f15961a4f0a2c0ca583206199&#39;,
+ &#39;00979.9eef0c20fa5a680d5d4d5b752bbf9453&#39;,
+ &#39;00980.c44ba5c1509adaeba8e9e496c91aef25&#39;,
+ &#39;00981.3eb28c739b5443730f65626c58e3995e&#39;,
+ &#39;00982.4e1d46e8b99725e70515f1df7410aa44&#39;,
+ &#39;00983.42eb62cc4057d03dfd3eb1c8afc270e2&#39;,
+ &#39;00984.6f4ec805e2e78d5310e0a4ae931e67b3&#39;,
+ &#39;00985.e20b9f4f171d907fb8d8439584fe03b1&#39;,
+ &#39;00986.93b7eb74f26330872be1d58ec9d2b64c&#39;,
+ &#39;00987.88641ac821f19f26060f12197bc585a4&#39;,
+ &#39;00988.2154210bb53f94daded7a622e26225a1&#39;,
+ &#39;00989.59155225507b38fbee48407ebb6cc68d&#39;,
+ &#39;00990.ee34876c3873d8e6197432ad9c558429&#39;,
+ &#39;00991.ec5d16cf8c633a2f15b8f98a39c58a60&#39;,
+ &#39;00992.4a6d6d9013a804213fff718806aaae49&#39;,
+ &#39;00993.041d0d8e108657fd1ba5c605a10e2bfa&#39;,
+ &#39;00994.63ad3cd73487972bfc2eb3e78e2e7cf9&#39;,
+ &#39;00995.11200ae0fc914c7056dcbf7dcfb4c107&#39;,
+ &#39;00996.01a4386651fb07928d2314d8690e61cf&#39;,
+ &#39;00997.3e7c9ac060fb43183adc891520f41ce0&#39;,
+ &#39;00998.84daa7907ccbbee4f20c4da1288cb196&#39;,
+ &#39;00999.c78296e77769d280844fe48f2f3babde&#39;,
+ &#39;01000.bd0b18ad8256a7cb29f5508a20cd19ba&#39;,
+ ...]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../chapter4/index.html" class="btn btn-neutral float-right" title="4. 训练模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="kaggle_titantic_official2.html" class="btn btn-neutral float-left" title="Titanic Model with 90% accuracy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

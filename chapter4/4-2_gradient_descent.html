@@ -1,0 +1,745 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>4.2 梯度下降 &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="4.3 多项式回归" href="4-3_polynomial_regression.html" />
+    <link rel="prev" title="4.1 线性回归" href="4-1_linear_regression.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter3/index.html">3. 分类</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">4. 训练模型</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="4-1_linear_regression.html">4.1 线性回归</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4.2 梯度下降</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#4.2.1-批量梯度下降">4.2.1 批量梯度下降</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#4.2.2-随机梯度下降">4.2.2 随机梯度下降</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#4.2.3-小批量梯度下降">4.2.3 小批量梯度下降</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#4.2.4-线性回归算法的比较">4.2.4 线性回归算法的比较</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="4-3_polynomial_regression.html">4.3 多项式回归</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4-4_learning_curve.html">4.4 学习曲线</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4-5_normalize_regression.html">4.5 正则化线性模型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4-6_logistic_regression.html">4.6 逻辑回归</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4-7_questions.html">4-7 Q&amp;A</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">4. 训练模型</a> &raquo;</li>
+        
+      <li>4.2 梯度下降</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter4/4-2_gradient_descent.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="4.2-梯度下降">
+<h1>4.2 梯度下降<a class="headerlink" href="#4.2-梯度下降" title="永久链接至标题">¶</a></h1>
+<p><strong>使用梯度下降时，需要保证所有特征值的大小比例都差不多（比如使用Scikit-Learn的``StandardScaler``类），否则收敛的时间会长很多。</strong></p>
+<div class="section" id="4.2.1-批量梯度下降">
+<h2>4.2.1 批量梯度下降<a class="headerlink" href="#4.2.1-批量梯度下降" title="永久链接至标题">¶</a></h2>
+<p>在计算梯度下降的每一步时，都是基于完整的训练集X的。这就是为什么该算法会被称为批量梯度下降：每一步都使用整批训练数据（实际上，全梯度下降可能是个更好的名字）。因此，面对非常庞大的训练集时，算法会变得极慢（不过我们即将看到快得多的梯度下降算法）。但是，梯度下降算法随特征数量扩展的表现比较好。如果要训练的线性模型拥有几十万个特征，使用梯度下降比标准方程或者SVD要快得多。</p>
+<p>成本函数的梯度向量</p>
+<div class="math">
+\[\Delta_{\theta} \text{MSE}(\theta) = \frac{2}{m}X^T(X \theta - y)       \tag{4-6}\]</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">X</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">X</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">X</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">y</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([[1.05880697],
+        [0.13833397],
+        [1.11839701]]),
+ array([[7.46563004],
+        [4.79332331],
+        [7.61861999]]))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">X</span><span class="p">]</span>
+<span class="n">X_b</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[1.        , 1.05880697],
+       [1.        , 0.13833397],
+       [1.        , 1.11839701]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">eta</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1">#learning rate</span>
+<span class="n">n_iterations</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iterations</span><span class="p">):</span>
+    <span class="n">gradients</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">X_b</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X_b</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradients</span>
+
+<span class="n">theta</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[4.45409996],
+       [3.03039606]])
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="4.2.2-随机梯度下降">
+<h2>4.2.2 随机梯度下降<a class="headerlink" href="#4.2.2-随机梯度下降" title="永久链接至标题">¶</a></h2>
+<p>批量梯度下降的主要问题是它要用整个训练集来计算每一步的梯度，所以训练集很大是，算法会特别的慢。与之相反的极端是随机梯度下降，每一步在训练集中随机选择一个实例，并且仅基于该单个实例来计算梯度，可以被用来训练海量的数据集（SGD可以作为核外算法实现）。<strong>由于算法的性质，它比批量梯度下降要不规则的多</strong></p>
+<p><img alt="梯度下降的陷阱" src="../_images/gd_trap.png" /></p>
+<p>如上图所示，当loss函数非常不规则时，随机梯度下降其实可是帮助算法跳出局部最小值，所以相比批量梯度下降，它对找到全局最小值更有优势。</p>
+<p>随机性的好处在于可以逃离局部最优解，但缺点是永远定位不出最小值。要解决这个问题，有一个方法是逐步降低学习率，开始的步长比较长（这有助于快速进展和逃离局部最小值），然后越来越小，让算法尽量靠近全局最小值，<strong>这个过程叫做模拟退火</strong>。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">50</span> <span class="c1"># learning schedule hyperparameters</span>
+<span class="k">def</span> <span class="nf">learning_schedule</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">t0</span> <span class="o">/</span><span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">t1</span><span class="p">)</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">random_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">X_b</span><span class="p">[</span><span class="n">random_index</span><span class="p">:</span> <span class="n">random_index</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">yi</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">random_index</span><span class="p">:</span> <span class="n">random_index</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">gradients</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xi</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">xi</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="n">yi</span><span class="p">)</span>
+        <span class="n">eta</span> <span class="o">=</span> <span class="n">learning_schedule</span><span class="p">(</span><span class="n">epoch</span> <span class="o">*</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradients</span>
+
+<span class="n">theta</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[4.45623151],
+       [3.017257  ]])
+</pre></div></div>
+</div>
+<p>使用梯度下降时，训练实例必须独立且均匀分布，以确保平均而言将参数拉向全局最优解。确保这一点的一种简单方法是在训练过程中的对实例进行随机混洗。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDRegressor</span>
+<span class="n">sgd_reg</span> <span class="o">=</span> <span class="n">SGDRegressor</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">penalty</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eta0</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">sgd_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SGDRegressor(eta0=0.1, penalty=None)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sgd_reg</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="n">sgd_reg</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([4.41464156]), array([3.02093769]))
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="4.2.3-小批量梯度下降">
+<h2>4.2.3 小批量梯度下降<a class="headerlink" href="#4.2.3-小批量梯度下降" title="永久链接至标题">¶</a></h2>
+<p>小批量梯度下降在称为小型批量的随机实例集上计算梯度。小批量梯度下降优于随机梯度下降的主要优点是，你可以通过矩阵操作的硬件优化来提高性能，特别是在使用GPU时。</p>
+<p>与随机梯度下降相比，该算法在参数空间上的进展更稳定，尤其是在相当大的小批次中。结果，小批量梯度下降最终将比随机梯度下降走得更接近最小值，但它可能很难摆脱局部最小值。</p>
+</div>
+<div class="section" id="4.2.4-线性回归算法的比较">
+<h2>4.2.4 线性回归算法的比较<a class="headerlink" href="#4.2.4-线性回归算法的比较" title="永久链接至标题">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 14%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>算法</p></th>
+<th class="head"><p>m很大</p></th>
+<th class="head"><p>核外支持</p></th>
+<th class="head"><p>n很大</p></th>
+<th class="head"><p>超参数</p></th>
+<th class="head"><p>要求缩放</p></th>
+<th class="head"><p>Scikit-Learn</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>标准方程</p></td>
+<td><p>快</p></td>
+<td><p>否</p></td>
+<td><p>慢</p></td>
+<td><p>0</p></td>
+<td><p>否</p></td>
+<td><p>N/A</p></td>
+</tr>
+<tr class="row-odd"><td><p>SVD</p></td>
+<td><p>快</p></td>
+<td><p>否</p></td>
+<td><p>慢</p></td>
+<td><p>0</p></td>
+<td><p>否</p></td>
+<td><p>LinearRegression</p></td>
+</tr>
+<tr class="row-even"><td><p>批量GD</p></td>
+<td><p>慢</p></td>
+<td><p>否</p></td>
+<td><p>快</p></td>
+<td><p>2</p></td>
+<td><p>是</p></td>
+<td><p>SGDRegressor</p></td>
+</tr>
+<tr class="row-odd"><td><p>随机GD</p></td>
+<td><p>快</p></td>
+<td><p>是</p></td>
+<td><p>快</p></td>
+<td><p>&gt;= 2</p></td>
+<td><p>是</p></td>
+<td><p>SGDRegressor</p></td>
+</tr>
+<tr class="row-even"><td><p>小批量GD</p></td>
+<td><p>快</p></td>
+<td><p>是</p></td>
+<td><p>快</p></td>
+<td><p>&gt;= 2</p></td>
+<td><p>是</p></td>
+<td><p>SGDRegressor</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>训练后几乎没有区别：所有这些算法最终都具有非常相似的模型，并且以完全相同的方式进行预测。</strong></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="4-3_polynomial_regression.html" class="btn btn-neutral float-right" title="4.3 多项式回归" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="4-1_linear_regression.html" class="btn btn-neutral float-left" title="4.1 线性回归" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

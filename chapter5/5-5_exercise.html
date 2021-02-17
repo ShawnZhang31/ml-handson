@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>5.5 课后练习 &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="5.5 课后练习-8" href="5-5_8_exercise.html" />
+    <link rel="prev" title="5.4 SVM工作原理" href="5-4_svm_working_principle.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter3/index.html">3. 分类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">5. 支持向量机</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="5-1_linear_svm.html">5.1 线性SVM分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5-2_nonlinear_svm.html">5.2 非线性SVM分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5-3_svm_regression.html">5.3 SVM回归</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5-4_svm_working_principle.html">5.4 SVM工作原理</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.5 课后练习</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#1.-SVM的基本思想是什么？">1. SVM的基本思想是什么？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#2.-什么是支持向量?">2. 什么是支持向量?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#3.-使用SVM时，对输入值进行缩放为什么重要？">3. 使用SVM时，对输入值进行缩放为什么重要？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#4.-SVM分类器对实例进行分类，会输出信心分数吗？概率呢">4. SVM分类器对实例进行分类，会输出信心分数吗？概率呢</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#5.-如果训练集有成百万个实例和几百个特征，你应该使用SVM原始问题会对偶问题来训练模型？">5. 如果训练集有成百万个实例和几百个特征，你应该使用SVM原始问题会对偶问题来训练模型？</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#6.-加入你说用RBF核训练了一个SVM分类器，看起来似乎对训练集欠拟合，你应该提升会降低\gamma?-C呢?">6. 加入你说用RBF核训练了一个SVM分类器，看起来似乎对训练集欠拟合，你应该提升会降低<span class="math">\(\gamma\)</span>? C呢?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#7.-如果使用现成二次规划求解器，你又该如何设置QP参数(H,-f,-A和b)来解决软间隔线性SVM分类器问题？">7. 如果使用现成二次规划求解器，你又该如何设置QP参数(H, f, A和b)来解决软间隔线性SVM分类器问题？</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="5-5_8_exercise.html">5.5 课后练习-8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5-5_9_exercise.html">5-5 课后练习9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5-5_10_exercise.html">5.5 课后练习10</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">5. 支持向量机</a> &raquo;</li>
+        
+      <li>5.5 课后练习</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter5/5-5_exercise.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="5.5-课后练习">
+<h1>5.5 课后练习<a class="headerlink" href="#5.5-课后练习" title="永久链接至标题">¶</a></h1>
+<div class="section" id="1.-SVM的基本思想是什么？">
+<h2>1. SVM的基本思想是什么？<a class="headerlink" href="#1.-SVM的基本思想是什么？" title="永久链接至标题">¶</a></h2>
+<p>支持向量机的基本思想是拟合类别之间可能的、最宽的“margin”.换言之，它的目的是使决策边界之间的间隔最大化，该决策边界分隔两个类别和训练实例。SVM执行软间隔分类时，实际上是在完美分隔两个类和拥有尽可能最宽的街道之间寻找折中方法（也就是允许少数实例最终还是落在街道上）。还有一个关键点是在训练非线性数据集时，记得使用核函数。</p>
+</div>
+<div class="section" id="2.-什么是支持向量?">
+<h2>2. 什么是支持向量?<a class="headerlink" href="#2.-什么是支持向量?" title="永久链接至标题">¶</a></h2>
+<p>SVM的训练完成之后，位于“margin”之上的实例被称为SV，这也包括处于边界上的实例。决策边界完全由SV决定。非支持向量的实例完全没有任何影响。你可以选择删除它们然后添加更多的实例，或者将它们移开，只要一直在margin之外，它们就不会对决策边界产生任何影响。计算预测结果只会涉及支持向量，而不涉及整个训练集。</p>
+</div>
+<div class="section" id="3.-使用SVM时，对输入值进行缩放为什么重要？">
+<h2>3. 使用SVM时，对输入值进行缩放为什么重要？<a class="headerlink" href="#3.-使用SVM时，对输入值进行缩放为什么重要？" title="永久链接至标题">¶</a></h2>
+<p>SVM的拟合类别之间可能的、最宽的margin，所以如果训练集不经缩放，SVM将趋于忽略值较小的特征。</p>
+</div>
+<div class="section" id="4.-SVM分类器对实例进行分类，会输出信心分数吗？概率呢">
+<h2>4. SVM分类器对实例进行分类，会输出信心分数吗？概率呢<a class="headerlink" href="#4.-SVM分类器对实例进行分类，会输出信心分数吗？概率呢" title="永久链接至标题">¶</a></h2>
+<p>SVM分类器可以输出测试实例与决策边界之间的距离，你可以将其用作信心分数。但是这个分数不能直接转化成类别概率的估算。如果创建SVM时，Scikit-Learn中设置<code class="docutils literal notranslate"><span class="pre">probability=True</span></code>，那么训练完成后，算法将使用逻辑回归对SVM分数进行校准（对训练数据额外进行5-折交叉验证的训练），从而得到概率值。这会给SVM添加<code class="docutils literal notranslate"><span class="pre">predict_proba()</span></code>和<code class="docutils literal notranslate"><span class="pre">predict_log_proba()</span></code>两种方法。</p>
+</div>
+<div class="section" id="5.-如果训练集有成百万个实例和几百个特征，你应该使用SVM原始问题会对偶问题来训练模型？">
+<h2>5. 如果训练集有成百万个实例和几百个特征，你应该使用SVM原始问题会对偶问题来训练模型？<a class="headerlink" href="#5.-如果训练集有成百万个实例和几百个特征，你应该使用SVM原始问题会对偶问题来训练模型？" title="永久链接至标题">¶</a></h2>
+<p>这个问题仅适用于线性支持向量机，因为核SVM只能使用对偶问题。对于SVM问题来说，原始形式的计算复杂度与训练实例m的数量成正比，而其对偶形式的计算复杂度与某个介于<span class="math">\(m^2\)</span>和<span class="math">\(m^3\)</span>直接的数量成正比。所以如何实例的数量以百万计，一定要使用原始问题，应为对偶问题会非常慢。</p>
+</div>
+<div class="section" id="6.-加入你说用RBF核训练了一个SVM分类器，看起来似乎对训练集欠拟合，你应该提升会降低\gamma?-C呢?">
+<h2>6. 加入你说用RBF核训练了一个SVM分类器，看起来似乎对训练集欠拟合，你应该提升会降低<span class="math">\(\gamma\)</span>? C呢?<a class="headerlink" href="#6.-加入你说用RBF核训练了一个SVM分类器，看起来似乎对训练集欠拟合，你应该提升会降低\gamma?-C呢?" title="永久链接至标题">¶</a></h2>
+<p>如果一个使用RBF核训练的SVM对训练集欠拟合，可能是由于过度正则化导致的。你需要提升gamma或C（或同时提升二者）来降低正则化。</p>
+</div>
+<div class="section" id="7.-如果使用现成二次规划求解器，你又该如何设置QP参数(H,-f,-A和b)来解决软间隔线性SVM分类器问题？">
+<h2>7. 如果使用现成二次规划求解器，你又该如何设置QP参数(H, f, A和b)来解决软间隔线性SVM分类器问题？<a class="headerlink" href="#7.-如果使用现成二次规划求解器，你又该如何设置QP参数(H,-f,-A和b)来解决软间隔线性SVM分类器问题？" title="永久链接至标题">¶</a></h2>
+<p>我们把应间隔问题的QP参数定义为<span class="math">\(H^{\prime}\)</span>, <span class="math">\(f^{\prime}\)</span>, <span class="math">\(A^{\prime}\)</span>以及<span class="math">\(b^{\prime}\)</span>。软间隔问题的QP参数还包括m个额外参数（<span class="math">\(n_p = n+1+m\)</span>）及m格额外约束(<span class="math">\(n_c=2m\)</span>)，它们可以这样定义：</p>
+<p>H等于<span class="math">\(H^{\prime}\)</span>左右和底部分别加上m列和m行个0：</p>
+<p>$$ H =</p>
+<div class="math">
+\begin{bmatrix}
+    H^{\prime} &amp; \cdots &amp; 0     \\
+    \vdots &amp; \ddots &amp; \vdots    \\
+   0 &amp; \cdots &amp; 0
+
+\end{bmatrix}</div><p>$$</p>
+<p><span class="math">\(f\)</span>等于有<span class="math">\(m\)</span>个附加元素的<span class="math">\(f^{\prime}\)</span>, 全部等于超参数C的值。</p>
+<p><span class="math">\(b\)</span>等于有<span class="math">\(m\)</span>个附加元素的<span class="math">\(b^{\prime}\)</span>, 全部等于0。</p>
+<p><span class="math">\(A\)</span>等于在<span class="math">\(A^{\prime}\)</span>的右侧添加一个<span class="math">\(m \times m\)</span>的单位矩阵<span class="math">\(I_m\)</span>, 在这个单位矩阵的正下方在添加一个单位矩阵-<span class="math">\({*I*}_m\)</span>, 剩余部分全为0:</p>
+<p>$$ A =</p>
+<div class="math">
+\begin{bmatrix}
+    A^{\prime} &amp; I_m     \\
+    0 &amp; -I_m      \\
+
+\end{bmatrix}</div><p>$$</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="5-5_8_exercise.html" class="btn btn-neutral float-right" title="5.5 课后练习-8" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="5-4_svm_working_principle.html" class="btn btn-neutral float-left" title="5.4 SVM工作原理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

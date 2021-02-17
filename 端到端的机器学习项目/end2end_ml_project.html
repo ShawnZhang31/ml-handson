@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>2. 端到端的机器学习项目 &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter3/index.html">3. 分类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>2. 端到端的机器学习项目</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/端到端的机器学习项目/end2end_ml_project.md" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<!--
+ * @Author: shawnzhang
+ * @Date: 2020-09-16 21:02:00
+ * @LastEditors: shawnzhang
+ * @LastEditTime: 2020-09-16 21:45:35
+ * @FilePath: /ml_scikit_torch/docs/source/端到端的机器学习项目/end2end_ml_project.md
+ * @Description: 端到端的机器学习项目
+--><div class="section" id="id1">
+<h1>2. 端到端的机器学习项目<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>大局观<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>一个端到端的机器学习项目经历的步骤主要:</p>
+<ol class="simple">
+<li><p>观察大局</p></li>
+<li><p>获得数据</p></li>
+<li><p>从数据探索和可视化中获得洞见</p></li>
+<li><p>ML算法的数据准备</p></li>
+<li><p>选择和训练数据</p></li>
+<li><p>微调模型</p></li>
+<li><p>展示解决方案</p></li>
+<li><p>启动、监控和维护数据</p></li>
+</ol>
+<p><strong>使用真实的数据</strong></p>
+<ul class="simple">
+<li><p>流行的开放数据存储库</p>
+<ul>
+<li><p><a class="reference external" href="http://archive.ics.uci.edu/ml/index.php">UC Irvine Machine Learning Repository</a></p></li>
+<li><p><a class="reference external" href="https://www.kaggle.com/datasets">Kaggle datasets</a></p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/fr/datasets">Amazon’s AWS datasets</a></p></li>
+</ul>
+</li>
+<li><p>元门户点</p>
+<ul>
+<li><p>http://dataportals.org/</p></li>
+<li><p>http://opendatamonitor.eu/</p></li>
+<li><p>http://quandl.com/</p></li>
+</ul>
+</li>
+<li><p>其他一些列出许多流行的开放数据存储库的地址</p>
+<ul>
+<li><p><a class="reference external" href="https://goo.gl/SJHN2k">维基百科ML datasets</a></p></li>
+<li><p><a class="reference external" href="https://goo.gl/zDR78y">Quora.com question</a></p></li>
+<li><p><a class="reference external" href="https://www.reddit.com/r/datasets">Datasets subreddit</a></p></li>
+</ul>
+</li>
+</ul>
+<p><strong>知识点：</strong></p>
+<ul class="simple">
+<li><p>一种常见的分布是呈钟形态的分布，称为正态分布（也叫高斯分布），“68-95-99.7”的规则是指：大约68%的值落在$1\sigma$内，95%落在$2\sigma$内，99.7%落在$3\sigma$内</p></li>
+<li><p>当数据有很多离群区域时，可以考虑使用<strong>平均绝对误差-MSE</strong>代替<strong>均方根误差-RMSE</strong></p></li>
+<li><p>均方根误差-RMSE对应欧几里得范数，也称为$l_2$范数，记作$||.||_2$</p></li>
+<li><p>平均绝对误差-MSE对应$l_1$范数，记作$||.||_1$，有时也被称为<strong>曼哈顿距离</strong></p></li>
+<li><p>范数指数越高，越关注大的价值，忽视小的价值。这就是为什么RMSE比MAE对异常值更敏感的原因。当异常值非常稀少（例如钟形曲线）时，RMSE的表现优异，通常作为首选。</p></li>
+<li><p>我们在很多设置随机种子的代码中，都会看到<code class="docutils literal notranslate"><span class="pre">np.random.seed(42)</span></code>，其中的42数字并没有特殊属性，只是“关于生命、宇宙和一切终极问题的答案”而已（来自《银河系搭车客指南》）</p></li>
+<li><p>使用<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html"><code class="docutils literal notranslate"><span class="pre">sklearn.model_selection.StratifiedShuffleSplit</span></code></a>进行分层抽样</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>创建测试集<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p><strong>数据窥探偏误(data snooping bias)</strong>: 大脑是一个非常神奇的模式检测系统，也就出说它很容易过拟合：如果你本人浏览测试数据集，你很可能会跌入某个看似有趣的数据模式，进而选择某个特殊的机器学习模型。然后再使用模型对泛化误差率进行估算的时候，估计结果将会过于乐观。</p>
+</div>
+<div class="section" id="id4">
+<h2>实例代码文件<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<!-- [housing jupyter notebook](../../code/chapter1/housing.ipynb) --></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,2877 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>3. 分类 &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="练习 3-1" href="cp_exercise_1.html" />
+    <link rel="prev" title="3. 分类" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. 分类</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3. 分类</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#MNIST">MNIST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#训练一个二元分类器">训练一个二元分类器</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#性能考核">性能考核</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Precision/Recall权衡">Precision/Recall权衡</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#如何决定使用什么阈值呢？">如何决定使用什么阈值呢？</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ROC曲线">ROC曲线</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#多元分类器">多元分类器</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#OvA策略">OvA策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#OvO策略">OvO策略</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#错误分析">错误分析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#首先，看看混淆矩阵">首先，看看混淆矩阵</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#多标签分类">多标签分类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#多输出分类">多输出分类</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cp_exercise_1.html">练习 3-1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_2.html">练习3-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_3.html">练习 3-3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kaggle_titantic_official2.html">Titanic Model with 90% accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_4.html">练习 3-4 垃圾邮件分类</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">3. 分类</a> &raquo;</li>
+        
+      <li>3. 分类</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter3/chapter3.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="3.-分类">
+<h1>3. 分类<a class="headerlink" href="#3.-分类" title="永久链接至标题">¶</a></h1>
+<div class="section" id="MNIST">
+<h2>MNIST<a class="headerlink" href="#MNIST" title="永久链接至标题">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="c1"># load data from https://www.openml.org/d/554</span>
+<span class="n">mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;mnist_784&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mnist</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&amp;#39;data&amp;#39;: array([[0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.],
+        ...,
+        [0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.],
+        [0., 0., 0., ..., 0., 0., 0.]]),
+ &amp;#39;target&amp;#39;: array([&amp;#39;5&amp;#39;, &amp;#39;0&amp;#39;, &amp;#39;4&amp;#39;, ..., &amp;#39;4&amp;#39;, &amp;#39;5&amp;#39;, &amp;#39;6&amp;#39;], dtype=object),
+ &amp;#39;frame&amp;#39;: None,
+ &amp;#39;categories&amp;#39;: {},
+ &amp;#39;feature_names&amp;#39;: [&amp;#39;pixel1&amp;#39;,
+  &amp;#39;pixel2&amp;#39;,
+  &amp;#39;pixel3&amp;#39;,
+  &amp;#39;pixel4&amp;#39;,
+  &amp;#39;pixel5&amp;#39;,
+  &amp;#39;pixel6&amp;#39;,
+  &amp;#39;pixel7&amp;#39;,
+  &amp;#39;pixel8&amp;#39;,
+  &amp;#39;pixel9&amp;#39;,
+  &amp;#39;pixel10&amp;#39;,
+  &amp;#39;pixel11&amp;#39;,
+  &amp;#39;pixel12&amp;#39;,
+  &amp;#39;pixel13&amp;#39;,
+  &amp;#39;pixel14&amp;#39;,
+  &amp;#39;pixel15&amp;#39;,
+  &amp;#39;pixel16&amp;#39;,
+  &amp;#39;pixel17&amp;#39;,
+  &amp;#39;pixel18&amp;#39;,
+  &amp;#39;pixel19&amp;#39;,
+  &amp;#39;pixel20&amp;#39;,
+  &amp;#39;pixel21&amp;#39;,
+  &amp;#39;pixel22&amp;#39;,
+  &amp;#39;pixel23&amp;#39;,
+  &amp;#39;pixel24&amp;#39;,
+  &amp;#39;pixel25&amp;#39;,
+  &amp;#39;pixel26&amp;#39;,
+  &amp;#39;pixel27&amp;#39;,
+  &amp;#39;pixel28&amp;#39;,
+  &amp;#39;pixel29&amp;#39;,
+  &amp;#39;pixel30&amp;#39;,
+  &amp;#39;pixel31&amp;#39;,
+  &amp;#39;pixel32&amp;#39;,
+  &amp;#39;pixel33&amp;#39;,
+  &amp;#39;pixel34&amp;#39;,
+  &amp;#39;pixel35&amp;#39;,
+  &amp;#39;pixel36&amp;#39;,
+  &amp;#39;pixel37&amp;#39;,
+  &amp;#39;pixel38&amp;#39;,
+  &amp;#39;pixel39&amp;#39;,
+  &amp;#39;pixel40&amp;#39;,
+  &amp;#39;pixel41&amp;#39;,
+  &amp;#39;pixel42&amp;#39;,
+  &amp;#39;pixel43&amp;#39;,
+  &amp;#39;pixel44&amp;#39;,
+  &amp;#39;pixel45&amp;#39;,
+  &amp;#39;pixel46&amp;#39;,
+  &amp;#39;pixel47&amp;#39;,
+  &amp;#39;pixel48&amp;#39;,
+  &amp;#39;pixel49&amp;#39;,
+  &amp;#39;pixel50&amp;#39;,
+  &amp;#39;pixel51&amp;#39;,
+  &amp;#39;pixel52&amp;#39;,
+  &amp;#39;pixel53&amp;#39;,
+  &amp;#39;pixel54&amp;#39;,
+  &amp;#39;pixel55&amp;#39;,
+  &amp;#39;pixel56&amp;#39;,
+  &amp;#39;pixel57&amp;#39;,
+  &amp;#39;pixel58&amp;#39;,
+  &amp;#39;pixel59&amp;#39;,
+  &amp;#39;pixel60&amp;#39;,
+  &amp;#39;pixel61&amp;#39;,
+  &amp;#39;pixel62&amp;#39;,
+  &amp;#39;pixel63&amp;#39;,
+  &amp;#39;pixel64&amp;#39;,
+  &amp;#39;pixel65&amp;#39;,
+  &amp;#39;pixel66&amp;#39;,
+  &amp;#39;pixel67&amp;#39;,
+  &amp;#39;pixel68&amp;#39;,
+  &amp;#39;pixel69&amp;#39;,
+  &amp;#39;pixel70&amp;#39;,
+  &amp;#39;pixel71&amp;#39;,
+  &amp;#39;pixel72&amp;#39;,
+  &amp;#39;pixel73&amp;#39;,
+  &amp;#39;pixel74&amp;#39;,
+  &amp;#39;pixel75&amp;#39;,
+  &amp;#39;pixel76&amp;#39;,
+  &amp;#39;pixel77&amp;#39;,
+  &amp;#39;pixel78&amp;#39;,
+  &amp;#39;pixel79&amp;#39;,
+  &amp;#39;pixel80&amp;#39;,
+  &amp;#39;pixel81&amp;#39;,
+  &amp;#39;pixel82&amp;#39;,
+  &amp;#39;pixel83&amp;#39;,
+  &amp;#39;pixel84&amp;#39;,
+  &amp;#39;pixel85&amp;#39;,
+  &amp;#39;pixel86&amp;#39;,
+  &amp;#39;pixel87&amp;#39;,
+  &amp;#39;pixel88&amp;#39;,
+  &amp;#39;pixel89&amp;#39;,
+  &amp;#39;pixel90&amp;#39;,
+  &amp;#39;pixel91&amp;#39;,
+  &amp;#39;pixel92&amp;#39;,
+  &amp;#39;pixel93&amp;#39;,
+  &amp;#39;pixel94&amp;#39;,
+  &amp;#39;pixel95&amp;#39;,
+  &amp;#39;pixel96&amp;#39;,
+  &amp;#39;pixel97&amp;#39;,
+  &amp;#39;pixel98&amp;#39;,
+  &amp;#39;pixel99&amp;#39;,
+  &amp;#39;pixel100&amp;#39;,
+  &amp;#39;pixel101&amp;#39;,
+  &amp;#39;pixel102&amp;#39;,
+  &amp;#39;pixel103&amp;#39;,
+  &amp;#39;pixel104&amp;#39;,
+  &amp;#39;pixel105&amp;#39;,
+  &amp;#39;pixel106&amp;#39;,
+  &amp;#39;pixel107&amp;#39;,
+  &amp;#39;pixel108&amp;#39;,
+  &amp;#39;pixel109&amp;#39;,
+  &amp;#39;pixel110&amp;#39;,
+  &amp;#39;pixel111&amp;#39;,
+  &amp;#39;pixel112&amp;#39;,
+  &amp;#39;pixel113&amp;#39;,
+  &amp;#39;pixel114&amp;#39;,
+  &amp;#39;pixel115&amp;#39;,
+  &amp;#39;pixel116&amp;#39;,
+  &amp;#39;pixel117&amp;#39;,
+  &amp;#39;pixel118&amp;#39;,
+  &amp;#39;pixel119&amp;#39;,
+  &amp;#39;pixel120&amp;#39;,
+  &amp;#39;pixel121&amp;#39;,
+  &amp;#39;pixel122&amp;#39;,
+  &amp;#39;pixel123&amp;#39;,
+  &amp;#39;pixel124&amp;#39;,
+  &amp;#39;pixel125&amp;#39;,
+  &amp;#39;pixel126&amp;#39;,
+  &amp;#39;pixel127&amp;#39;,
+  &amp;#39;pixel128&amp;#39;,
+  &amp;#39;pixel129&amp;#39;,
+  &amp;#39;pixel130&amp;#39;,
+  &amp;#39;pixel131&amp;#39;,
+  &amp;#39;pixel132&amp;#39;,
+  &amp;#39;pixel133&amp;#39;,
+  &amp;#39;pixel134&amp;#39;,
+  &amp;#39;pixel135&amp;#39;,
+  &amp;#39;pixel136&amp;#39;,
+  &amp;#39;pixel137&amp;#39;,
+  &amp;#39;pixel138&amp;#39;,
+  &amp;#39;pixel139&amp;#39;,
+  &amp;#39;pixel140&amp;#39;,
+  &amp;#39;pixel141&amp;#39;,
+  &amp;#39;pixel142&amp;#39;,
+  &amp;#39;pixel143&amp;#39;,
+  &amp;#39;pixel144&amp;#39;,
+  &amp;#39;pixel145&amp;#39;,
+  &amp;#39;pixel146&amp;#39;,
+  &amp;#39;pixel147&amp;#39;,
+  &amp;#39;pixel148&amp;#39;,
+  &amp;#39;pixel149&amp;#39;,
+  &amp;#39;pixel150&amp;#39;,
+  &amp;#39;pixel151&amp;#39;,
+  &amp;#39;pixel152&amp;#39;,
+  &amp;#39;pixel153&amp;#39;,
+  &amp;#39;pixel154&amp;#39;,
+  &amp;#39;pixel155&amp;#39;,
+  &amp;#39;pixel156&amp;#39;,
+  &amp;#39;pixel157&amp;#39;,
+  &amp;#39;pixel158&amp;#39;,
+  &amp;#39;pixel159&amp;#39;,
+  &amp;#39;pixel160&amp;#39;,
+  &amp;#39;pixel161&amp;#39;,
+  &amp;#39;pixel162&amp;#39;,
+  &amp;#39;pixel163&amp;#39;,
+  &amp;#39;pixel164&amp;#39;,
+  &amp;#39;pixel165&amp;#39;,
+  &amp;#39;pixel166&amp;#39;,
+  &amp;#39;pixel167&amp;#39;,
+  &amp;#39;pixel168&amp;#39;,
+  &amp;#39;pixel169&amp;#39;,
+  &amp;#39;pixel170&amp;#39;,
+  &amp;#39;pixel171&amp;#39;,
+  &amp;#39;pixel172&amp;#39;,
+  &amp;#39;pixel173&amp;#39;,
+  &amp;#39;pixel174&amp;#39;,
+  &amp;#39;pixel175&amp;#39;,
+  &amp;#39;pixel176&amp;#39;,
+  &amp;#39;pixel177&amp;#39;,
+  &amp;#39;pixel178&amp;#39;,
+  &amp;#39;pixel179&amp;#39;,
+  &amp;#39;pixel180&amp;#39;,
+  &amp;#39;pixel181&amp;#39;,
+  &amp;#39;pixel182&amp;#39;,
+  &amp;#39;pixel183&amp;#39;,
+  &amp;#39;pixel184&amp;#39;,
+  &amp;#39;pixel185&amp;#39;,
+  &amp;#39;pixel186&amp;#39;,
+  &amp;#39;pixel187&amp;#39;,
+  &amp;#39;pixel188&amp;#39;,
+  &amp;#39;pixel189&amp;#39;,
+  &amp;#39;pixel190&amp;#39;,
+  &amp;#39;pixel191&amp;#39;,
+  &amp;#39;pixel192&amp;#39;,
+  &amp;#39;pixel193&amp;#39;,
+  &amp;#39;pixel194&amp;#39;,
+  &amp;#39;pixel195&amp;#39;,
+  &amp;#39;pixel196&amp;#39;,
+  &amp;#39;pixel197&amp;#39;,
+  &amp;#39;pixel198&amp;#39;,
+  &amp;#39;pixel199&amp;#39;,
+  &amp;#39;pixel200&amp;#39;,
+  &amp;#39;pixel201&amp;#39;,
+  &amp;#39;pixel202&amp;#39;,
+  &amp;#39;pixel203&amp;#39;,
+  &amp;#39;pixel204&amp;#39;,
+  &amp;#39;pixel205&amp;#39;,
+  &amp;#39;pixel206&amp;#39;,
+  &amp;#39;pixel207&amp;#39;,
+  &amp;#39;pixel208&amp;#39;,
+  &amp;#39;pixel209&amp;#39;,
+  &amp;#39;pixel210&amp;#39;,
+  &amp;#39;pixel211&amp;#39;,
+  &amp;#39;pixel212&amp;#39;,
+  &amp;#39;pixel213&amp;#39;,
+  &amp;#39;pixel214&amp;#39;,
+  &amp;#39;pixel215&amp;#39;,
+  &amp;#39;pixel216&amp;#39;,
+  &amp;#39;pixel217&amp;#39;,
+  &amp;#39;pixel218&amp;#39;,
+  &amp;#39;pixel219&amp;#39;,
+  &amp;#39;pixel220&amp;#39;,
+  &amp;#39;pixel221&amp;#39;,
+  &amp;#39;pixel222&amp;#39;,
+  &amp;#39;pixel223&amp;#39;,
+  &amp;#39;pixel224&amp;#39;,
+  &amp;#39;pixel225&amp;#39;,
+  &amp;#39;pixel226&amp;#39;,
+  &amp;#39;pixel227&amp;#39;,
+  &amp;#39;pixel228&amp;#39;,
+  &amp;#39;pixel229&amp;#39;,
+  &amp;#39;pixel230&amp;#39;,
+  &amp;#39;pixel231&amp;#39;,
+  &amp;#39;pixel232&amp;#39;,
+  &amp;#39;pixel233&amp;#39;,
+  &amp;#39;pixel234&amp;#39;,
+  &amp;#39;pixel235&amp;#39;,
+  &amp;#39;pixel236&amp;#39;,
+  &amp;#39;pixel237&amp;#39;,
+  &amp;#39;pixel238&amp;#39;,
+  &amp;#39;pixel239&amp;#39;,
+  &amp;#39;pixel240&amp;#39;,
+  &amp;#39;pixel241&amp;#39;,
+  &amp;#39;pixel242&amp;#39;,
+  &amp;#39;pixel243&amp;#39;,
+  &amp;#39;pixel244&amp;#39;,
+  &amp;#39;pixel245&amp;#39;,
+  &amp;#39;pixel246&amp;#39;,
+  &amp;#39;pixel247&amp;#39;,
+  &amp;#39;pixel248&amp;#39;,
+  &amp;#39;pixel249&amp;#39;,
+  &amp;#39;pixel250&amp;#39;,
+  &amp;#39;pixel251&amp;#39;,
+  &amp;#39;pixel252&amp;#39;,
+  &amp;#39;pixel253&amp;#39;,
+  &amp;#39;pixel254&amp;#39;,
+  &amp;#39;pixel255&amp;#39;,
+  &amp;#39;pixel256&amp;#39;,
+  &amp;#39;pixel257&amp;#39;,
+  &amp;#39;pixel258&amp;#39;,
+  &amp;#39;pixel259&amp;#39;,
+  &amp;#39;pixel260&amp;#39;,
+  &amp;#39;pixel261&amp;#39;,
+  &amp;#39;pixel262&amp;#39;,
+  &amp;#39;pixel263&amp;#39;,
+  &amp;#39;pixel264&amp;#39;,
+  &amp;#39;pixel265&amp;#39;,
+  &amp;#39;pixel266&amp;#39;,
+  &amp;#39;pixel267&amp;#39;,
+  &amp;#39;pixel268&amp;#39;,
+  &amp;#39;pixel269&amp;#39;,
+  &amp;#39;pixel270&amp;#39;,
+  &amp;#39;pixel271&amp;#39;,
+  &amp;#39;pixel272&amp;#39;,
+  &amp;#39;pixel273&amp;#39;,
+  &amp;#39;pixel274&amp;#39;,
+  &amp;#39;pixel275&amp;#39;,
+  &amp;#39;pixel276&amp;#39;,
+  &amp;#39;pixel277&amp;#39;,
+  &amp;#39;pixel278&amp;#39;,
+  &amp;#39;pixel279&amp;#39;,
+  &amp;#39;pixel280&amp;#39;,
+  &amp;#39;pixel281&amp;#39;,
+  &amp;#39;pixel282&amp;#39;,
+  &amp;#39;pixel283&amp;#39;,
+  &amp;#39;pixel284&amp;#39;,
+  &amp;#39;pixel285&amp;#39;,
+  &amp;#39;pixel286&amp;#39;,
+  &amp;#39;pixel287&amp;#39;,
+  &amp;#39;pixel288&amp;#39;,
+  &amp;#39;pixel289&amp;#39;,
+  &amp;#39;pixel290&amp;#39;,
+  &amp;#39;pixel291&amp;#39;,
+  &amp;#39;pixel292&amp;#39;,
+  &amp;#39;pixel293&amp;#39;,
+  &amp;#39;pixel294&amp;#39;,
+  &amp;#39;pixel295&amp;#39;,
+  &amp;#39;pixel296&amp;#39;,
+  &amp;#39;pixel297&amp;#39;,
+  &amp;#39;pixel298&amp;#39;,
+  &amp;#39;pixel299&amp;#39;,
+  &amp;#39;pixel300&amp;#39;,
+  &amp;#39;pixel301&amp;#39;,
+  &amp;#39;pixel302&amp;#39;,
+  &amp;#39;pixel303&amp;#39;,
+  &amp;#39;pixel304&amp;#39;,
+  &amp;#39;pixel305&amp;#39;,
+  &amp;#39;pixel306&amp;#39;,
+  &amp;#39;pixel307&amp;#39;,
+  &amp;#39;pixel308&amp;#39;,
+  &amp;#39;pixel309&amp;#39;,
+  &amp;#39;pixel310&amp;#39;,
+  &amp;#39;pixel311&amp;#39;,
+  &amp;#39;pixel312&amp;#39;,
+  &amp;#39;pixel313&amp;#39;,
+  &amp;#39;pixel314&amp;#39;,
+  &amp;#39;pixel315&amp;#39;,
+  &amp;#39;pixel316&amp;#39;,
+  &amp;#39;pixel317&amp;#39;,
+  &amp;#39;pixel318&amp;#39;,
+  &amp;#39;pixel319&amp;#39;,
+  &amp;#39;pixel320&amp;#39;,
+  &amp;#39;pixel321&amp;#39;,
+  &amp;#39;pixel322&amp;#39;,
+  &amp;#39;pixel323&amp;#39;,
+  &amp;#39;pixel324&amp;#39;,
+  &amp;#39;pixel325&amp;#39;,
+  &amp;#39;pixel326&amp;#39;,
+  &amp;#39;pixel327&amp;#39;,
+  &amp;#39;pixel328&amp;#39;,
+  &amp;#39;pixel329&amp;#39;,
+  &amp;#39;pixel330&amp;#39;,
+  &amp;#39;pixel331&amp;#39;,
+  &amp;#39;pixel332&amp;#39;,
+  &amp;#39;pixel333&amp;#39;,
+  &amp;#39;pixel334&amp;#39;,
+  &amp;#39;pixel335&amp;#39;,
+  &amp;#39;pixel336&amp;#39;,
+  &amp;#39;pixel337&amp;#39;,
+  &amp;#39;pixel338&amp;#39;,
+  &amp;#39;pixel339&amp;#39;,
+  &amp;#39;pixel340&amp;#39;,
+  &amp;#39;pixel341&amp;#39;,
+  &amp;#39;pixel342&amp;#39;,
+  &amp;#39;pixel343&amp;#39;,
+  &amp;#39;pixel344&amp;#39;,
+  &amp;#39;pixel345&amp;#39;,
+  &amp;#39;pixel346&amp;#39;,
+  &amp;#39;pixel347&amp;#39;,
+  &amp;#39;pixel348&amp;#39;,
+  &amp;#39;pixel349&amp;#39;,
+  &amp;#39;pixel350&amp;#39;,
+  &amp;#39;pixel351&amp;#39;,
+  &amp;#39;pixel352&amp;#39;,
+  &amp;#39;pixel353&amp;#39;,
+  &amp;#39;pixel354&amp;#39;,
+  &amp;#39;pixel355&amp;#39;,
+  &amp;#39;pixel356&amp;#39;,
+  &amp;#39;pixel357&amp;#39;,
+  &amp;#39;pixel358&amp;#39;,
+  &amp;#39;pixel359&amp;#39;,
+  &amp;#39;pixel360&amp;#39;,
+  &amp;#39;pixel361&amp;#39;,
+  &amp;#39;pixel362&amp;#39;,
+  &amp;#39;pixel363&amp;#39;,
+  &amp;#39;pixel364&amp;#39;,
+  &amp;#39;pixel365&amp;#39;,
+  &amp;#39;pixel366&amp;#39;,
+  &amp;#39;pixel367&amp;#39;,
+  &amp;#39;pixel368&amp;#39;,
+  &amp;#39;pixel369&amp;#39;,
+  &amp;#39;pixel370&amp;#39;,
+  &amp;#39;pixel371&amp;#39;,
+  &amp;#39;pixel372&amp;#39;,
+  &amp;#39;pixel373&amp;#39;,
+  &amp;#39;pixel374&amp;#39;,
+  &amp;#39;pixel375&amp;#39;,
+  &amp;#39;pixel376&amp;#39;,
+  &amp;#39;pixel377&amp;#39;,
+  &amp;#39;pixel378&amp;#39;,
+  &amp;#39;pixel379&amp;#39;,
+  &amp;#39;pixel380&amp;#39;,
+  &amp;#39;pixel381&amp;#39;,
+  &amp;#39;pixel382&amp;#39;,
+  &amp;#39;pixel383&amp;#39;,
+  &amp;#39;pixel384&amp;#39;,
+  &amp;#39;pixel385&amp;#39;,
+  &amp;#39;pixel386&amp;#39;,
+  &amp;#39;pixel387&amp;#39;,
+  &amp;#39;pixel388&amp;#39;,
+  &amp;#39;pixel389&amp;#39;,
+  &amp;#39;pixel390&amp;#39;,
+  &amp;#39;pixel391&amp;#39;,
+  &amp;#39;pixel392&amp;#39;,
+  &amp;#39;pixel393&amp;#39;,
+  &amp;#39;pixel394&amp;#39;,
+  &amp;#39;pixel395&amp;#39;,
+  &amp;#39;pixel396&amp;#39;,
+  &amp;#39;pixel397&amp;#39;,
+  &amp;#39;pixel398&amp;#39;,
+  &amp;#39;pixel399&amp;#39;,
+  &amp;#39;pixel400&amp;#39;,
+  &amp;#39;pixel401&amp;#39;,
+  &amp;#39;pixel402&amp;#39;,
+  &amp;#39;pixel403&amp;#39;,
+  &amp;#39;pixel404&amp;#39;,
+  &amp;#39;pixel405&amp;#39;,
+  &amp;#39;pixel406&amp;#39;,
+  &amp;#39;pixel407&amp;#39;,
+  &amp;#39;pixel408&amp;#39;,
+  &amp;#39;pixel409&amp;#39;,
+  &amp;#39;pixel410&amp;#39;,
+  &amp;#39;pixel411&amp;#39;,
+  &amp;#39;pixel412&amp;#39;,
+  &amp;#39;pixel413&amp;#39;,
+  &amp;#39;pixel414&amp;#39;,
+  &amp;#39;pixel415&amp;#39;,
+  &amp;#39;pixel416&amp;#39;,
+  &amp;#39;pixel417&amp;#39;,
+  &amp;#39;pixel418&amp;#39;,
+  &amp;#39;pixel419&amp;#39;,
+  &amp;#39;pixel420&amp;#39;,
+  &amp;#39;pixel421&amp;#39;,
+  &amp;#39;pixel422&amp;#39;,
+  &amp;#39;pixel423&amp;#39;,
+  &amp;#39;pixel424&amp;#39;,
+  &amp;#39;pixel425&amp;#39;,
+  &amp;#39;pixel426&amp;#39;,
+  &amp;#39;pixel427&amp;#39;,
+  &amp;#39;pixel428&amp;#39;,
+  &amp;#39;pixel429&amp;#39;,
+  &amp;#39;pixel430&amp;#39;,
+  &amp;#39;pixel431&amp;#39;,
+  &amp;#39;pixel432&amp;#39;,
+  &amp;#39;pixel433&amp;#39;,
+  &amp;#39;pixel434&amp;#39;,
+  &amp;#39;pixel435&amp;#39;,
+  &amp;#39;pixel436&amp;#39;,
+  &amp;#39;pixel437&amp;#39;,
+  &amp;#39;pixel438&amp;#39;,
+  &amp;#39;pixel439&amp;#39;,
+  &amp;#39;pixel440&amp;#39;,
+  &amp;#39;pixel441&amp;#39;,
+  &amp;#39;pixel442&amp;#39;,
+  &amp;#39;pixel443&amp;#39;,
+  &amp;#39;pixel444&amp;#39;,
+  &amp;#39;pixel445&amp;#39;,
+  &amp;#39;pixel446&amp;#39;,
+  &amp;#39;pixel447&amp;#39;,
+  &amp;#39;pixel448&amp;#39;,
+  &amp;#39;pixel449&amp;#39;,
+  &amp;#39;pixel450&amp;#39;,
+  &amp;#39;pixel451&amp;#39;,
+  &amp;#39;pixel452&amp;#39;,
+  &amp;#39;pixel453&amp;#39;,
+  &amp;#39;pixel454&amp;#39;,
+  &amp;#39;pixel455&amp;#39;,
+  &amp;#39;pixel456&amp;#39;,
+  &amp;#39;pixel457&amp;#39;,
+  &amp;#39;pixel458&amp;#39;,
+  &amp;#39;pixel459&amp;#39;,
+  &amp;#39;pixel460&amp;#39;,
+  &amp;#39;pixel461&amp;#39;,
+  &amp;#39;pixel462&amp;#39;,
+  &amp;#39;pixel463&amp;#39;,
+  &amp;#39;pixel464&amp;#39;,
+  &amp;#39;pixel465&amp;#39;,
+  &amp;#39;pixel466&amp;#39;,
+  &amp;#39;pixel467&amp;#39;,
+  &amp;#39;pixel468&amp;#39;,
+  &amp;#39;pixel469&amp;#39;,
+  &amp;#39;pixel470&amp;#39;,
+  &amp;#39;pixel471&amp;#39;,
+  &amp;#39;pixel472&amp;#39;,
+  &amp;#39;pixel473&amp;#39;,
+  &amp;#39;pixel474&amp;#39;,
+  &amp;#39;pixel475&amp;#39;,
+  &amp;#39;pixel476&amp;#39;,
+  &amp;#39;pixel477&amp;#39;,
+  &amp;#39;pixel478&amp;#39;,
+  &amp;#39;pixel479&amp;#39;,
+  &amp;#39;pixel480&amp;#39;,
+  &amp;#39;pixel481&amp;#39;,
+  &amp;#39;pixel482&amp;#39;,
+  &amp;#39;pixel483&amp;#39;,
+  &amp;#39;pixel484&amp;#39;,
+  &amp;#39;pixel485&amp;#39;,
+  &amp;#39;pixel486&amp;#39;,
+  &amp;#39;pixel487&amp;#39;,
+  &amp;#39;pixel488&amp;#39;,
+  &amp;#39;pixel489&amp;#39;,
+  &amp;#39;pixel490&amp;#39;,
+  &amp;#39;pixel491&amp;#39;,
+  &amp;#39;pixel492&amp;#39;,
+  &amp;#39;pixel493&amp;#39;,
+  &amp;#39;pixel494&amp;#39;,
+  &amp;#39;pixel495&amp;#39;,
+  &amp;#39;pixel496&amp;#39;,
+  &amp;#39;pixel497&amp;#39;,
+  &amp;#39;pixel498&amp;#39;,
+  &amp;#39;pixel499&amp;#39;,
+  &amp;#39;pixel500&amp;#39;,
+  &amp;#39;pixel501&amp;#39;,
+  &amp;#39;pixel502&amp;#39;,
+  &amp;#39;pixel503&amp;#39;,
+  &amp;#39;pixel504&amp;#39;,
+  &amp;#39;pixel505&amp;#39;,
+  &amp;#39;pixel506&amp;#39;,
+  &amp;#39;pixel507&amp;#39;,
+  &amp;#39;pixel508&amp;#39;,
+  &amp;#39;pixel509&amp;#39;,
+  &amp;#39;pixel510&amp;#39;,
+  &amp;#39;pixel511&amp;#39;,
+  &amp;#39;pixel512&amp;#39;,
+  &amp;#39;pixel513&amp;#39;,
+  &amp;#39;pixel514&amp;#39;,
+  &amp;#39;pixel515&amp;#39;,
+  &amp;#39;pixel516&amp;#39;,
+  &amp;#39;pixel517&amp;#39;,
+  &amp;#39;pixel518&amp;#39;,
+  &amp;#39;pixel519&amp;#39;,
+  &amp;#39;pixel520&amp;#39;,
+  &amp;#39;pixel521&amp;#39;,
+  &amp;#39;pixel522&amp;#39;,
+  &amp;#39;pixel523&amp;#39;,
+  &amp;#39;pixel524&amp;#39;,
+  &amp;#39;pixel525&amp;#39;,
+  &amp;#39;pixel526&amp;#39;,
+  &amp;#39;pixel527&amp;#39;,
+  &amp;#39;pixel528&amp;#39;,
+  &amp;#39;pixel529&amp;#39;,
+  &amp;#39;pixel530&amp;#39;,
+  &amp;#39;pixel531&amp;#39;,
+  &amp;#39;pixel532&amp;#39;,
+  &amp;#39;pixel533&amp;#39;,
+  &amp;#39;pixel534&amp;#39;,
+  &amp;#39;pixel535&amp;#39;,
+  &amp;#39;pixel536&amp;#39;,
+  &amp;#39;pixel537&amp;#39;,
+  &amp;#39;pixel538&amp;#39;,
+  &amp;#39;pixel539&amp;#39;,
+  &amp;#39;pixel540&amp;#39;,
+  &amp;#39;pixel541&amp;#39;,
+  &amp;#39;pixel542&amp;#39;,
+  &amp;#39;pixel543&amp;#39;,
+  &amp;#39;pixel544&amp;#39;,
+  &amp;#39;pixel545&amp;#39;,
+  &amp;#39;pixel546&amp;#39;,
+  &amp;#39;pixel547&amp;#39;,
+  &amp;#39;pixel548&amp;#39;,
+  &amp;#39;pixel549&amp;#39;,
+  &amp;#39;pixel550&amp;#39;,
+  &amp;#39;pixel551&amp;#39;,
+  &amp;#39;pixel552&amp;#39;,
+  &amp;#39;pixel553&amp;#39;,
+  &amp;#39;pixel554&amp;#39;,
+  &amp;#39;pixel555&amp;#39;,
+  &amp;#39;pixel556&amp;#39;,
+  &amp;#39;pixel557&amp;#39;,
+  &amp;#39;pixel558&amp;#39;,
+  &amp;#39;pixel559&amp;#39;,
+  &amp;#39;pixel560&amp;#39;,
+  &amp;#39;pixel561&amp;#39;,
+  &amp;#39;pixel562&amp;#39;,
+  &amp;#39;pixel563&amp;#39;,
+  &amp;#39;pixel564&amp;#39;,
+  &amp;#39;pixel565&amp;#39;,
+  &amp;#39;pixel566&amp;#39;,
+  &amp;#39;pixel567&amp;#39;,
+  &amp;#39;pixel568&amp;#39;,
+  &amp;#39;pixel569&amp;#39;,
+  &amp;#39;pixel570&amp;#39;,
+  &amp;#39;pixel571&amp;#39;,
+  &amp;#39;pixel572&amp;#39;,
+  &amp;#39;pixel573&amp;#39;,
+  &amp;#39;pixel574&amp;#39;,
+  &amp;#39;pixel575&amp;#39;,
+  &amp;#39;pixel576&amp;#39;,
+  &amp;#39;pixel577&amp;#39;,
+  &amp;#39;pixel578&amp;#39;,
+  &amp;#39;pixel579&amp;#39;,
+  &amp;#39;pixel580&amp;#39;,
+  &amp;#39;pixel581&amp;#39;,
+  &amp;#39;pixel582&amp;#39;,
+  &amp;#39;pixel583&amp;#39;,
+  &amp;#39;pixel584&amp;#39;,
+  &amp;#39;pixel585&amp;#39;,
+  &amp;#39;pixel586&amp;#39;,
+  &amp;#39;pixel587&amp;#39;,
+  &amp;#39;pixel588&amp;#39;,
+  &amp;#39;pixel589&amp;#39;,
+  &amp;#39;pixel590&amp;#39;,
+  &amp;#39;pixel591&amp;#39;,
+  &amp;#39;pixel592&amp;#39;,
+  &amp;#39;pixel593&amp;#39;,
+  &amp;#39;pixel594&amp;#39;,
+  &amp;#39;pixel595&amp;#39;,
+  &amp;#39;pixel596&amp;#39;,
+  &amp;#39;pixel597&amp;#39;,
+  &amp;#39;pixel598&amp;#39;,
+  &amp;#39;pixel599&amp;#39;,
+  &amp;#39;pixel600&amp;#39;,
+  &amp;#39;pixel601&amp;#39;,
+  &amp;#39;pixel602&amp;#39;,
+  &amp;#39;pixel603&amp;#39;,
+  &amp;#39;pixel604&amp;#39;,
+  &amp;#39;pixel605&amp;#39;,
+  &amp;#39;pixel606&amp;#39;,
+  &amp;#39;pixel607&amp;#39;,
+  &amp;#39;pixel608&amp;#39;,
+  &amp;#39;pixel609&amp;#39;,
+  &amp;#39;pixel610&amp;#39;,
+  &amp;#39;pixel611&amp;#39;,
+  &amp;#39;pixel612&amp;#39;,
+  &amp;#39;pixel613&amp;#39;,
+  &amp;#39;pixel614&amp;#39;,
+  &amp;#39;pixel615&amp;#39;,
+  &amp;#39;pixel616&amp;#39;,
+  &amp;#39;pixel617&amp;#39;,
+  &amp;#39;pixel618&amp;#39;,
+  &amp;#39;pixel619&amp;#39;,
+  &amp;#39;pixel620&amp;#39;,
+  &amp;#39;pixel621&amp;#39;,
+  &amp;#39;pixel622&amp;#39;,
+  &amp;#39;pixel623&amp;#39;,
+  &amp;#39;pixel624&amp;#39;,
+  &amp;#39;pixel625&amp;#39;,
+  &amp;#39;pixel626&amp;#39;,
+  &amp;#39;pixel627&amp;#39;,
+  &amp;#39;pixel628&amp;#39;,
+  &amp;#39;pixel629&amp;#39;,
+  &amp;#39;pixel630&amp;#39;,
+  &amp;#39;pixel631&amp;#39;,
+  &amp;#39;pixel632&amp;#39;,
+  &amp;#39;pixel633&amp;#39;,
+  &amp;#39;pixel634&amp;#39;,
+  &amp;#39;pixel635&amp;#39;,
+  &amp;#39;pixel636&amp;#39;,
+  &amp;#39;pixel637&amp;#39;,
+  &amp;#39;pixel638&amp;#39;,
+  &amp;#39;pixel639&amp;#39;,
+  &amp;#39;pixel640&amp;#39;,
+  &amp;#39;pixel641&amp;#39;,
+  &amp;#39;pixel642&amp;#39;,
+  &amp;#39;pixel643&amp;#39;,
+  &amp;#39;pixel644&amp;#39;,
+  &amp;#39;pixel645&amp;#39;,
+  &amp;#39;pixel646&amp;#39;,
+  &amp;#39;pixel647&amp;#39;,
+  &amp;#39;pixel648&amp;#39;,
+  &amp;#39;pixel649&amp;#39;,
+  &amp;#39;pixel650&amp;#39;,
+  &amp;#39;pixel651&amp;#39;,
+  &amp;#39;pixel652&amp;#39;,
+  &amp;#39;pixel653&amp;#39;,
+  &amp;#39;pixel654&amp;#39;,
+  &amp;#39;pixel655&amp;#39;,
+  &amp;#39;pixel656&amp;#39;,
+  &amp;#39;pixel657&amp;#39;,
+  &amp;#39;pixel658&amp;#39;,
+  &amp;#39;pixel659&amp;#39;,
+  &amp;#39;pixel660&amp;#39;,
+  &amp;#39;pixel661&amp;#39;,
+  &amp;#39;pixel662&amp;#39;,
+  &amp;#39;pixel663&amp;#39;,
+  &amp;#39;pixel664&amp;#39;,
+  &amp;#39;pixel665&amp;#39;,
+  &amp;#39;pixel666&amp;#39;,
+  &amp;#39;pixel667&amp;#39;,
+  &amp;#39;pixel668&amp;#39;,
+  &amp;#39;pixel669&amp;#39;,
+  &amp;#39;pixel670&amp;#39;,
+  &amp;#39;pixel671&amp;#39;,
+  &amp;#39;pixel672&amp;#39;,
+  &amp;#39;pixel673&amp;#39;,
+  &amp;#39;pixel674&amp;#39;,
+  &amp;#39;pixel675&amp;#39;,
+  &amp;#39;pixel676&amp;#39;,
+  &amp;#39;pixel677&amp;#39;,
+  &amp;#39;pixel678&amp;#39;,
+  &amp;#39;pixel679&amp;#39;,
+  &amp;#39;pixel680&amp;#39;,
+  &amp;#39;pixel681&amp;#39;,
+  &amp;#39;pixel682&amp;#39;,
+  &amp;#39;pixel683&amp;#39;,
+  &amp;#39;pixel684&amp;#39;,
+  &amp;#39;pixel685&amp;#39;,
+  &amp;#39;pixel686&amp;#39;,
+  &amp;#39;pixel687&amp;#39;,
+  &amp;#39;pixel688&amp;#39;,
+  &amp;#39;pixel689&amp;#39;,
+  &amp;#39;pixel690&amp;#39;,
+  &amp;#39;pixel691&amp;#39;,
+  &amp;#39;pixel692&amp;#39;,
+  &amp;#39;pixel693&amp;#39;,
+  &amp;#39;pixel694&amp;#39;,
+  &amp;#39;pixel695&amp;#39;,
+  &amp;#39;pixel696&amp;#39;,
+  &amp;#39;pixel697&amp;#39;,
+  &amp;#39;pixel698&amp;#39;,
+  &amp;#39;pixel699&amp;#39;,
+  &amp;#39;pixel700&amp;#39;,
+  &amp;#39;pixel701&amp;#39;,
+  &amp;#39;pixel702&amp;#39;,
+  &amp;#39;pixel703&amp;#39;,
+  &amp;#39;pixel704&amp;#39;,
+  &amp;#39;pixel705&amp;#39;,
+  &amp;#39;pixel706&amp;#39;,
+  &amp;#39;pixel707&amp;#39;,
+  &amp;#39;pixel708&amp;#39;,
+  &amp;#39;pixel709&amp;#39;,
+  &amp;#39;pixel710&amp;#39;,
+  &amp;#39;pixel711&amp;#39;,
+  &amp;#39;pixel712&amp;#39;,
+  &amp;#39;pixel713&amp;#39;,
+  &amp;#39;pixel714&amp;#39;,
+  &amp;#39;pixel715&amp;#39;,
+  &amp;#39;pixel716&amp;#39;,
+  &amp;#39;pixel717&amp;#39;,
+  &amp;#39;pixel718&amp;#39;,
+  &amp;#39;pixel719&amp;#39;,
+  &amp;#39;pixel720&amp;#39;,
+  &amp;#39;pixel721&amp;#39;,
+  &amp;#39;pixel722&amp;#39;,
+  &amp;#39;pixel723&amp;#39;,
+  &amp;#39;pixel724&amp;#39;,
+  &amp;#39;pixel725&amp;#39;,
+  &amp;#39;pixel726&amp;#39;,
+  &amp;#39;pixel727&amp;#39;,
+  &amp;#39;pixel728&amp;#39;,
+  &amp;#39;pixel729&amp;#39;,
+  &amp;#39;pixel730&amp;#39;,
+  &amp;#39;pixel731&amp;#39;,
+  &amp;#39;pixel732&amp;#39;,
+  &amp;#39;pixel733&amp;#39;,
+  &amp;#39;pixel734&amp;#39;,
+  &amp;#39;pixel735&amp;#39;,
+  &amp;#39;pixel736&amp;#39;,
+  &amp;#39;pixel737&amp;#39;,
+  &amp;#39;pixel738&amp;#39;,
+  &amp;#39;pixel739&amp;#39;,
+  &amp;#39;pixel740&amp;#39;,
+  &amp;#39;pixel741&amp;#39;,
+  &amp;#39;pixel742&amp;#39;,
+  &amp;#39;pixel743&amp;#39;,
+  &amp;#39;pixel744&amp;#39;,
+  &amp;#39;pixel745&amp;#39;,
+  &amp;#39;pixel746&amp;#39;,
+  &amp;#39;pixel747&amp;#39;,
+  &amp;#39;pixel748&amp;#39;,
+  &amp;#39;pixel749&amp;#39;,
+  &amp;#39;pixel750&amp;#39;,
+  &amp;#39;pixel751&amp;#39;,
+  &amp;#39;pixel752&amp;#39;,
+  &amp;#39;pixel753&amp;#39;,
+  &amp;#39;pixel754&amp;#39;,
+  &amp;#39;pixel755&amp;#39;,
+  &amp;#39;pixel756&amp;#39;,
+  &amp;#39;pixel757&amp;#39;,
+  &amp;#39;pixel758&amp;#39;,
+  &amp;#39;pixel759&amp;#39;,
+  &amp;#39;pixel760&amp;#39;,
+  &amp;#39;pixel761&amp;#39;,
+  &amp;#39;pixel762&amp;#39;,
+  &amp;#39;pixel763&amp;#39;,
+  &amp;#39;pixel764&amp;#39;,
+  &amp;#39;pixel765&amp;#39;,
+  &amp;#39;pixel766&amp;#39;,
+  &amp;#39;pixel767&amp;#39;,
+  &amp;#39;pixel768&amp;#39;,
+  &amp;#39;pixel769&amp;#39;,
+  &amp;#39;pixel770&amp;#39;,
+  &amp;#39;pixel771&amp;#39;,
+  &amp;#39;pixel772&amp;#39;,
+  &amp;#39;pixel773&amp;#39;,
+  &amp;#39;pixel774&amp;#39;,
+  &amp;#39;pixel775&amp;#39;,
+  &amp;#39;pixel776&amp;#39;,
+  &amp;#39;pixel777&amp;#39;,
+  &amp;#39;pixel778&amp;#39;,
+  &amp;#39;pixel779&amp;#39;,
+  &amp;#39;pixel780&amp;#39;,
+  &amp;#39;pixel781&amp;#39;,
+  &amp;#39;pixel782&amp;#39;,
+  &amp;#39;pixel783&amp;#39;,
+  &amp;#39;pixel784&amp;#39;],
+ &amp;#39;target_names&amp;#39;: [&amp;#39;class&amp;#39;],
+ &amp;#39;DESCR&amp;#39;: &amp;quot;**Author**: Yann LeCun, Corinna Cortes, Christopher J.C. Burges  \n**Source**: [MNIST Website](http://yann.lecun.com/exdb/mnist/) - Date unknown  \n**Please cite**:  \n\nThe MNIST database of handwritten digits with 784 features, raw data available at: http://yann.lecun.com/exdb/mnist/. It can be split in a training set of the first 60,000 examples, and a test set of 10,000 examples  \n\nIt is a subset of a larger set available from NIST. The digits have been size-normalized and centered in a fixed-size image. It is a good database for people who want to try learning techniques and pattern recognition methods on real-world data while spending minimal efforts on preprocessing and formatting. The original black and white (bilevel) images from NIST were size normalized to fit in a 20x20 pixel box while preserving their aspect ratio. The resulting images contain grey levels as a result of the anti-aliasing technique used by the normalization algorithm. the images were centered in a 28x28 image by computing the center of mass of the pixels, and translating the image so as to position this point at the center of the 28x28 field.  \n\nWith some classification methods (particularly template-based methods, such as SVM and K-nearest neighbors), the error rate improves when the digits are centered by bounding box rather than center of mass. If you do this kind of pre-processing, you should report it in your publications. The MNIST database was constructed from NIST&amp;#39;s NIST originally designated SD-3 as their training set and SD-1 as their test set. However, SD-3 is much cleaner and easier to recognize than SD-1. The reason for this can be found on the fact that SD-3 was collected among Census Bureau employees, while SD-1 was collected among high-school students. Drawing sensible conclusions from learning experiments requires that the result be independent of the choice of training set and test among the complete set of samples. Therefore it was necessary to build a new database by mixing NIST&amp;#39;s datasets.  \n\nThe MNIST training set is composed of 30,000 patterns from SD-3 and 30,000 patterns from SD-1. Our test set was composed of 5,000 patterns from SD-3 and 5,000 patterns from SD-1. The 60,000 pattern training set contained examples from approximately 250 writers. We made sure that the sets of writers of the training set and test set were disjoint. SD-1 contains 58,527 digit images written by 500 different writers. In contrast to SD-3, where blocks of data from each writer appeared in sequence, the data in SD-1 is scrambled. Writer identities for SD-1 is available and we used this information to unscramble the writers. We then split SD-1 in two: characters written by the first 250 writers went into our new training set. The remaining 250 writers were placed in our test set. Thus we had two sets with nearly 30,000 examples each. The new training set was completed with enough examples from SD-3, starting at pattern # 0, to make a full set of 60,000 training patterns. Similarly, the new test set was completed with SD-3 examples starting at pattern # 35,000 to make a full set with 60,000 test patterns. Only a subset of 10,000 test images (5,000 from SD-1 and 5,000 from SD-3) is available on this site. The full 60,000 sample training set is available.\n\nDownloaded from openml.org.&amp;quot;,
+ &amp;#39;details&amp;#39;: {&amp;#39;id&amp;#39;: &amp;#39;554&amp;#39;,
+  &amp;#39;name&amp;#39;: &amp;#39;mnist_784&amp;#39;,
+  &amp;#39;version&amp;#39;: &amp;#39;1&amp;#39;,
+  &amp;#39;format&amp;#39;: &amp;#39;ARFF&amp;#39;,
+  &amp;#39;upload_date&amp;#39;: &amp;#39;2014-09-29T03:28:38&amp;#39;,
+  &amp;#39;licence&amp;#39;: &amp;#39;Public&amp;#39;,
+  &amp;#39;url&amp;#39;: &amp;#39;https://www.openml.org/data/v1/download/52667/mnist_784.arff&amp;#39;,
+  &amp;#39;file_id&amp;#39;: &amp;#39;52667&amp;#39;,
+  &amp;#39;default_target_attribute&amp;#39;: &amp;#39;class&amp;#39;,
+  &amp;#39;tag&amp;#39;: [&amp;#39;AzurePilot&amp;#39;,
+   &amp;#39;OpenML-CC18&amp;#39;,
+   &amp;#39;OpenML100&amp;#39;,
+   &amp;#39;study_1&amp;#39;,
+   &amp;#39;study_123&amp;#39;,
+   &amp;#39;study_41&amp;#39;,
+   &amp;#39;study_99&amp;#39;,
+   &amp;#39;vision&amp;#39;],
+  &amp;#39;visibility&amp;#39;: &amp;#39;public&amp;#39;,
+  &amp;#39;status&amp;#39;: &amp;#39;active&amp;#39;,
+  &amp;#39;processing_date&amp;#39;: &amp;#39;2018-10-03 21:23:30&amp;#39;,
+  &amp;#39;md5_checksum&amp;#39;: &amp;#39;0298d579eb1b86163de7723944c7e495&amp;#39;},
+ &amp;#39;url&amp;#39;: &amp;#39;https://www.openml.org/d/554&amp;#39;}
+</pre></div></div>
+</div>
+<p>Scikit-Learn加载的数据集通常具有类似的字典结构，包括： - DESCR键，描述数据集 - data键，包含一个数组，每个实例为一行，每个特征为一列 - target键，包含一个带有标记的数组</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">mnist</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">mnist</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+((70000, 784), (70000,))
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">some_digit</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="mi">36000</span><span class="p">]</span>
+<span class="n">some_digit_image</span> <span class="o">=</span> <span class="n">some_digit</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">some_digit_image</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_6_0.svg" src="../_images/chapter3_chapter3_6_0.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y</span><span class="p">[</span><span class="mi">36000</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;#39;9&amp;#39;
+</pre></div></div>
+</div>
+<p>事实上MNIST数据集已经分成了测试集（前60000张图像）和测试集（最后10000张图像）</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">60000</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">60000</span><span class="p">:],</span> <span class="n">y</span><span class="p">[:</span><span class="mi">60000</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">60000</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<p>我们都对训练集进行数据洗牌，这样才能保证交叉验证时所有的折叠都差不多。此外，有些机器学习算法对训练实例的顺序敏感，如果连续输入许多相似的实例，可能导致执行性能不佳。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">shuffle_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">60000</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">shuffle_index</span><span class="p">],</span> <span class="n">y_train</span><span class="p">[</span><span class="n">shuffle_index</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="训练一个二元分类器">
+<h2>训练一个二元分类器<a class="headerlink" href="#训练一个二元分类器" title="永久链接至标题">¶</a></h2>
+<p>先简化问题，只尝试训练一个数字——9</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train_9</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_train</span> <span class="o">==</span> <span class="s1">&#39;9&#39;</span><span class="p">)</span>
+<span class="n">y_test_9</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_test</span> <span class="o">==</span> <span class="s1">&#39;9&#39;</span><span class="p">)</span>
+<span class="n">y_train_9</span> <span class="o">=</span> <span class="n">y_train_9</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">y_test_9</span> <span class="o">=</span> <span class="n">y_test_9</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_test_9</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([0, 0, 1, ..., 0, 0, 0], dtype=uint8),
+ array([0, 0, 0, ..., 0, 0, 0], dtype=uint8))
+</pre></div></div>
+</div>
+<p>SGDClassifier分类器，能够有效处理非常大型的数据集。这部分是因为SGD独立处理训练实例，一次一个，这也使得SGD非常适合在线学习。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
+<span class="n">sgd_clf</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">sgd_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+SGDClassifier(random_state=42)
+</pre></div></div>
+</div>
+<p>SGDClassifier在训练时是完全随机的，如果希望可以得到可复现的结果，需要设置参数random_state</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">]),</span> <span class="n">sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">X_train</span><span class="p">[</span><span class="mi">5</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([0], dtype=uint8), array([0], dtype=uint8))
+</pre></div></div>
+</div>
+<p>这里面有预测错误的，也有预测成功的，下面我们计算一个预测的precision</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_pred</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0, 0, 0, ..., 0, 0, 0], dtype=uint8)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">==</span> <span class="n">y_test_9</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test_9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9556
+</pre></div></div>
+</div>
+<p>可以看到模型的预测的precision为94.06%，表面上看起来还不赖</p>
+<div class="section" id="性能考核">
+<h3>性能考核<a class="headerlink" href="#性能考核" title="永久链接至标题">¶</a></h3>
+<div class="section" id="使用交叉验证测量精度">
+<h4>使用交叉验证测量精度<a class="headerlink" href="#使用交叉验证测量精度" title="永久链接至标题">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+
+<span class="n">skfolds</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">skfolds</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">):</span>
+    <span class="c1"># print(train_index, train_index.shape, test_index, test_index.shape)</span>
+    <span class="n">clone_clf</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">)</span>
+    <span class="n">X_train_folds</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">train_index</span><span class="p">]</span>
+    <span class="n">y_train_folds</span> <span class="o">=</span> <span class="n">y_train_9</span><span class="p">[</span><span class="n">train_index</span><span class="p">]</span>
+    <span class="n">X_test_fold</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+    <span class="n">y_test_fold</span> <span class="o">=</span> <span class="n">y_train_9</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+
+    <span class="n">clone_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_folds</span><span class="p">,</span> <span class="n">y_train_folds</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clone_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_fold</span><span class="p">)</span>
+    <span class="n">n_correct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">==</span> <span class="n">y_test_fold</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">n_correct</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test_fold</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9389166666666666
+0.9518333333333333
+0.9514166666666667
+0.9478333333333333
+0.9223333333333333
+</pre></div></div>
+</div>
+<p>也可以使用cross_val_score进行交叉验证</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.93995, 0.88745, 0.94305])
+</pre></div></div>
+</div>
+<p>从上面可以看到所有的交叉验证的准确率都达到了94%！在激动之前我们可以看看一个笨重的分类器</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span>
+<span class="k">class</span> <span class="nc">Never9Classifier</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">never_9_clf</span> <span class="o">=</span> <span class="n">Never9Classifier</span><span class="p">()</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">never_9_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.90115, 0.8981 , 0.9033 ])
+</pre></div></div>
+</div>
+<p>上面的分类器把所有的数字都预测为非9的，但是依然可以达到90%的准确率，这是由于<strong>偏斜数据集造成的</strong></p>
+</div>
+<div class="section" id="混淆矩阵">
+<h4>混淆矩阵<a class="headerlink" href="#混淆矩阵" title="永久链接至标题">¶</a></h4>
+<p>要计算混淆矩阵，需要先有一组预测才能将其与实际目标进行比较，当然可以通过测试集来进行测试，倒是现在先不要动它（<strong>测试集最好留到项目最后，准备启动分类器时在使用</strong>），作为替代，可以使用<code class="docutils literal notranslate"><span class="pre">cross_val_predict()</span></code>函数</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span>
+<span class="n">y_train_predict</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">y_train_predict</span><span class="p">,</span> <span class="n">y_train_predict</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([0, 0, 1, ..., 0, 0, 0], dtype=uint8), (60000,))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_train_predict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[51200,  2851],
+       [ 1740,  4209]])
+</pre></div></div>
+</div>
+<p>本示例中第一行表示所有“非9”（负类-Negative）的图像中：52767张被正确的分为“非9”类别（真负类-TN），1284张错误地分类成了“9”（假正类-FP）；第二行表示所有的“9”（正类-Positive）的图像中：1879张被错误的分为了“非9”类别（假负类-FN），4070张被正确地分在了“9”这个类（真正类-TP）。一个完美的分类器只有真真正类和真负类，所以他的混淆矩阵只会在其对角线（左上到右下）上有非零值</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train_perfect_predictions</span> <span class="o">=</span> <span class="n">y_train_9</span>
+<span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_train_perfect_predictions</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[54051,     0],
+       [    0,  5949]])
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="精度-Precision">
+<h4>精度-Precision<a class="headerlink" href="#精度-Precision" title="永久链接至标题">¶</a></h4>
+<p><a class="reference external" href="https://developers.google.com/machine-learning/crash-course/classification/accuracy?hl=zh-cn">Google解释</a></p>
+<p><strong>Precision尝试回答的问题：在被识别为正类别的样本中，确实为正类别的比例是多少？</strong></p>
+<div class="math">
+\[Precision = \frac{TP}{TP+FP}\]</div>
+<p>做一个单独的正类预测，并确保它是正确的，就可以得到完美的精度（precision=1/1=100%）。但是这没有什么意义，因为分类器会忽略掉这个正类实例之外的所有内容。因此Accuracy通常与召回率-Recall，也称为灵敏度-Sensitivity或者真正率-TPR一起使用：</p>
+<p><strong>Recall尝试回答的问题：在所有正类别样本中，被正确识别为正类别的比例是多少？</strong></p>
+<div class="math">
+\[Recall = \frac{TP}{TP+FN}\]</div>
+<p><a href="#id12"><span class="problematic" id="id13">|confusion\_matrix|</span></a></p>
+<p><strong>注意，Precision与Accuracy千万不要弄混了</strong></p>
+<div class="math">
+\[Accuracy = \frac{TP + TN}{TP + FP + TN + FN}\]</div>
+<ol class="arabic simple">
+<li><p>一般来说，提高分类阈值会减少假正类-TP，从而提高Precision</p></li>
+<li><p>提高分类阈值会导致真正类-TP的减少或不变，同时假负类-FN的值会增加或保持不变。因此召回率保持不变或下降</p></li>
+<li><p>一般来说，如果某个模型在精确率和召回率方面均优于另一模型，则该模型可能更好。很显然，我们需要确保在精确率/召回率点处进行比较，这在实践中非常有用，因为这样做才有实际意义。例如，假设我们的垃圾邮件检测模型需要达到至少 90% 的精确率才算有用，并可以避免不必要的虚假警报。在这种情况下，将 {20% 精确率，99% 召回率} 模型与另一个 {15% 精确率，98% 召回率} 模型进行比较不是特别有意义，因为这两个模型都不符合 90% 的精确率要求。但考虑到这一点，在通过精确率和召回率比较模型时，这是一种很好的方式。</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span>
+<span class="n">precision_score</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_train_predict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.5961756373937677
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_train_predict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.7075138678769541
+</pre></div></div>
+</div>
+<p>我们可以很方便地将精度和召回率组合成一个单一的指标，称为<span class="math">\(F_1\)</span>分数。<span class="math">\(F_1\)</span>分数是精度和召回率的谐波平均值。<strong>正常的平均值平等对待所有的值，而谐波平均值会给予较低的值更高的权重。因此，只有当召回率和精度都很高时，分类器才能得到较高的:math:`F_1`分数。</strong></p>
+<div class="math">
+\[F_1 = \frac{2}{\frac{1}{Accuracy} + \frac{1}{Recall}} = 2 \times \frac{Accuracy \times Recall}{Accuracy + Recall} = \frac{TP}{TP + \frac{FN + FP}{2}}\]</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span>
+<span class="n">f1_score</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_train_predict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.6470904758244292
+</pre></div></div>
+</div>
+<p><span class="math">\(F_1\)</span>分数对那些具有相似的精度和召回率的分类器更为有利。这不一定能一直符合你的期望：在某些情况下，你更关心的是精度，而另一些情况下，你可能真正关心的是召回率。例如，假设你训练一个分类器来检测儿童可以放心看的视频，那么你可能更青睐那种拦截了很多好视频（低召回率），但是保留下来的视频都是安全（高精度）的分类器，而不是Recall虽高，但是在产品中可能会出现一些非常糟糕的视频的分类器（这种情况下，你甚至可能会增加一个工人流水线来检查分类器选出来的视频）。反过来说，如果你训练一个分类器通过图像监控来检测小偷：你大概可以接受精度只有30%，只要召回率能达到99%（当然，安保人员会收到一些错误的警报，但是几乎所有的窃贼都在劫难逃）。</p>
+<p><strong>遗憾的是，鱼和熊掌不可兼得：你不能同时增加精度并减少召回率，反之亦然，这称为精度/召回率权衡。</strong></p>
+</div>
+</div>
+<div class="section" id="Precision/Recall权衡">
+<h3>Precision/Recall权衡<a class="headerlink" href="#Precision/Recall权衡" title="永久链接至标题">¶</a></h3>
+<p>要理解这个权衡过程，我们来看看SGDClassifier如何进行分类决策。对于每个实例，他会给予决策函数计算出一个分值，如果该值大于阈值，则将该实例判为正类，否则便将其判为负类。Scikit-Learn不允许直接设置阈值，但是可以访问它用于预测的决策分数。不是调用分类器的<code class="docutils literal notranslate"><span class="pre">predict()</span></code>方法，而是调用<code class="docutils literal notranslate"><span class="pre">decision_function()</span></code>方法，这个方法返回每个实例的分数，然后就可以根据这些分数，使用任意阈值进行预测了</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_scores</span> <span class="o">=</span> <span class="n">sgd_clf</span><span class="o">.</span><span class="n">decision_function</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+<span class="n">y_scores</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([-4710.31909378])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">threshold</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5000</span>
+<span class="n">y_some_digit_pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_scores</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span>
+<span class="n">y_some_digit_pred</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([ True])
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="如何决定使用什么阈值呢？">
+<h3>如何决定使用什么阈值呢？<a class="headerlink" href="#如何决定使用什么阈值呢？" title="永久链接至标题">¶</a></h3>
+<div class="section" id="1.-首先使用cross_val_predict()函数获取训练集中所有实例的分数，但是这次需要它返回的是决策分数而不是预测结果">
+<h4>1. 首先使用cross_val_predict()函数获取训练集中所有实例的分数，但是这次需要它返回的是决策分数而不是预测结果<a class="headerlink" href="#1.-首先使用cross_val_predict()函数获取训练集中所有实例的分数，但是这次需要它返回的是决策分数而不是预测结果" title="永久链接至标题">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_scores</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;decision_function&quot;</span><span class="p">)</span>
+<span class="n">y_scores</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([-38805.11193315, -26680.86068743,   1351.50729744, ...,
+       -14451.53682289, -64515.898079  ,  -5878.80919097])
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="2.-有了这些分数，可以使用precision_recall_curve()函数计算所有可能的阈值的精度和召回率：">
+<h4>2. 有了这些分数，可以使用<code class="docutils literal notranslate"><span class="pre">precision_recall_curve()</span></code>函数计算所有可能的阈值的精度和召回率：<a class="headerlink" href="#2.-有了这些分数，可以使用precision_recall_curve()函数计算所有可能的阈值的精度和召回率：" title="永久链接至标题">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_recall_curve</span>
+<span class="n">precisions</span><span class="p">,</span> <span class="n">recalls</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">precision_recall_curve</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_scores</span><span class="p">)</span>
+<span class="n">precisions</span><span class="p">,</span> <span class="n">recalls</span><span class="p">,</span> <span class="n">thresholds</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([0.10253184, 0.10251637, 0.10251814, ..., 1.        , 1.        ,
+        1.        ]),
+ array([1.00000000e+00, 9.99831905e-01, 9.99831905e-01, ...,
+        3.36190956e-04, 1.68095478e-04, 0.00000000e+00]),
+ array([-63773.47532001, -63763.51347442, -63760.38332421, ...,
+         36057.73101653,  38985.11412538,  49742.60677835]))
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">plot_precision_recall_vs_threshold</span><span class="p">(</span><span class="n">precisions</span><span class="p">,</span> <span class="n">recalls</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    绘制precisions, recalls vs thresholds的曲线</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">thresholds</span><span class="p">,</span> <span class="n">precisions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;b--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Precision&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">thresholds</span><span class="p">,</span> <span class="n">recalls</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;g-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Recall&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Threshold&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper left&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot_precision_recall_vs_threshold</span><span class="p">(</span><span class="n">precisions</span><span class="p">,</span> <span class="n">recalls</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_52_0.svg" src="../_images/chapter3_chapter3_52_0.svg" /></div>
+</div>
+<p>从上图中可以看出，精度曲线比召回率曲线要崎岖一些。原因在于，当你提高阈值时，精度有时也可能会下降（尽管总体趋势是上升的）。另一方面。当阈值上升时，Recall只会下降，这就解释了为什么Recall曲线看起来很平滑。</p>
+</div>
+<div class="section" id="3.-还有一种找到好的Precision/Recall权衡的方法是直接绘制Precision和Recall的函数图">
+<h4>3. 还有一种找到好的Precision/Recall权衡的方法是直接绘制Precision和Recall的函数图<a class="headerlink" href="#3.-还有一种找到好的Precision/Recall权衡的方法是直接绘制Precision和Recall的函数图" title="永久链接至标题">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">recalls</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">precisions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Recalls&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Precisions&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_55_0.svg" src="../_images/chapter3_chapter3_55_0.svg" /></div>
+</div>
+<p><strong>由此可见，创建一个你想要的精度的分类器是相当容易的事情：只要阈值足够的高即可！然而，如果召回率太低，精度再高，其实也不怎么有用！如果有人说：“我们需要99%的精度。”你就应该问：“召回率是多少？”</strong></p>
+</div>
+</div>
+<div class="section" id="ROC曲线">
+<h3>ROC曲线<a class="headerlink" href="#ROC曲线" title="永久链接至标题">¶</a></h3>
+<p>还有一种经常与二元分类器一起使用的工具，叫做<strong>受试者工作特征曲线（简称ROC）</strong>。它与Precision/Recall曲线非常相似，但是绘制的不是Precision和Recall，而是真正类率（召回率的另一名称）和假正类率（FPR）。FPR是被错误分为正类的负类实例比率。它等于1减去真负类率（TNR），后者是被正确分类为负类实例比率，也称为特异度。因此ROC曲线绘制的是灵敏度和（1-特异度）的关系。</p>
+<p><a class="reference external" href="https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc?hl=zh-cn">Googl的解释</a></p>
+<p>要绘制ROC曲线，首先需要使用<code class="docutils literal notranslate"><span class="pre">roc_curve()</span></code>函数计算多种阈值的TPR和FPR</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">plot_roc_curve</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;False Positive Rate&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Positive Rate&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot_roc_curve</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_60_0.svg" src="../_images/chapter3_chapter3_60_0.svg" /></div>
+</div>
+<p>同样这里再次面临一个折中权衡：Recall(TPR)越高，分类器产生的假正类（FPR）就越多。虚线表示随机分类器的ROC曲线：<strong>一个优秀的分类器应该远离这条线越远越好</strong></p>
+<p>一种比较分类器的方法是测量<em>曲线下面积</em>（AUC）。完美的分类器的ROC AUC等于1，而纯随机分类器的ROC AUC等于0.5.</p>
+<p>Scikit-Learn提供计算ROC AUC的函数-<code class="docutils literal notranslate"><span class="pre">roc_auc_score()</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span>
+<span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9450408147085357
+</pre></div></div>
+</div>
+<p><strong>由于ROC曲线与Precision/Recall(或PR)曲线非常相似，因此你可能会问如何决定使用哪种曲线。有一个经验法则，当正类非常少见或者你更关注假正类而不是假负类时，你应该选择PR曲线，反之是ROC曲线。</strong>例如，看前面的ROC曲线图，你可能会觉得分类器真不错。但这主要是因为负类（非9）相比，正类（数字9）的数量真的很少。相比之下，PR曲线可以清楚的说明分类器还有改进的空间（曲线还可以更接近右上角）。</p>
+<p><strong>实际上，如果您有一个 AUC 为 1.0 的“完美”分类器，您应该感到可疑，因为这可能表明您的模型中存在错误。例如，您的训练数据可能过拟合，或者带标签数据可能被复制到其中一项特征中。</strong></p>
+<p><strong>AUC 以相对预测为依据，因此保持相对排名的任何预测变化都不会对 AUC 产生影响。而对其他指标而言显然并非如此，例如平方误差、对数损失函数或预测偏差（稍后讨论）。</strong></p>
+<p>训练一个RandomForestClassifier分类器，并比较它和SGDClassifier分类器的ROC曲线和ROC AUC分数。RandomForestClassifier类没有<code class="docutils literal notranslate"><span class="pre">decision_function()</span></code>方法，但是它有dict_proba()方法。<strong>Scikit-Learn的分类器通常都会有这两种方法中的一种。``dict_proba()``方法返回一个数组，其中每一行为一个实例，每列代表一个类别，意思是给定实例属于给定类别的概率</strong></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">forest_clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">y_probas_forest</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">forest_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;predict_proba&#39;</span><span class="p">)</span>
+<span class="n">y_probas_forest</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[0.98, 0.02],
+       [1.  , 0.  ],
+       [0.49, 0.51],
+       ...,
+       [1.  , 0.  ],
+       [0.91, 0.09],
+       [0.96, 0.04]])
+</pre></div></div>
+</div>
+<p>要绘制ROC曲线，需要的是分数值而不是概率大小。一种简单的解决方案是：直接使用正类的概率值作为分数值：</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_scores_forest</span> <span class="o">=</span> <span class="n">y_probas_forest</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">fpr_forest</span><span class="p">,</span> <span class="n">tpr_forest</span><span class="p">,</span> <span class="n">thresholds_forest</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_scores_forest</span><span class="p">)</span>
+<span class="n">fpr_forest</span><span class="p">,</span> <span class="n">tpr_forest</span><span class="p">,</span> <span class="n">thresholds_forest</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+        0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.85010453e-05,
+        1.85010453e-05, 3.70020906e-05, 3.70020906e-05, 3.70020906e-05,
+        3.70020906e-05, 3.70020906e-05, 3.70020906e-05, 3.70020906e-05,
+        5.55031359e-05, 7.40041812e-05, 9.25052265e-05, 9.25052265e-05,
+        9.25052265e-05, 9.25052265e-05, 9.25052265e-05, 1.48008362e-04,
+        1.48008362e-04, 1.48008362e-04, 1.48008362e-04, 1.48008362e-04,
+        1.85010453e-04, 1.85010453e-04, 2.22012544e-04, 2.40513589e-04,
+        2.77515680e-04, 3.14517770e-04, 3.33018816e-04, 3.51519861e-04,
+        4.81027178e-04, 5.55031359e-04, 5.92033450e-04, 7.21540767e-04,
+        7.77043903e-04, 8.51048084e-04, 9.80555401e-04, 1.09156167e-03,
+        1.31357422e-03, 1.44308153e-03, 1.59108990e-03, 1.85010453e-03,
+        2.12762021e-03, 2.34963275e-03, 2.49764112e-03, 2.79365784e-03,
+        3.03417143e-03, 3.36719025e-03, 3.75571220e-03, 4.14423415e-03,
+        4.55125715e-03, 4.79177074e-03, 5.18029269e-03, 5.64281882e-03,
+        6.10534495e-03, 6.71587945e-03, 7.27091081e-03, 8.01095262e-03,
+        8.80649757e-03, 9.45403415e-03, 1.04160885e-02, 1.13781429e-02,
+        1.23957004e-02, 1.33947568e-02, 1.43938133e-02, 1.58923979e-02,
+        1.71319680e-02, 1.87970620e-02, 2.05731624e-02, 2.23862648e-02,
+        2.50319143e-02, 2.77885701e-02, 3.07857394e-02, 3.41529296e-02,
+        3.84266711e-02, 4.25524042e-02, 4.76216906e-02, 5.37085345e-02,
+        6.05354203e-02, 6.79913415e-02, 7.73898725e-02, 8.73064328e-02,
+        9.97576363e-02, 1.15132005e-01, 1.34243585e-01, 1.58609461e-01,
+        1.89321197e-01, 2.30652532e-01, 2.92945551e-01, 3.88096427e-01,
+        5.60415163e-01, 1.00000000e+00]),
+ array([0.        , 0.01344764, 0.03748529, 0.06488485, 0.09951252,
+        0.12892923, 0.15952261, 0.18893932, 0.22070936, 0.25348798,
+        0.28307279, 0.31551521, 0.3419062 , 0.36678433, 0.39065389,
+        0.41183392, 0.43469491, 0.45503446, 0.47638259, 0.49386452,
+        0.51151454, 0.53118171, 0.54815935, 0.56614557, 0.58245083,
+        0.59808371, 0.61304421, 0.62649185, 0.63859472, 0.65288284,
+        0.66464952, 0.67574382, 0.68683812, 0.6987729 , 0.70936292,
+        0.71877626, 0.72768533, 0.73777105, 0.74684821, 0.7545806 ,
+        0.76399395, 0.77407968, 0.78618255, 0.79307447, 0.80080686,
+        0.80937973, 0.81543116, 0.82349975, 0.83005547, 0.83543453,
+        0.84199025, 0.8475374 , 0.85241217, 0.85829551, 0.86535552,
+        0.86905362, 0.87493696, 0.87981173, 0.88418222, 0.88905698,
+        0.89309128, 0.89847033, 0.9033451 , 0.9072113 , 0.91259035,
+        0.91612036, 0.91880988, 0.92284418, 0.92637418, 0.93124895,
+        0.93494705, 0.93746848, 0.94099849, 0.94335182, 0.94503278,
+        0.94755421, 0.95057993, 0.95343755, 0.95814423, 0.96150614,
+        0.96352328, 0.9663809 , 0.96923853, 0.97125567, 0.97360901,
+        0.97495377, 0.97680282, 0.97865187, 0.9815095 , 0.98335855,
+        0.98487141, 0.98688855, 0.9889057 , 0.99075475, 0.99327618,
+        0.99495714, 0.9963019 , 0.99731047, 0.99865524, 0.99949571,
+        0.99966381, 1.        ]),
+ array([2.  , 1.  , 0.99, 0.98, 0.97, 0.96, 0.95, 0.94, 0.93, 0.92, 0.91,
+        0.9 , 0.89, 0.88, 0.87, 0.86, 0.85, 0.84, 0.83, 0.82, 0.81, 0.8 ,
+        0.79, 0.78, 0.77, 0.76, 0.75, 0.74, 0.73, 0.72, 0.71, 0.7 , 0.69,
+        0.68, 0.67, 0.66, 0.65, 0.64, 0.63, 0.62, 0.61, 0.6 , 0.59, 0.58,
+        0.57, 0.56, 0.55, 0.54, 0.53, 0.52, 0.51, 0.5 , 0.49, 0.48, 0.47,
+        0.46, 0.45, 0.44, 0.43, 0.42, 0.41, 0.4 , 0.39, 0.38, 0.37, 0.36,
+        0.35, 0.34, 0.33, 0.32, 0.31, 0.3 , 0.29, 0.28, 0.27, 0.26, 0.25,
+        0.24, 0.23, 0.22, 0.21, 0.2 , 0.19, 0.18, 0.17, 0.16, 0.15, 0.14,
+        0.13, 0.12, 0.11, 0.1 , 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03,
+        0.02, 0.01, 0.  ]))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="s1">&#39;b:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SGD&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr_forest</span><span class="p">,</span> <span class="n">tpr_forest</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;False Positive Rate&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Postitive Rate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_68_0.svg" src="../_images/chapter3_chapter3_68_0.svg" /></div>
+</div>
+<p>从图中可以看出RandomForestClassifier的ROC曲线比SGDClassifier好的多：它离左上角更接近。因此它的ROC AUC的分数也高的多</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_scores_forest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9955051727526318
+</pre></div></div>
+</div>
+<p>再测一下precision与recall的得分</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train_forest_predict</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">forest_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train_9</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">y_train_forest_predict</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0, 0, 1, ..., 0, 0, 0], dtype=uint8)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_train_forest_predict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9831207065750736
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_train_forest_predict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.8419902504622626
+</pre></div></div>
+</div>
+<p>可以看到RandomForestClasssifier拥有98.31%的Precision和84.20%的ReCall，也还不错。由于正类9的数量很少，我们应该关注PR曲线，下面把RandomForestClassifier的PR曲线与SGDClassifier的PR曲线绘制在一起看看</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">precisions_forest</span><span class="p">,</span> <span class="n">recalls_forest</span><span class="p">,</span> <span class="n">thresholds_forest</span> <span class="o">=</span> <span class="n">precision_recall_curve</span><span class="p">(</span><span class="n">y_train_9</span><span class="p">,</span> <span class="n">y_scores_forest</span><span class="p">)</span>
+<span class="n">precisions_forest</span><span class="p">,</span> <span class="n">recalls_forest</span><span class="p">,</span> <span class="n">thresholds_forest</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(array([0.09915   , 0.1641095 , 0.22085206, 0.27283582, 0.32244565,
+        0.3667698 , 0.40843224, 0.44884163, 0.48642403, 0.52177384,
+        0.55439093, 0.58344951, 0.61417323, 0.64087367, 0.66727794,
+        0.69302326, 0.71604938, 0.73605287, 0.75786988, 0.77604307,
+        0.79285616, 0.80903317, 0.82539683, 0.83675866, 0.84808612,
+        0.8592919 , 0.86776478, 0.8784375 , 0.88573232, 0.89310785,
+        0.90067829, 0.90808163, 0.91555115, 0.9204944 , 0.92689515,
+        0.93292371, 0.93755376, 0.94269839, 0.94651   , 0.95047754,
+        0.95378301, 0.95574744, 0.95936876, 0.96284093, 0.96639586,
+        0.96945427, 0.97162188, 0.97444634, 0.97573094, 0.97782491,
+        0.98055231, 0.98312071, 0.98454834, 0.98582551, 0.98810004,
+        0.9891925 , 0.99053693, 0.99126092, 0.99180156, 0.9932045 ,
+        0.99352751, 0.99431197, 0.99578527, 0.99596503, 0.99614163,
+        0.99654696, 0.99696899, 0.99716446, 0.99760019, 0.99755859,
+        0.9980139 , 0.99798082, 0.9979445 , 0.99789861, 0.9978581 ,
+        0.99863089, 0.99859669, 0.99855908, 0.99851764, 0.99846908,
+        0.99873578, 0.9990151 , 0.99931973, 0.99929478, 0.99926172,
+        0.9992272 , 0.99918434, 0.99914015, 0.99908425, 0.9995086 ,
+        0.99946752, 1.        , 1.        , 1.        , 1.        ,
+        1.        , 1.        , 1.        , 1.        , 1.        ,
+        1.        , 1.        ]),
+ array([1.        , 0.99966381, 0.99949571, 0.99865524, 0.99731047,
+        0.9963019 , 0.99495714, 0.99327618, 0.99075475, 0.9889057 ,
+        0.98688855, 0.98487141, 0.98335855, 0.9815095 , 0.97865187,
+        0.97680282, 0.97495377, 0.97360901, 0.97125567, 0.96923853,
+        0.9663809 , 0.96352328, 0.96150614, 0.95814423, 0.95343755,
+        0.95057993, 0.94755421, 0.94503278, 0.94335182, 0.94099849,
+        0.93746848, 0.93494705, 0.93124895, 0.92637418, 0.92284418,
+        0.91880988, 0.91612036, 0.91259035, 0.9072113 , 0.9033451 ,
+        0.89847033, 0.89309128, 0.88905698, 0.88418222, 0.87981173,
+        0.87493696, 0.86905362, 0.86535552, 0.85829551, 0.85241217,
+        0.8475374 , 0.84199025, 0.83543453, 0.83005547, 0.82349975,
+        0.81543116, 0.80937973, 0.80080686, 0.79307447, 0.78618255,
+        0.77407968, 0.76399395, 0.7545806 , 0.74684821, 0.73777105,
+        0.72768533, 0.71877626, 0.70936292, 0.6987729 , 0.68683812,
+        0.67574382, 0.66464952, 0.65288284, 0.63859472, 0.62649185,
+        0.61304421, 0.59808371, 0.58245083, 0.56614557, 0.54815935,
+        0.53118171, 0.51151454, 0.49386452, 0.47638259, 0.45503446,
+        0.43469491, 0.41183392, 0.39065389, 0.36678433, 0.3419062 ,
+        0.31551521, 0.28307279, 0.25348798, 0.22070936, 0.18893932,
+        0.15952261, 0.12892923, 0.09951252, 0.06488485, 0.03748529,
+        0.01344764, 0.        ]),
+ array([0.  , 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1 ,
+        0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.2 , 0.21,
+        0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.3 , 0.31, 0.32,
+        0.33, 0.34, 0.35, 0.36, 0.37, 0.38, 0.39, 0.4 , 0.41, 0.42, 0.43,
+        0.44, 0.45, 0.46, 0.47, 0.48, 0.49, 0.5 , 0.51, 0.52, 0.53, 0.54,
+        0.55, 0.56, 0.57, 0.58, 0.59, 0.6 , 0.61, 0.62, 0.63, 0.64, 0.65,
+        0.66, 0.67, 0.68, 0.69, 0.7 , 0.71, 0.72, 0.73, 0.74, 0.75, 0.76,
+        0.77, 0.78, 0.79, 0.8 , 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87,
+        0.88, 0.89, 0.9 , 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98,
+        0.99, 1.  ]))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">recalls_forest</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">precisions_forest</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Random Forest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">recalls</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">precisions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SGD&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower left&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Recall&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Precision&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_77_0.svg" src="../_images/chapter3_chapter3_77_0.svg" /></div>
+</div>
+</div>
+</div>
+<div class="section" id="多元分类器">
+<h2>多元分类器<a class="headerlink" href="#多元分类器" title="永久链接至标题">¶</a></h2>
+<div class="section" id="OvA策略">
+<h3>OvA策略<a class="headerlink" href="#OvA策略" title="永久链接至标题">¶</a></h3>
+<p>也称为one-versus-the-rest，例如，要创建一个系统将数字图像分为10类（从0到9），一种训练方法是训练10个二元分类器，每个数字一个（0-检测器， 1-检测器， 2-检测器，等等，以此类推）。然后，当你需要对一张图像检测分类时。获取每个分类器的决策分数，那个分类器给分最高，就将其分为那个类。</p>
+</div>
+<div class="section" id="OvO策略">
+<h3>OvO策略<a class="headerlink" href="#OvO策略" title="永久链接至标题">¶</a></h3>
+<p>为每一个数字训练一个二元分类器：一个用于区分0和1，一个区分0和2，一个区分1和2，以此类推。如果存在N个类别，那么需要训练<span class="math">\(N \times (N-1) \div 2\)</span>个分类器。对于MNIST问题，这意味着训练45个二元分类器！当需要对一张图片进行分类时，需要运行45个分类器对图片进行分类，最后看那个类别获胜的多。<strong>OvO的主要优点在于，每个分类器只需要用到部分训练集对其必须区分的两个类别进行训练。</strong></p>
+<p>有些算法（例如SVM分类器）在数据规模扩大是表现很糟糕，因此对于这类算法，OvO是一个优先的选择，由于在较小训练集上分别训练多个分类器比在大型数据集上训练少数分类器要快的多。但是对于大多数二元分类器来说，OvA策略还是更好的选择。</p>
+<p>Scikit-Learn可以检测到你尝试使用二元分类算法进行多类别分类任务，它会自动运行OvA（SVM分类器除外，它会使用OvO）。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sgd_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">sgd_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&amp;#39;4&amp;#39;], dtype=&amp;#39;&amp;lt;U1&amp;#39;)
+</pre></div></div>
+</div>
+<p>上面的代码看起来非常简单，而在内部，Scikit-Learn实际上训练了10个二元分类器，获得它们对图片的决策分数，然后选择了分数最高的类别</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">some_digit_scores</span> <span class="o">=</span> <span class="n">sgd_clf</span><span class="o">.</span><span class="n">decision_function</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+<span class="n">some_digit_scores</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-70447.43100346, -18603.88903056, -25498.35295109,
+         -2148.1008376 ,  -1640.21582961,  -2561.97569916,
+        -44614.56772366, -10441.93373236,  -5217.19704943,
+         -2298.91455784]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">some_digit_scores</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+4
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sgd_clf</span><span class="o">.</span><span class="n">classes_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&amp;#39;0&amp;#39;, &amp;#39;1&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;3&amp;#39;, &amp;#39;4&amp;#39;, &amp;#39;5&amp;#39;, &amp;#39;6&amp;#39;, &amp;#39;7&amp;#39;, &amp;#39;8&amp;#39;, &amp;#39;9&amp;#39;], dtype=&amp;#39;&amp;lt;U1&amp;#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sgd_clf</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&amp;#39;4&amp;#39;
+</pre></div></div>
+</div>
+<p><strong>当训练分类器时，目标类别的列表会储存在classes_这个属性中，按值的大小排列</strong></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>如果想要强制Scikit-Learn使用一对一或者一对多的策略，可以使用OneVsOneClassifier或OneVsRestClassifier类
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.multiclass</span> <span class="kn">import</span> <span class="n">OneVsOneClassifier</span>
+<span class="n">ovo_clf</span> <span class="o">=</span> <span class="n">OneVsOneClassifier</span><span class="p">(</span><span class="n">SGDClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+<span class="n">ovo_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">ovo_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&amp;#39;9&amp;#39;], dtype=object)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">len</span><span class="p">(</span><span class="n">ovo_clf</span><span class="o">.</span><span class="n">estimators_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+45
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forest_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">forest_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&amp;#39;9&amp;#39;], dtype=object)
+</pre></div></div>
+</div>
+<p>这次Scikit-Learn不必运行OvA或者OvO了，因为Random Forest直接可以将实例分为多个类别。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forest_clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[0.  , 0.  , 0.  , 0.  , 0.06, 0.02, 0.  , 0.02, 0.01, 0.89]])
+</pre></div></div>
+</div>
+<p>要评估这些分类器，使用交叉验证，我们可以使用<code class="docutils literal notranslate"><span class="pre">cross_val_score()</span></code>函数评估一下SGDClassifier的准确率</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.88005, 0.8818 , 0.86965])
+</pre></div></div>
+</div>
+<p>所有的测试折叠上都超过了86%，如果是一个随机分类器，准确率大概是10%，所以这个结果不是太糟，但是依然有提升的空间。例如，将输入进行简单的缩放，可以将准确率提升到90%以上</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.89575, 0.89875, 0.90535])
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="错误分析">
+<h2>错误分析<a class="headerlink" href="#错误分析" title="永久链接至标题">¶</a></h2>
+<p>在这里，假设你已经找到了一个潜力的模型，现在你希望找到一些方法对其进一步改进，方法之一就是分析其错误类型。</p>
+<div class="section" id="首先，看看混淆矩阵">
+<h3>首先，看看混淆矩阵<a class="headerlink" href="#首先，看看混淆矩阵" title="永久链接至标题">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">sgd_clf</span><span class="p">,</span> <span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">conf_mx</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_train_pred</span><span class="p">)</span>
+<span class="n">conf_mx</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[5592,    0,   14,    9,    9,   44,   27,    4,  223,    1],
+       [   1, 6413,   43,   19,    3,   45,    5,    7,  196,   10],
+       [  26,   28, 5237,   87,   72,   25,   64,   40,  368,   11],
+       [  26,   23,  117, 5217,    0,  208,   24,   41,  407,   68],
+       [  11,   14,   45,   11, 5247,    9,   31,   16,  310,  148],
+       [  30,   17,   25,  163,   52, 4467,   80,   16,  504,   67],
+       [  28,   17,   51,    1,   39,   89, 5547,    4,  142,    0],
+       [  17,   12,   55,   23,   46,   12,    5, 5714,  174,  207],
+       [  17,   69,   35,   91,    3,  125,   31,    6, 5430,   44],
+       [  21,   23,   32,   60,  117,   34,    1,  169,  359, 5133]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">conf_mx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_99_0.svg" src="../_images/chapter3_chapter3_99_0.svg" /></div>
+</div>
+<p>将混淆矩阵中的每个值除以相应类别中的图片的数量，这样比较的是错误率而不是错误的绝对值：</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">row_sums</span> <span class="o">=</span> <span class="n">conf_mx</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">norm_conf_mx</span> <span class="o">=</span> <span class="n">conf_mx</span><span class="o">/</span><span class="n">row_sums</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">norm_conf_mx</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">norm_conf_mx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_101_0.svg" src="../_images/chapter3_chapter3_101_0.svg" /></div>
+</div>
+<p>每行代表实际类别，而每列表示预测类别。第8列和第9列整体看起来很亮，说明有许多图片被错误地分类为数字8或数字9了。同样类别8和类别9的行看起来很亮，说明数字8和数字9经常会跟其他数字混淆。相反一些行很暗，比如行1，这意味着大多数数字1都被正确地分类（有一些与数字8弄混了而已，但仅此而已）。注意。错误不是完全对称的，比如，数字5被错分为数字8的数量比数字8被错分为数字5的数量要多。</p>
+<p>分析混淆矩阵通常可以帮助你深入了解如何改进分类器。通过上图，你的精力可以花在改进数字8和数字9的分类，以及修正数字3和数字5的混淆上。例如，可以试着收集更多这些数字的训练数据。或者，也可以开发一些新特征来改进分类器——例如可以写一个算法来计算闭环的数量，在或者，还可以对图片进行预处理（例如，使用Scikit-Image, Pillow或OpenCV）让某些模式更为突出，比如闭环之类。</p>
+<p>分析单个错误也可以为分类器提供洞察：它在做什么？它为什么失败？但这通常更加困难和耗时。例如，我们来看看数字3和数字5的例子：</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">plot_digits</span><span class="p">(</span><span class="n">instances</span><span class="p">,</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">28</span>
+    <span class="n">images_per_row</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">instances</span><span class="p">),</span> <span class="n">images_per_row</span><span class="p">)</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">instance</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">instances</span><span class="p">]</span>
+    <span class="n">n_rows</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">instances</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">images_per_row</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">row_images</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_empty</span> <span class="o">=</span> <span class="n">n_rows</span> <span class="o">*</span> <span class="n">images_per_row</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">instances</span><span class="p">)</span>
+    <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span> <span class="o">*</span> <span class="n">n_empty</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rows</span><span class="p">):</span>
+        <span class="n">rimages</span> <span class="o">=</span> <span class="n">images</span><span class="p">[</span><span class="n">row</span> <span class="o">*</span> <span class="n">images_per_row</span> <span class="p">:</span> <span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">images_per_row</span><span class="p">]</span>
+        <span class="n">row_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">rimages</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">row_images</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">cl_a</span><span class="p">,</span> <span class="n">cl_b</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span>
+<span class="n">X_aa</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[(</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">cl_a</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">y_train_pred</span> <span class="o">==</span> <span class="n">cl_a</span><span class="p">)]</span>
+<span class="n">X_ab</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[(</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">cl_a</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">y_train_pred</span> <span class="o">==</span> <span class="n">cl_b</span><span class="p">)]</span>
+<span class="n">X_ba</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[(</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">cl_b</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">y_train_pred</span> <span class="o">==</span> <span class="n">cl_a</span><span class="p">)]</span>
+<span class="n">X_bb</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[(</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">cl_b</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">y_train_pred</span> <span class="o">==</span> <span class="n">cl_b</span><span class="p">)]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">);</span> <span class="n">plot_digits</span><span class="p">(</span><span class="n">X_aa</span><span class="p">[:</span><span class="mi">25</span><span class="p">],</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">);</span> <span class="n">plot_digits</span><span class="p">(</span><span class="n">X_ab</span><span class="p">[:</span><span class="mi">25</span><span class="p">],</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">223</span><span class="p">);</span> <span class="n">plot_digits</span><span class="p">(</span><span class="n">X_ba</span><span class="p">[:</span><span class="mi">25</span><span class="p">],</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">224</span><span class="p">);</span> <span class="n">plot_digits</span><span class="p">(</span><span class="n">X_bb</span><span class="p">[:</span><span class="mi">25</span><span class="p">],</span> <span class="n">images_per_row</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_104_0.svg" src="../_images/chapter3_chapter3_104_0.svg" /></div>
+</div>
+<p>分类器在左下方和右上方的矩阵里弄错了数字，原因在于，我们使用的简单的SGDClassifier模型是一个线性模型。它所做的就是为每一个像素分配一个各个类别的权重，当他看到新的图像时，将加权后的像素强度汇总，从而得到一个分数进行分类。而数字3和数字5只在一部分像素上有区别，所以分类器很容易将其弄混。</p>
+<p>数字3和数字5之间的主要区别是在于连接顶线和下方弧线的中间那段小线条的位置。如果您写的数字3将连接点略往左移，分类器就可能将其分类为数字5，反之亦然。换言之，这个分类器对图像位移和旋转非常敏感。因此，减少数字3和数字5混淆的方法之一，就是对图片进行预处理，确保他们位于中心位置并且没有旋转。这同样有助于减少其他的错误。</p>
+</div>
+</div>
+<div class="section" id="多标签分类">
+<h2>多标签分类<a class="headerlink" href="#多标签分类" title="永久链接至标题">¶</a></h2>
+<p>分类器为每个实例产出多个类别</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="n">y_train_num</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">y_train_large</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_train_num</span> <span class="o">&gt;=</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">y_train_large</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([False, False,  True, ..., False, False, False])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train_odd</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_train_num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_train_odd</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([False, False,  True, ...,  True, False, False])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_multilabel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">y_train_large</span><span class="p">,</span> <span class="n">y_train_odd</span><span class="p">]</span>
+<span class="n">y_multilabel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[False, False],
+       [False, False],
+       [ True,  True],
+       ...,
+       [False,  True],
+       [False, False],
+       [False, False]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">knn_clf</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+<span class="n">knn_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_multilabel</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+KNeighborsClassifier()
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">knn_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">some_digit</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ True,  True]])
+</pre></div></div>
+</div>
+<p>评估多标签分类器的方法很多，如何选择正确的度量指标取决于你的项目。比如方法之一是测量每个标签的<span class="math">\(F_1\)</span>分数，然后简单的平均。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train_knn_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">knn_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">f1_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_train_knn_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9677291043813279
+</pre></div></div>
+</div>
+<p>这里假设所有的标签同等重要，但实际上是不可能的。特别是，如果训练的照片里爱丽丝比鲍勃和查理都要多得多，你可能想给区分爱丽丝的分类器更高的权重。一个简单的方法是给每个标签设置一个等于其自身支持的权重（也就是具有该目标标签的示例的数量）。只需要在上面的代码中设置<code class="docutils literal notranslate"><span class="pre">average=&quot;weighted&quot;</span></code>即可</p>
+</div>
+<div class="section" id="多输出分类">
+<h2>多输出分类<a class="headerlink" href="#多输出分类" title="永久链接至标题">¶</a></h2>
+<p><strong>多输出-多类别分类</strong>是多标签的泛化，其标签也可以是多种类别的（比如它可以有两个以上可能的值）。</p>
+<p>为了说明这个问题，构建一个系统去除图片中的噪声。给它输入一张有噪声的图像，他将输出一张干净的图像，跟其他的MNIST图像一样，以像素强度的一个数组做出呈现方式。<strong>请注意，这个分类器的输出是多个标签（一个像素点一个标签），每个标签可以有多个值（像素强度范围为0到255）。所以这是个多输出分类系统的例子</strong></p>
+<p><strong>PS:分类和回归之前的界限有时很模糊，比如这个例子。可以说，预测像素强度更像是一个回归任务而不是分类任务。而多输出系统也不仅仅限于分类任务，可以让一个系统给每个实例输出多个标签，同时包括类别标签和值标签。</strong></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 创建训练集和测试集</span>
+<span class="n">noise_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="mi">784</span><span class="p">))</span>
+<span class="n">noise_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">),</span> <span class="mi">784</span><span class="p">))</span>
+<span class="n">X_train_mod</span> <span class="o">=</span> <span class="n">X_train</span> <span class="o">+</span> <span class="n">noise_train</span>
+<span class="n">X_test_mod</span> <span class="o">=</span> <span class="n">X_test</span> <span class="o">+</span> <span class="n">noise_test</span>
+<span class="n">y_train_mod</span> <span class="o">=</span> <span class="n">X_train</span>
+<span class="n">y_test_mod</span> <span class="o">=</span> <span class="n">X_test</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">knn_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_mod</span><span class="p">,</span> <span class="n">y_train_mod</span><span class="p">)</span>
+<span class="n">clean_digit</span> <span class="o">=</span> <span class="n">knn_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">X_test_mod</span><span class="p">[</span><span class="mi">15</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">);</span> <span class="n">plot_digits</span><span class="p">([</span><span class="n">X_test_mod</span><span class="p">[</span><span class="mi">15</span><span class="p">]])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">);</span> <span class="n">plot_digits</span><span class="p">(</span><span class="n">clean_digit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_chapter3_118_0.svg" src="../_images/chapter3_chapter3_118_0.svg" /></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="cp_exercise_1.html" class="btn btn-neutral float-right" title="练习 3-1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="3. 分类" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

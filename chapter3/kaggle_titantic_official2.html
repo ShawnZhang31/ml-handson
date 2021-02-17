@@ -1,0 +1,2291 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Titanic Model with 90% accuracy &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="练习 3-4 垃圾邮件分类" href="cp3_exercise_4.html" />
+    <link rel="prev" title="练习 3-3" href="cp3_exercise_3.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">3. 分类</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="chapter3.html">3. 分类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp_exercise_1.html">练习 3-1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_2.html">练习3-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_3.html">练习 3-3</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Titanic Model with 90% accuracy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cp3_exercise_4.html">练习 3-4 垃圾邮件分类</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">3. 分类</a> &raquo;</li>
+        
+      <li>Titanic Model with 90% accuracy</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter3/kaggle_titantic_official2.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Titanic-Model-with-90%-accuracy">
+<h1>Titanic Model with 90% accuracy<a class="headerlink" href="#Titanic-Model-with-90%-accuracy" title="永久链接至标题">¶</a></h1>
+<p><a class="reference external" href="https://www.kaggle.com/vinothan/titanic-model-with-90-accuracy">https://www.kaggle.com/vinothan/titanic-model-with-90-accuracy</a></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./datasets/titanic/train.csv&quot;</span><span class="p">)</span>
+<span class="n">test_df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./datasets/titanic/test.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.2500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.2833</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.9250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.1000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.0500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__Test_DataSet_&#39;</span><span class="p">)</span>
+<span class="n">test_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+__Test_DataSet_
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>892</td>
+      <td>3</td>
+      <td>Kelly, Mr. James</td>
+      <td>male</td>
+      <td>34.5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330911</td>
+      <td>7.8292</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>893</td>
+      <td>3</td>
+      <td>Wilkes, Mrs. James (Ellen Needs)</td>
+      <td>female</td>
+      <td>47.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>363272</td>
+      <td>7.0000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>894</td>
+      <td>2</td>
+      <td>Myles, Mr. Thomas Francis</td>
+      <td>male</td>
+      <td>62.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>240276</td>
+      <td>9.6875</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>895</td>
+      <td>3</td>
+      <td>Wirz, Mr. Albert</td>
+      <td>male</td>
+      <td>27.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>315154</td>
+      <td>8.6625</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>896</td>
+      <td>3</td>
+      <td>Hirvonen, Mrs. Alexander (Helga E Lindqvist)</td>
+      <td>female</td>
+      <td>22.0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3101298</td>
+      <td>12.2875</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">missingdata</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">percent</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">ms</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">total</span><span class="p">,</span> <span class="n">percent</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">,</span> <span class="s1">&#39;Percent&#39;</span><span class="p">])</span>
+    <span class="n">ms</span><span class="o">=</span> <span class="n">ms</span><span class="p">[</span><span class="n">ms</span><span class="p">[</span><span class="s2">&quot;Percent&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">f</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;90&#39;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ms</span><span class="p">[</span><span class="s2">&quot;Percent&quot;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Features&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Percent of missing values&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Percent missing data by feature&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ms</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">missingdata</span><span class="p">(</span><span class="n">train_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>Percent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Cabin</th>
+      <td>687</td>
+      <td>77.104377</td>
+    </tr>
+    <tr>
+      <th>Age</th>
+      <td>177</td>
+      <td>19.865320</td>
+    </tr>
+    <tr>
+      <th>Embarked</th>
+      <td>2</td>
+      <td>0.224467</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_6_1.svg" src="../_images/chapter3_kaggle_titantic_official2_6_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">missingdata</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Total</th>
+      <th>Percent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Cabin</th>
+      <td>327</td>
+      <td>78.229665</td>
+    </tr>
+    <tr>
+      <th>Age</th>
+      <td>86</td>
+      <td>20.574163</td>
+    </tr>
+    <tr>
+      <th>Fare</th>
+      <td>1</td>
+      <td>0.239234</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_7_1.svg" src="../_images/chapter3_kaggle_titantic_official2_7_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+30.272590361445783
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;Embarked&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;Embarked&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Fare&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Fare&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">drop_column</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cabin&#39;</span><span class="p">]</span>
+<span class="n">train_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">test_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_column</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check the nan value in train data&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">train_df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;___&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check the nan value in test data&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+check the nan value in train data
+PassengerId    0
+Survived       0
+Pclass         0
+Name           0
+Sex            0
+Age            0
+SibSp          0
+Parch          0
+Ticket         0
+Fare           0
+Embarked       0
+dtype: int64
+__________________________________________________________________________________________
+check the nan value in test data
+PassengerId    0
+Pclass         0
+Name           0
+Sex            0
+Age            0
+SibSp          0
+Parch          0
+Ticket         0
+Fare           0
+Embarked       0
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">all_data</span><span class="o">=</span><span class="p">[</span><span class="n">train_df</span><span class="p">,</span><span class="n">test_df</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">all_data</span><span class="p">:</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;FamilySize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;SibSp&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Parch&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="c1"># Define function to extract titles from passenger names</span>
+<span class="k">def</span> <span class="nf">get_title</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">title_search</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39; ([A-Za-z]+)\.&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="c1"># If the title exists, extract and return it.</span>
+    <span class="k">if</span> <span class="n">title_search</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">title_search</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+<span class="c1"># Create a new feature Title, containing the titles of passenger names</span>
+<span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">all_data</span><span class="p">:</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_title</span><span class="p">)</span>
+<span class="c1"># Group all non-common titles into one single grouping &quot;Rare&quot;</span>
+<span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">all_data</span><span class="p">:</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="s1">&#39;Lady&#39;</span><span class="p">,</span> <span class="s1">&#39;Countess&#39;</span><span class="p">,</span><span class="s1">&#39;Capt&#39;</span><span class="p">,</span> <span class="s1">&#39;Col&#39;</span><span class="p">,</span><span class="s1">&#39;Don&#39;</span><span class="p">,</span>
+                                                 <span class="s1">&#39;Dr&#39;</span><span class="p">,</span> <span class="s1">&#39;Major&#39;</span><span class="p">,</span> <span class="s1">&#39;Rev&#39;</span><span class="p">,</span> <span class="s1">&#39;Sir&#39;</span><span class="p">,</span> <span class="s1">&#39;Jonkheer&#39;</span><span class="p">,</span> <span class="s1">&#39;Dona&#39;</span><span class="p">],</span> <span class="s1">&#39;Rare&#39;</span><span class="p">)</span>
+
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Mlle&#39;</span><span class="p">,</span> <span class="s1">&#39;Miss&#39;</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Ms&#39;</span><span class="p">,</span> <span class="s1">&#39;Miss&#39;</span><span class="p">)</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Mme&#39;</span><span class="p">,</span> <span class="s1">&#39;Mrs&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## create bin for age features</span>
+<span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">all_data</span><span class="p">:</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Age_bin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">120</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Children&#39;</span><span class="p">,</span><span class="s1">&#39;Teenage&#39;</span><span class="p">,</span><span class="s1">&#39;Adult&#39;</span><span class="p">,</span><span class="s1">&#39;Elder&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">## create bin for fare features</span>
+<span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">all_data</span><span class="p">:</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Fare_bin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="s1">&#39;Fare&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">7.91</span><span class="p">,</span><span class="mf">14.45</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">120</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Low_fare&#39;</span><span class="p">,</span><span class="s1">&#39;median_fare&#39;</span><span class="p">,</span>
+                                                                                      <span class="s1">&#39;Average_fare&#39;</span><span class="p">,</span><span class="s1">&#39;high_fare&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">### for our reference making a copy of both DataSet start working for copy of dataset</span>
+<span class="n">traindf</span><span class="o">=</span><span class="n">train_df</span>
+<span class="n">testdf</span><span class="o">=</span><span class="n">test_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">all_dat</span><span class="o">=</span><span class="p">[</span><span class="n">traindf</span><span class="p">,</span><span class="n">testdf</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">all_dat</span><span class="p">:</span>
+    <span class="n">drop_column</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Age&#39;</span><span class="p">,</span><span class="s1">&#39;Fare&#39;</span><span class="p">,</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span><span class="s1">&#39;Ticket&#39;</span><span class="p">]</span>
+    <span class="n">dataset</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">drop_column</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PassengerId&#39;</span><span class="p">]</span>
+<span class="n">traindf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_column</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">testdf</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Embarked</th>
+      <th>FamilySize</th>
+      <th>Title</th>
+      <th>Age_bin</th>
+      <th>Fare_bin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>892</td>
+      <td>3</td>
+      <td>male</td>
+      <td>0</td>
+      <td>0</td>
+      <td>Q</td>
+      <td>1</td>
+      <td>Mr</td>
+      <td>Adult</td>
+      <td>Low_fare</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>893</td>
+      <td>3</td>
+      <td>female</td>
+      <td>1</td>
+      <td>0</td>
+      <td>S</td>
+      <td>2</td>
+      <td>Mrs</td>
+      <td>Elder</td>
+      <td>Low_fare</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">traindf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">traindf</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span><span class="s2">&quot;Age_bin&quot;</span><span class="p">,</span><span class="s2">&quot;Embarked&quot;</span><span class="p">,</span><span class="s2">&quot;Fare_bin&quot;</span><span class="p">],</span>
+                             <span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span><span class="s2">&quot;Age_type&quot;</span><span class="p">,</span><span class="s2">&quot;Em_type&quot;</span><span class="p">,</span><span class="s2">&quot;Fare_type&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">testdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">testdf</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span><span class="s2">&quot;Age_bin&quot;</span><span class="p">,</span><span class="s2">&quot;Embarked&quot;</span><span class="p">,</span><span class="s2">&quot;Fare_bin&quot;</span><span class="p">],</span>
+                             <span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sex&quot;</span><span class="p">,</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span><span class="s2">&quot;Age_type&quot;</span><span class="p">,</span><span class="s2">&quot;Em_type&quot;</span><span class="p">,</span><span class="s2">&quot;Fare_type&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">testdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Pclass</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>FamilySize</th>
+      <th>Sex_female</th>
+      <th>Sex_male</th>
+      <th>Title_Master</th>
+      <th>Title_Miss</th>
+      <th>Title_Mr</th>
+      <th>...</th>
+      <th>Age_type_Teenage</th>
+      <th>Age_type_Adult</th>
+      <th>Age_type_Elder</th>
+      <th>Em_type_C</th>
+      <th>Em_type_Q</th>
+      <th>Em_type_S</th>
+      <th>Fare_type_Low_fare</th>
+      <th>Fare_type_median_fare</th>
+      <th>Fare_type_Average_fare</th>
+      <th>Fare_type_high_fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>892</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>893</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>894</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>895</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>896</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 23 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">traindf</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdYlGn&#39;</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="c1">#data.corr()--&gt;correlation matrix</span>
+<span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_27_0.svg" src="../_images/chapter3_kaggle_titantic_official2_27_0.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">train_df</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Survived&#39;</span><span class="p">,</span> <span class="n">palette</span> <span class="o">=</span> <span class="s1">&#39;seismic&#39;</span><span class="p">,</span>
+                 <span class="n">size</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span><span class="n">diag_kind</span> <span class="o">=</span> <span class="s1">&#39;kde&#39;</span><span class="p">,</span><span class="n">diag_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">shade</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span><span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticklabels</span><span class="o">=</span><span class="p">[])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;seaborn.axisgrid.PairGrid at 0x7fb8c7e28390&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_28_1.svg" src="../_images/chapter3_kaggle_titantic_official2_28_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span> <span class="c1">#for split the data</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>  <span class="c1">#for accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span> <span class="c1">#for K-fold cross validation</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span> <span class="c1">#score evaluation</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_predict</span> <span class="c1">#prediction</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span> <span class="c1">#for confusion matrix</span>
+<span class="n">all_features</span> <span class="o">=</span> <span class="n">traindf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Targeted_feature</span> <span class="o">=</span> <span class="n">traindf</span><span class="p">[</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span><span class="n">X_test</span><span class="p">,</span><span class="n">y_train</span><span class="p">,</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">y_test</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+((623, 22), (268, 22), (623,), (268,))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># machine learning</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span> <span class="c1"># Logistic Regression</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_lr</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Logistic Regression is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_lr</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_lr</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for Logistic REgression is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_lr</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the Logistic Regression is 82.46
+The cross validated score for Logistic REgression is: 81.93
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_30_2.svg" src="../_images/chapter3_kaggle_titantic_official2_30_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Random Forests</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span>
+                             <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">max_features</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="n">oob_score</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                             <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_rm</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Random Forest Classifier is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_rm</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_rm</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for Random Forest Classifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_rm</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the Random Forest Classifier is 82.46
+The cross validated score for Random Forest Classifier is: 83.73
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_31_2.svg" src="../_images/chapter3_kaggle_titantic_official2_31_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Support Vector Machines</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span><span class="p">,</span> <span class="n">LinearSVC</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_svm</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Support Vector Machines Classifier is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_svm</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_svm</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for Support Vector Machines Classifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_svm</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the Support Vector Machines Classifier is 83.58
+The cross validated score for Support Vector Machines Classifier is: 83.16
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_32_2.svg" src="../_images/chapter3_kaggle_titantic_official2_32_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1">##knn</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_knn</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the K Nearst Neighbors Classifier is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_knn</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_knn</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for K Nearest Neighbors Classifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_knn</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the K Nearst Neighbors Classifier is 81.34
+The cross validated score for K Nearest Neighbors Classifier is: 81.26
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_33_2.svg" src="../_images/chapter3_kaggle_titantic_official2_33_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Gaussian Naive Bayes</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="n">model</span><span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_gnb</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Gaussian Naive Bayes Classifier is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_gnb</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_gnb</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for Gaussian Naive Bayes classifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_gnb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the Gaussian Naive Bayes Classifier is 79.48
+The cross validated score for Gaussian Naive Bayes classifier is: 79.8
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_34_2.svg" src="../_images/chapter3_kaggle_titantic_official2_34_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Decision Tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="n">model</span><span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span>
+                             <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">max_features</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_tree</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the DecisionTree Classifier is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_tree</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_tree</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for Decision Tree classifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_tree</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the DecisionTree Classifier is 79.1
+The cross validated score for Decision Tree classifier is: 81.15
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_35_2.svg" src="../_images/chapter3_kaggle_titantic_official2_35_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
+<span class="n">model</span><span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_adb</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the AdaBoostClassifier is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_adb</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_adb</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for AdaBoostClassifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_adb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the AdaBoostClassifier is 80.22
+The cross validated score for AdaBoostClassifier is: 81.03
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_36_2.svg" src="../_images/chapter3_kaggle_titantic_official2_36_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
+<span class="n">model</span><span class="o">=</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_lda</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the LinearDiscriminantAnalysis is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_lda</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_lda</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for AdaBoostClassifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_lda</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the LinearDiscriminantAnalysis is 82.84
+The cross validated score for AdaBoostClassifier is: 82.38
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_37_2.svg" src="../_images/chapter3_kaggle_titantic_official2_37_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
+<span class="n">model</span><span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">prediction_gbc</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------The Accuracy of the model----------------------------&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The accuracy of the Gradient Boosting Classifier is&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">prediction_gbc</span><span class="p">,</span><span class="n">y_test</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">kfold</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span> <span class="c1"># k=10, split the data into 10 equal parts</span>
+<span class="n">result_gbc</span><span class="o">=</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The cross validated score for AdaBoostClassifier is:&#39;</span><span class="p">,</span><span class="nb">round</span><span class="p">(</span><span class="n">result_gbc</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">cross_val_predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">all_features</span><span class="p">,</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">Targeted_feature</span><span class="p">,</span><span class="n">y_pred</span><span class="p">),</span><span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;3.0f&#39;</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;summer&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion_matrix&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------The Accuracy of the model----------------------------
+The accuracy of the Gradient Boosting Classifier is 82.84
+The cross validated score for AdaBoostClassifier is: 82.05
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0.5, 1.05, &#39;Confusion_matrix&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_38_2.svg" src="../_images/chapter3_kaggle_titantic_official2_38_2.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">models</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Model&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Support Vector Machines&#39;</span><span class="p">,</span> <span class="s1">&#39;KNN&#39;</span><span class="p">,</span> <span class="s1">&#39;Logistic Regression&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;Random Forest&#39;</span><span class="p">,</span> <span class="s1">&#39;Naive Bayes&#39;</span><span class="p">,</span> <span class="s1">&#39;AdaBoostClassifier&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;Gradient Decent&#39;</span><span class="p">,</span> <span class="s1">&#39;Linear Discriminant Analysis&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;Decision Tree&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Score&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">result_svm</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">result_knn</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">result_lr</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+              <span class="n">result_rm</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">result_gnb</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">result_adb</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+              <span class="n">result_gbc</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">result_lda</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">result_tree</span><span class="o">.</span><span class="n">mean</span><span class="p">()]})</span>
+<span class="n">models</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Score&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Model</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Random Forest</td>
+      <td>0.837303</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Support Vector Machines</td>
+      <td>0.831648</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Linear Discriminant Analysis</td>
+      <td>0.823820</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Gradient Decent</td>
+      <td>0.820474</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Logistic Regression</td>
+      <td>0.819301</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>KNN</td>
+      <td>0.812597</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Decision Tree</td>
+      <td>0.811498</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>AdaBoostClassifier</td>
+      <td>0.810325</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Naive Bayes</td>
+      <td>0.798002</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train_X</span> <span class="o">=</span> <span class="n">traindf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Survived&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">train_Y</span><span class="o">=</span><span class="n">traindf</span><span class="p">[</span><span class="s2">&quot;Survived&quot;</span><span class="p">]</span>
+<span class="n">test_X</span>  <span class="o">=</span> <span class="n">testdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;PassengerId&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">train_X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">train_Y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">test_X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+((891, 22), (891,), (418, 22))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Gradient boosting tunning</span>
+<span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;loss&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;deviance&quot;</span><span class="p">],</span>
+              <span class="s1">&#39;n_estimators&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">400</span><span class="p">],</span>
+              <span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">],</span>
+              <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+              <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">150</span><span class="p">],</span>
+              <span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]</span>
+              <span class="p">}</span>
+
+<span class="n">modelf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">kfold</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">modelf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span><span class="n">train_Y</span><span class="p">)</span>
+
+<span class="c1"># Best score</span>
+<span class="n">modelf</span><span class="o">.</span><span class="n">best_score_</span>
+
+<span class="c1"># Best Estimator</span>
+<span class="n">modelf</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Fitting 10 folds for each of 192 candidates, totalling 1920 fits
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 8 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  34 tasks      | elapsed:    2.7s
+[Parallel(n_jobs=-1)]: Done 184 tasks      | elapsed:   11.2s
+[Parallel(n_jobs=-1)]: Done 434 tasks      | elapsed:   27.8s
+[Parallel(n_jobs=-1)]: Done 784 tasks      | elapsed:   47.9s
+[Parallel(n_jobs=-1)]: Done 1234 tasks      | elapsed:  1.3min
+[Parallel(n_jobs=-1)]: Done 1784 tasks      | elapsed:  1.9min
+[Parallel(n_jobs=-1)]: Done 1920 out of 1920 | elapsed:  2.0min finished
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+GradientBoostingClassifier(max_depth=8, max_features=0.2, min_samples_leaf=100,
+                           n_estimators=300)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">modelf</span><span class="o">.</span><span class="n">best_score_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.8227215980024969
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Random Forest Classifier Parameters tunning</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">n_estim</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1">## Search grid for optimal parameters</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;n_estimators&quot;</span> <span class="p">:</span><span class="n">n_estim</span><span class="p">}</span>
+
+
+<span class="n">model_rf</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">model_rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span><span class="n">train_Y</span><span class="p">)</span>
+
+
+
+<span class="c1"># Best score</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_rf</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+
+<span class="c1">#best estimator</span>
+<span class="n">model_rf</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Fitting 5 folds for each of 9 candidates, totalling 45 fits
+[Parallel(n_jobs=4)]: Using backend LokyBackend with 4 concurrent workers.
+[Parallel(n_jobs=4)]: Done  45 out of  45 | elapsed:   28.6s finished
+0.8215868432615656
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+RandomForestClassifier(n_estimators=600)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
+<span class="n">model</span> <span class="o">=</span><span class="n">LinearDiscriminantAnalysis</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tol&#39;</span><span class="p">:[</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span><span class="o">.</span><span class="mi">2</span><span class="p">]}</span>
+
+<span class="n">modell</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">modell</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span><span class="n">train_Y</span><span class="p">)</span>
+
+<span class="c1"># Best score</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">modell</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+
+<span class="c1"># Best Estimator</span>
+<span class="n">modell</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Fitting 5 folds for each of 4 candidates, totalling 20 fits
+[Parallel(n_jobs=4)]: Using backend LokyBackend with 4 concurrent workers.
+0.8215491808423827
+[Parallel(n_jobs=4)]: Done  20 out of  20 | elapsed:    0.2s finished
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+LinearDiscriminantAnalysis(tol=0.001)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span><span class="o">=</span> <span class="n">SVC</span><span class="p">()</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kernel&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span><span class="s1">&#39;linear&#39;</span><span class="p">],</span>
+                  <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                  <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]}</span>
+
+<span class="n">modelsvm</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">modelsvm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span><span class="n">train_Y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">modelsvm</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">)</span>
+
+<span class="c1"># Best score</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">modelsvm</span><span class="o">.</span><span class="n">best_score_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+[Parallel(n_jobs=4)]: Using backend LokyBackend with 4 concurrent workers.
+Fitting 5 folds for each of 56 candidates, totalling 280 fits
+[Parallel(n_jobs=4)]: Done 128 tasks      | elapsed:    3.5s
+SVC(C=50, gamma=0.01)
+0.8338710689849979
+[Parallel(n_jobs=4)]: Done 280 out of 280 | elapsed:   46.5s finished
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Random Forests</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">random_forest</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">bootstrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">class_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="s1">&#39;gini&#39;</span><span class="p">,</span>
+            <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">max_leaf_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">min_impurity_decrease</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">min_impurity_split</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">min_weight_fraction_leaf</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">oob_score</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">warm_start</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">random_forest</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span>
+<span class="n">Y_pred_rf</span> <span class="o">=</span> <span class="n">random_forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">)</span>
+<span class="n">random_forest</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span><span class="n">train_Y</span><span class="p">)</span>
+<span class="n">acc_random_forest</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">random_forest</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_Y</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Important features&quot;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">random_forest</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span><span class="n">train_X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">acc_random_forest</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Important features
+____________________________________________________________
+89.11
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter3_kaggle_titantic_official2_46_1.svg" src="../_images/chapter3_kaggle_titantic_official2_46_1.svg" /></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">submission</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">&quot;PassengerId&quot;</span><span class="p">:</span> <span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;PassengerId&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Survived&quot;</span><span class="p">:</span> <span class="n">Y_pred_rf</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">submission</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;submission_1019.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="cp3_exercise_4.html" class="btn btn-neutral float-right" title="练习 3-4 垃圾邮件分类" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cp3_exercise_3.html" class="btn btn-neutral float-left" title="练习 3-3" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

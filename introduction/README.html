@@ -1,0 +1,459 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>0. 机器学习实战 &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="1. 机器学习概览" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html" />
+    <link rel="prev" title="机器学习实战:基于Scikit-Learn和PyTorch" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">0. 机器学习实战</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.1 机器学习项目清单</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">0.1.1 架构问题，关注蓝图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">0.1.2 获取数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">0.1.3 研究数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">0.1.4 准备数据</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">0.1.5 列出期望的模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">0.1.6 微调系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">0.1.7 展示解决方案</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">0.1.8 启动</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter3/index.html">3. 分类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>0. 机器学习实战</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/introduction/README.md" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<!--
+ * @Author: shawnzhang
+ * @Date: 2020-09-14 21:44:59
+ * @LastEditors: shawnzhang
+ * @LastEditTime: 2020-09-15 23:45:57
+ * @FilePath: /ml_scikit_torch/docs/source/introduction/README.md
+ * @Description: file description
+--><div class="section" id="id1">
+<h1>0. 机器学习实战<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>基于Scikit-Learn和Pytorch的机器学习实战</p>
+<p>本项目是《机器学习实战：基于Scikit-Learn和TensorFlow》的读书笔记，其中在阅读的时候将其中的TensorFlow部分修改为了PyTorch的实现。</p>
+<p><a class="reference external" href="https://github.com/ShawnZhang31/hands-on_ML_with_scikit-learn_pytorch/settings">github</a></p>
+<div class="section" id="id2">
+<h2>0.1 机器学习项目清单<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ol class="simple">
+<li><p>构架问题，关注蓝图</p></li>
+<li><p>获取数据</p></li>
+<li><p>研究数据以获得灵感</p></li>
+<li><p>准备数据以更好的低层模型将数据暴露给算法</p></li>
+<li><p>研究各种不同的模型，并列出最好的模型</p></li>
+<li><p>微调模型，并将其组合为更好的解决方案</p></li>
+<li><p>提出解决方案</p></li>
+<li><p>启动、监视、维护系统</p></li>
+</ol>
+<div class="section" id="id3">
+<h3>0.1.1 架构问题，关注蓝图<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<ol class="simple">
+<li><p>用商业术语定义目标</p></li>
+<li><p>方案如何使用？</p></li>
+<li><p>目前的解决方案/办法是什么？</p></li>
+<li><p>应该如何架构问题（有监督/无监督， 在线/离线，等等）？</p></li>
+<li><p>如何测量性能？</p></li>
+<li><p>性能指标与业务指标是否一致?</p></li>
+<li><p>每个原物目测需要的最低性能是什么？</p></li>
+<li><p>有没有一些相似的问题？能重用一些经验和工具？</p></li>
+<li><p>有没有相关有经验的人？</p></li>
+<li><p>如何手动解决此问题？</p></li>
+<li><p>列出目前为止你（或其他人）的假设</p></li>
+<li><p>如果有可能，验证假设</p></li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h3>0.1.2 获取数据<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p><strong>注意：应可能的自动化，一遍获取最新数据</strong></p>
+<ol class="simple">
+<li><p>列出需要的数据及体量</p></li>
+<li><p>查找并记录获取数据的途径</p></li>
+<li><p>检查需要的空间</p></li>
+<li><p>检查法律义务，必要时获取授权</p></li>
+<li><p>获取访问权限</p></li>
+<li><p>创建工作空间（确保具有足够的储存空间）</p></li>
+<li><p>获取数据</p></li>
+<li><p>将数据转换为可操作的格式（不改变数据本身）</p></li>
+<li><p>确保删除或保护敏感信息</p></li>
+<li><p>检查数据的类型和大小（时间序列、样本、地点等）</p></li>
+<li><p>采样一个测试数据集，放在一边，永远不要用它（没有数据窥视）</p></li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>0.1.3 研究数据<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p><strong>注意:试着从这些步骤的领域专家那里获取灵感</strong></p>
+<ol class="simple">
+<li><p>创建数据的副本进行研究（如果有需要，可以将其抽样为可管理的大小）</p></li>
+<li><p>创建一个Jupyter笔记本来记录数据研究</p></li>
+<li><p>研究每个属性及其特征</p>
+<ul class="simple">
+<li><p>名字</p></li>
+<li><p>类型（分类、整型/浮点型，有界/无界，文本、结构等）</p></li>
+<li><p>缺失值的百分比</p></li>
+<li><p>噪音和噪音的类型（随机、异常、舍入误差等）</p></li>
+<li><p>可能有用的任务</p></li>
+<li><p>分布类型（高斯、统一、对数等）</p></li>
+</ul>
+</li>
+<li><p>对于有监督的学习任务，确认目标属性</p></li>
+<li><p>可视化数据</p></li>
+<li><p>研究属性之间的关联性</p></li>
+<li><p>研究如何手动解决问题</p></li>
+<li><p>确定希望使用的转换</p></li>
+<li><p>确定可能有用的额外数据（回到之前“获取数据”部分）</p></li>
+<li><p>记录学习到的东西</p></li>
+</ol>
+</div>
+<div class="section" id="id6">
+<h3>0.1.4 准备数据<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>注意：</p>
+<ul class="simple">
+<li><p>在数据副本上工作</p></li>
+<li><p>编写适用于所有数据转换的函数，原因有五个：</p>
+<ul>
+<li><p>可以很容易地准备下一次得到新数据时的数据</p></li>
+<li><p>可以在未来的项目中使用这些转换</p></li>
+<li><p>清理和准备测试数据</p></li>
+<li><p>一旦解决方案失效，用来清理和准备新的数据实例</p></li>
+<li><p>可以轻松的将你的准备作为超参数</p></li>
+</ul>
+</li>
+</ul>
+<ol class="simple">
+<li><p>数据清理</p>
+<ul class="simple">
+<li><p>修复或删除异常值</p></li>
+<li><p>填充缺失值（例如，使用零、mean、median）或删除该记录</p></li>
+</ul>
+</li>
+<li><p>特征选择（optional）</p>
+<ul class="simple">
+<li><p>删除不能为任务提供任何有用信息的属性</p></li>
+</ul>
+</li>
+<li><p>在适当情况下，处理特征</p>
+<ul class="simple">
+<li><p>离散连续特征</p></li>
+<li><p>分解特征（如，分类、日期/时间等）</p></li>
+<li><p>添加期望的特征转换（如,$log(x)$, $sqrt(x)$,$x^2$等）</p></li>
+<li><p>聚合特征称为期望的新特征</p></li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="id7">
+<h3>0.1.5 列出期望的模型<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>注意</p>
+<ul class="simple">
+<li><p>如果数据很大，可能需要采样为较小的训练集，以便于在合理的时间内训练不同的模型（注意，这也会对诸如大型神经集和Random Forest等复杂模型造成不利影响）</p></li>
+<li><p>再次 尽可能地自动化这些步骤</p></li>
+</ul>
+<ol class="simple">
+<li><p>使用标准参数，从不同类别（例如，线性、朴素贝叶斯、SVM、RF、NN）中训练需求快速的不成熟的模型</p></li>
+<li><p>测量并比较他们的性能</p>
+<ul class="simple">
+<li><p>每个模型，使用$N$倍交叉验证并计算$N$此折叠的性能测试的均值和标准差。</p></li>
+</ul>
+</li>
+<li><p>分析每个算法最重要的变量</p></li>
+<li><p>分析模型产生的错误类型</p>
+<ul class="simple">
+<li><p>人类用什么样的数据避免这些错误?</p></li>
+</ul>
+</li>
+<li><p>快速进行特征选择和处理</p></li>
+<li><p>对于前五步进行一两次快速迭代</p></li>
+<li><p>列出前三到五个最有希望的模型，倾向于选择有不同错误类型的模型</p></li>
+</ol>
+</div>
+<div class="section" id="id8">
+<h3>0.1.6 微调系统<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>注意:</p>
+<ul class="simple">
+<li><p>你将希望这一步使用尽可能多的数据，特别是在微调结束时</p></li>
+<li><p>永远尽可能的自动化</p></li>
+</ul>
+<ol class="simple">
+<li><p>使用交叉验证微调参数</p>
+<ul class="simple">
+<li><p>把数据转换选择当做超参数，尤其是不确定时（例如，应该用零或者平均值填充缺失值？或者是直接删除它？）</p></li>
+<li><p>除非需要研究的超参数很少，否则更喜欢在网格搜索上随机搜索。如果训练很长，你会更喜欢贝叶斯优化（例如 Jasper Snoek, Hugo Larochelle 和 Ryan Adams所述，使用高斯过程进行先验(https://goo.gl/PEFfGr)）</p></li>
+</ul>
+</li>
+<li><p>尝试组合方法，组合多个好模型往往比单独运行效果好</p></li>
+<li><p>一旦你最终对模型有信心，在测试集上测试它的性能以估计泛化误差。</p></li>
+</ol>
+<blockquote>
+<div><p>测量泛化误差后，不需要调整模型；只需要开始过度拟合测试集</p>
+</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h3>0.1.7 展示解决方案<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<ol class="simple">
+<li><p>文档化你所有的工作</p></li>
+<li><p>创建完美的演示</p>
+<ul class="simple">
+<li><p>首先确保突出蓝图</p></li>
+</ul>
+</li>
+<li><p>解释为什么你的解决方案达到了业务目标</p></li>
+<li><p>不要忘记展示你发现的一些有趣的地方</p>
+<ul class="simple">
+<li><p>描述什么可以工作，什么不行</p></li>
+<li><p>列出你的假设和系统的局限</p></li>
+</ul>
+</li>
+<li><p>确保你的关键发现被完美展示或易于记忆的陈述</p></li>
+</ol>
+</div>
+<div class="section" id="id10">
+<h3>0.1.8 启动<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<ol class="simple">
+<li><p>准备好生产环境的解决方案（插入生产数据，写单元测试等）</p></li>
+<li><p>编写监控代码，定期检查系统的性能，出现问题时及时报警</p>
+<ul class="simple">
+<li><p>同样需要考虑缓慢退化：随着数据的增加，模型往往会“腐烂”</p></li>
+<li><p>测量性能可能需要人工流水线</p></li>
+<li><p>同事监控输入质量，这对在线学习尤为重要</p></li>
+</ul>
+</li>
+<li><p>定期对新数据重新建模（尽可能自动化）</p></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html" class="btn btn-neutral float-right" title="1. 机器学习概览" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="机器学习实战:基于Scikit-Learn和PyTorch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
