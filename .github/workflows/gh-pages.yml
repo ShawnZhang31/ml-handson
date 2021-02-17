@@ -2,9 +2,9 @@ name: Build and Deploy Github Pages
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
   pull_request:
-    branches: [ dev ]
+    branches: [ main ]
 
 env:
   TZ: Asia/Shanghai

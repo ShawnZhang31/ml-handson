@@ -4,7 +4,7 @@
 name: Sync To Gitee
 on: #page_build
   workflow_run:
-    workflows: ["gh-pages"]
+    workflows: ["Build and Deploy Github Pages"]
     types:
       - completed
 jobs:
