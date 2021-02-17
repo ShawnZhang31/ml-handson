@@ -1,0 +1,19 @@
+# 当gh-deploy部署完成后执行该事件
+# 为了完成该workflow需要在github项目的Setting/deploy-key下和Gitee的个人设置中部署同一个公钥
+# 之后需要在Github的Secrets下面添加一个GITEE_MIRROR_SYNC变量，变量值为公钥对应的私钥
+name: Sync To Gitee
+on: #page_build
+  workflow_run:
+    workflows: ["Build and Deploy Github Pages"]
+    types:
+      - completed
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wearerequired/git-mirror-action@master
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_MIRROR_SYNC }}
+        with:
+          source-repo: "git@github.com:ShawnZhang31/ml-handson.git"
+          destination-repo: "git@gitee.com:shawnzhang31/handson-ml.git"
