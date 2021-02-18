@@ -7,3 +7,4 @@
    :maxdepth: 1
 
    7-1_voting_classifier.ipynb
+   7-2_bagging_pasting.ipynb
