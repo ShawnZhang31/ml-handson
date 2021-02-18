@@ -10,3 +10,4 @@
    7-2_bagging_pasting.ipynb
    7-3_patch_random_space.ipynb
    7-4_randomforest.ipynb
+   7-5_adaboost.ipynb
