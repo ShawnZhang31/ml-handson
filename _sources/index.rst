@@ -16,6 +16,7 @@
    chapter4/index.rst
    chapter5/index.rst
    chapter6/index.rst
+   chapter7/index.rst
 
 
 Indices and tables

@@ -121,6 +121,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter7/index.html">7. 集成学习与随机森林</a></li>
 </ul>
 
             
@@ -245,23 +246,12 @@
 <p>我们把应间隔问题的QP参数定义为<span class="math">\(H^{\prime}\)</span>, <span class="math">\(f^{\prime}\)</span>, <span class="math">\(A^{\prime}\)</span>以及<span class="math">\(b^{\prime}\)</span>。软间隔问题的QP参数还包括m个额外参数（<span class="math">\(n_p = n+1+m\)</span>）及m格额外约束(<span class="math">\(n_c=2m\)</span>)，它们可以这样定义：</p>
 <p>H等于<span class="math">\(H^{\prime}\)</span>左右和底部分别加上m列和m行个0：</p>
 <p>$$ H =</p>
-<div class="math">
-\begin{bmatrix}
-    H^{\prime} &amp; \cdots &amp; 0     \\
-    \vdots &amp; \ddots &amp; \vdots    \\
-   0 &amp; \cdots &amp; 0
-
-\end{bmatrix}</div><p>$$</p>
+<p>$$</p>
 <p><span class="math">\(f\)</span>等于有<span class="math">\(m\)</span>个附加元素的<span class="math">\(f^{\prime}\)</span>, 全部等于超参数C的值。</p>
 <p><span class="math">\(b\)</span>等于有<span class="math">\(m\)</span>个附加元素的<span class="math">\(b^{\prime}\)</span>, 全部等于0。</p>
 <p><span class="math">\(A\)</span>等于在<span class="math">\(A^{\prime}\)</span>的右侧添加一个<span class="math">\(m \times m\)</span>的单位矩阵<span class="math">\(I_m\)</span>, 在这个单位矩阵的正下方在添加一个单位矩阵-<span class="math">\({*I*}_m\)</span>, 剩余部分全为0:</p>
-<p>$$ A =</p>
-<div class="math">
-\begin{bmatrix}
-    A^{\prime} &amp; I_m     \\
-    0 &amp; -I_m      \\
-
-\end{bmatrix}</div><p>$$</p>
+<p>$$ A = \begin{bmatrix} A^{<span class="math">\prime</span>} &amp; I_m \ 0 &amp; -I_m \</p>
+<p>\end{bmatrix} $$</p>
 </div>
 </div>
 

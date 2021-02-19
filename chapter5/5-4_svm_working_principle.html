@@ -120,6 +120,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter7/index.html">7. 集成学习与随机森林</a></li>
 </ul>
 
             
@@ -684,14 +685,9 @@ LinearSVC(C=100, loss=&#39;hinge&#39;, random_state=42)
 \[\underset{\alpha}{\text{minimize}} \frac{1}{2} \sum_{i=1}^m \sum_{j=1}^m \alpha^{(i)}\alpha^{(j)} t^{(i)} t^{(j)} {\mathbf{x}^{(i)}}^T \mathbf{x}^{(j)} - \sum_{i=1}^m \alpha^{(i)}     \tag{5-6}\]</div>
 <p>使得<span class="math">\(\alpha^{(i)} \ge 0, i=1, 2, \cdots, m\)</span></p>
 <p>公式5-7：从对偶问题到原始问题</p>
-<p>$$</p>
-<div class="math">
-\begin{aligned}
-
-\hat{\mathbf{w}} &amp;= \sum_{i=1}^m \hat{\alpha}^{(i)} t^{(i)} {\mathbf{x}}^{(i)}  \\
-\hat{b} &amp;= \frac{1}{n_s} \underset{\hat{\alpha}^{(i)} &gt; 0}{\sum_{i=1}^m} (t^{(i)} - \hat{\mathbf{w}}^T \mathbf{x}^{(i)})
-
-\end{aligned}</div><p>$$</p>
+<p>$$ \begin{aligned}</p>
+<p><span class="math">\hat{\mathbf{w}}</span> &amp;= <span class="math">\sum</span>_{i=1}^m <span class="math">\hat{\alpha}`^{(i)} t^{(i)} {:nbsphinx-math:</span>mathbf{x}`}^{(i)} \ <span class="math">\hat{b}</span> &amp;= <span class="math">\frac{1}{n_s}</span> <span class="math">\underset{\hat{\alpha}^{(i)} > 0}{\sum_{i=1}^m}</span> (t^{(i)} - <span class="math">\hat{\mathbf{w}}`^T :nbsphinx-math:</span>mathbf{x}`^{(i)})</p>
+<p>\end{aligned} $$</p>
 <p>当训练实例的数量小于特征数量时，解决对偶问题比原始问题更快速。更重的是，它能够实现核技巧，而原始问题不可能实现。</p>
 </div>
 <div class="section" id="5.4.5-内核化SVM">
@@ -735,14 +731,9 @@ h_{\hat{\mathbf{w}}, \hat{b}} (\phi(\mathbf{x}^{(n)})) &= \hat{\mathbf{w}}^T \ph
 \end{aligned}\]</div>
 <p>注意，因为仅对于支持向量才有<span class="math">\(\alpha^{(i)} \ne 0\)</span>， 所以在预测时，计算新输入向量<span class="math">\(\mathbf{x}(n)\)</span>的点积，使用的仅仅是支持向量而不是全部训练实例。当然，你还需要使用同样的技巧计算偏置项<span class="math">\(\hat{b}\)</span>.</p>
 <p>公式5-12：使用核技巧来计算偏置项:</p>
-<p>$$</p>
-<div class="math">
-\begin{aligned}
-\hat{b} &amp;= \frac{1}{n_s} \underset{\hat{\alpha}^{(i)}&gt;0}{\sum_{i=1}^m} (t^{(i)} - \hat{w}^T \phi(\mathbf{x}^{(i)}))     \\
-&amp;= \frac{1}{n_s} \underset{\hat{\alpha}^{(i)}&gt;0}{\sum_{i=1}^m} \Bigg( t^{(i)} - \Bigg( \sum_{j=1}^m \hat{\alpha}^{(j)} t^{(j)} \phi(\mathbf{x}^{(j)}) \Bigg)^T \phi(\mathbf{x}^{(i)}) \Bigg)    \\
-&amp;= \frac{1}{n_s} \underset{\hat{\alpha}^{(i)}&gt;0}{\sum_{i=1}^m} \Bigg( t^{(i)} - \underset{\hat{\alpha}^{(j)}&gt;0}{\sum_{j=1}^m} \hat{\alpha}^{(j)} t^{(j)} K(\mathbf{x}^{(i)}, \mathbf{x}^{(j)}) \Bigg)
-
-\end{aligned}</div><p>$$</p>
+<p>$$ \begin{aligned} <span class="math">\hat{b}</span> &amp;= <span class="math">\frac{1}{n_s}</span> <span class="math">\underset{\hat{\alpha}^{(i)}>0}{\sum_{i=1}^m}</span> (t^{(i)} - <span class="math">\hat{w}`^T :nbsphinx-math:</span>phi`(<span class="math">\mathbf{x}`^{(i)})) \\ &= :nbsphinx-math:</span>frac{1}{n_s}` <span class="math">\underset{\hat{\alpha}^{(i)}>0}{\sum_{i=1}^m}</span> <span class="math">\Bigg`( t^{(i)} - :nbsphinx-math:</span>Bigg`( <span class="math">\sum</span>_{j=1}^m <span class="math">\hat{\alpha}`^{(j)} t^{(j)}
+:nbsphinx-math:</span>phi`(<span class="math">\mathbf{x}`^{(j)}) :nbsphinx-math:</span>Bigg`)^T <span class="math">\phi`(:nbsphinx-math:</span>mathbf{x}`^{(i)}) <span class="math">\Bigg</span>) \ &amp;= <span class="math">\frac{1}{n_s}</span> <span class="math">\underset{\hat{\alpha}^{(i)}>0}{\sum_{i=1}^m}</span> <span class="math">\Bigg`( t^{(i)} - :nbsphinx-math:</span>underset{hat{alpha}^{(j)}&gt;0}{sum_{j=1}^m}` <span class="math">\hat{\alpha}`^{(j)} t^{(j)} K(:nbsphinx-math:</span>mathbf{x}`^{(i)}, <span class="math">\mathbf{x}`^{(j)}) :nbsphinx-math:</span>Bigg`)</p>
+<p>\end{aligned} $$</p>
 <p>如果你现在觉得开始头痛，完全正常：这正是核技巧的副作用</p>
 </div>
 <div class="section" id="5.4.6-在线SVM">

@@ -118,6 +118,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter7/index.html">7. 集成学习与随机森林</a></li>
 </ul>
 
             
@@ -915,7 +916,7 @@ Pipeline(steps=[(&#39;scaler&#39;, StandardScaler()),
 <li><p>减小gamma值使钟形曲线变得更宽，因而每个实例的影响范围增大，决策边界变得更平坦</p></li>
 <li><p>gamma就像是一个正则化的超参数：模型过拟合，就降低它的, 如果欠拟合则提升它的值</p></li>
 </ul>
-<p>有这么多的核函数，该如何决定使用哪一个呢？有一个经验法则是，永远先从线性核函数开始尝试（要记住，LinearSVC比SVC（kernel=”linear”）快得多），特别是训练集非常大或特征非常多的时候。如果训练集不太大，你可以试试高斯RBF核，大多数情况下它都非常好用。如果你还有多余的时间和计算能力，可以使用交叉验证和网格搜索来尝试一些其他的核函数，特别是那些专门针对你的数据集数据结构的核函数。</p>
+<p>有这么多的核函数，该如何决定使用哪一个呢？有一个经验法则是，永远先从线性核函数开始尝试（要记住，LinearSVC比SVC（kernel=“linear”）快得多），特别是训练集非常大或特征非常多的时候。如果训练集不太大，你可以试试高斯RBF核，大多数情况下它都非常好用。如果你还有多余的时间和计算能力，可以使用交叉验证和网格搜索来尝试一些其他的核函数，特别是那些专门针对你的数据集数据结构的核函数。</p>
 </div>
 <div class="section" id="5.2.4-计算复杂度">
 <h2>5.2.4 计算复杂度<a class="headerlink" href="#5.2.4-计算复杂度" title="永久链接至标题">¶</a></h2>
@@ -924,10 +925,10 @@ Pipeline(steps=[(&#39;scaler&#39;, StandardScaler()),
 <p>SVC则是基于libsvm库的，这个库的算法支持核技巧。训练时间复杂度通常在 <span class="math">\(O(m^2 \times n)\)</span> 到<span class="math">\(O(m^3 \times n)\)</span>之间。很不幸，这意味着如果训练实例的数量变大（例如成千上万的实例），它将会慢得可怕，所以这个算法完美适用于复杂但是中小型的训练集。但是，它还是可以良好地适应特征数量的增加，特别是应对稀疏特征（即每个实例仅有少量的非零特征）。在这种情况下，算法复杂度大致与实例的平均非零特征数成比例。</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 17%" />
-<col style="width: 60%" />
-<col style="width: 12%" />
-<col style="width: 12%" />
+<col style="width: 15%" />
+<col style="width: 66%" />
+<col style="width: 9%" />
+<col style="width: 9%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>类</p></th>

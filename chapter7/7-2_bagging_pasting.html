@@ -1,0 +1,1165 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>7.2 bagging和pasting &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="7.3 随机补丁和随机空间" href="7-3_patch_random_space.html" />
+    <link rel="prev" title="7.1 投票分类器" href="7-1_voting_classifier.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter3/index.html">3. 分类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">7. 集成学习与随机森林</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="7-1_voting_classifier.html">7.1 投票分类器</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">7.2 bagging和pasting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#7.2.1-Scikit-Learn中的bagging和pasting">7.2.1 Scikit-Learn中的bagging和pasting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#7.2.2-包外评估">7.2.2 包外评估</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="7-3_patch_random_space.html">7.3 随机补丁和随机空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7-4_randomforest.html">7.4 随机森林</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7-5_adaboost.html">7.5 提升法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7-6_stacking.html">7.6 堆叠法(Stacking)</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">7. 集成学习与随机森林</a> &raquo;</li>
+        
+      <li>7.2 bagging和pasting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter7/7-2_bagging_pasting.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="7.2-bagging和pasting">
+<h1>7.2 bagging和pasting<a class="headerlink" href="#7.2-bagging和pasting" title="永久链接至标题">¶</a></h1>
+<p>前面提到，获得不同种类分类器的方法之一是使用不同的训练算法。还有另一种方法是每个预测器使用的算法相同，但是在不同的训练集随机子集上进行训练。采样时如果将样本放回，这种方法叫作bagging（bootstrap aggregating的缩写，也叫自举汇聚法）。采样时样本不放回，这种方法则叫作pasting。</p>
+<p>bagging和pasting都允许训练实例在多个预测器中被多次使用，但是只有bagging允许训练实例被同一个预测器多次采样。</p>
+<p>一旦预测器训练完成，集成就可以通过简单地聚合所有预测器的预测来对新实例做出预测。聚合函数通常是统计法（即最多数的预测与硬投票分类器一样）用于分类，或是平均法用于回归。每个预测器单独的偏差都高于在原始训练集上训练的偏差，但是通过聚合，同时降低了偏差和方差。<strong>总体来说，最终结果是，与直接在原始训练集上训练的单个预测器相比，集成的偏差相近，但是方差更低。</strong></p>
+<p><strong>你可以通过不同的CPU内核甚至不同的服务器并行地训练预测器。类似地，预测也可以并行。这正是bagging和pasting方法如此流行的原因之一，它们非常易于扩展。</strong></p>
+<div class="section" id="7.2.1-Scikit-Learn中的bagging和pasting">
+<h2>7.2.1 Scikit-Learn中的bagging和pasting<a class="headerlink" href="#7.2.1-Scikit-Learn中的bagging和pasting" title="永久链接至标题">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;ggplot&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_moons</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(375, 125)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 这是一个bagging示例，如果想使用pasting(取样后不放回)，只需要将bootstrap=False即可</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">BaggingClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="n">bag_clf</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">bag_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">bag_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.912
+</pre></div></div>
+</div>
+<p><strong>如果基本分类器可以估计类别概率（如果它具有predict_proba（）方法），则BaggingClassifier自动执行软投票而不是硬投票</strong></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">tree_clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">tree_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">tree_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.848
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 绘制决策边界</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">ListedColormap</span>
+
+<span class="k">def</span> <span class="nf">plot_decision_boundary</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.45</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">contour</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">x1s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">x2s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x1s</span><span class="p">,</span> <span class="n">x2s</span><span class="p">)</span>
+    <span class="n">X_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">x1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">x2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_new</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">custom_cmap</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;#fafab0&#39;</span><span class="p">,</span><span class="s1">&#39;#9898ff&#39;</span><span class="p">,</span><span class="s1">&#39;#a0faa0&#39;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">contour</span><span class="p">:</span>
+        <span class="n">custom_cmap2</span> <span class="o">=</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="s1">&#39;#7d7d58&#39;</span><span class="p">,</span><span class="s1">&#39;#4c4c7f&#39;</span><span class="p">,</span><span class="s1">&#39;#507d50&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">custom_cmap2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][</span><span class="n">y</span><span class="o">==</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][</span><span class="n">y</span><span class="o">==</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;bs&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x_1$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x_2$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">font_manager</span>
+
+<span class="n">fontP</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s2">&quot;./../fonts/Arial Unicode.ttf&quot;</span><span class="p">)</span>
+<span class="c1"># fontP.set_family(&#39;monospace&#39;)</span>
+<span class="n">fontP</span><span class="o">.</span><span class="n">set_size</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="n">fix</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_decision_boundary</span><span class="p">(</span><span class="n">tree_clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;决策树&quot;</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">fontP</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plot_decision_boundary</span><span class="p">(</span><span class="n">bag_clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;使用bagging的决策树&quot;</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">fontP</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter7_7-2_bagging_pasting_12_0.svg" src="../_images/chapter7_7-2_bagging_pasting_12_0.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bag_clf</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">bag_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">past_clf</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">past_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BaggingClassifier(base_estimator=DecisionTreeClassifier(), bootstrap=False,
+                  max_samples=100, n_estimators=500, n_jobs=-1)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">font_manager</span>
+
+<span class="n">fontP</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="s2">&quot;./../fonts/Arial Unicode.ttf&quot;</span><span class="p">)</span>
+<span class="c1"># fontP.set_family(&#39;monospace&#39;)</span>
+<span class="n">fontP</span><span class="o">.</span><span class="n">set_size</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="n">fix</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_decision_boundary</span><span class="p">(</span><span class="n">bag_clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;使用bagging的决策树&quot;</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">fontP</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plot_decision_boundary</span><span class="p">(</span><span class="n">past_clf</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;使用pasting的决策树&quot;</span><span class="p">,</span> <span class="n">fontproperties</span><span class="o">=</span><span class="n">fontP</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter7_7-2_bagging_pasting_14_0.svg" src="../_images/chapter7_7-2_bagging_pasting_14_0.svg" /></div>
+</div>
+<p><strong>由于自举法给每个预测器的训练子集引入了更高的多样性，所以最后bagging比pasting的偏差略高，但这也意味着预测器之间的关联度更低，所以集成的方差降低。总之，bagging生成的模型通常更好，这也就是为什么它更受欢迎。但是，如果你有充足的时间和CPU资源，可以使用交叉验证来对bagging和pasting的结果进行评估，再做出最合适的选择。</strong></p>
+</div>
+<div class="section" id="7.2.2-包外评估">
+<h2>7.2.2 包外评估<a class="headerlink" href="#7.2.2-包外评估" title="永久链接至标题">¶</a></h2>
+<p>对于任意给定的预测器，使用bagging，有些实例可能会被采样多次，而有些实例则可能根本不被采样。BaggingClassifier默认采样m个训练实例，然后放回样本（bootstrap=True），m是训练集的大小。这意味着对每个预测器来说，平均只对63%的训练实例进行采样。剩余37%未被采样的训练实例称为包外（oob）实例。<strong>注意，对所有预测器来说，这是不一样的37%。</strong></p>
+<blockquote>
+<div><p>随着m的增长，该比率接近1–exp（-1）≈63.212%</p>
+</div></blockquote>
+<p>由于预测器在训练过程中从未看到oob实例，因此可以在这些实例上进行评估，而无须单独的验证集。你可以通过平均每个预测器的oob评估来评估整体。</p>
+<p>在Scikit-Learn中，创建BaggingClassifier时，设置oob_score=True就可以请求在训练结束后自动进行包外评估。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bag_clf</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">oob_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bag_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">bag_clf</span><span class="o">.</span><span class="n">oob_score_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.904
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">bag_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.904
+</pre></div></div>
+</div>
+<p>每个训练实例的包外决策函数也可以通过变量oob_decision_function_获得。本例中（基本预测器有predict_proba（）方法），决策函数返回的是每个实例的类别概率。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">bag_clf</span><span class="o">.</span><span class="n">oob_decision_function_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[0.43333333, 0.56666667],
+       [0.36781609, 0.63218391],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.04812834, 0.95187166],
+       [0.33333333, 0.66666667],
+       [0.01657459, 0.98342541],
+       [1.        , 0.        ],
+       [0.97714286, 0.02285714],
+       [0.76963351, 0.23036649],
+       [0.01136364, 0.98863636],
+       [0.8097561 , 0.1902439 ],
+       [0.87027027, 0.12972973],
+       [0.96491228, 0.03508772],
+       [0.05084746, 0.94915254],
+       [0.        , 1.        ],
+       [0.98404255, 0.01595745],
+       [0.9273743 , 0.0726257 ],
+       [1.        , 0.        ],
+       [0.00571429, 0.99428571],
+       [0.28021978, 0.71978022],
+       [0.91304348, 0.08695652],
+       [1.        , 0.        ],
+       [0.98235294, 0.01764706],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.67213115, 0.32786885],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.19371728, 0.80628272],
+       [1.        , 0.        ],
+       [0.00578035, 0.99421965],
+       [0.43352601, 0.56647399],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.25730994, 0.74269006],
+       [0.40659341, 0.59340659],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.00574713, 0.99425287],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.0201005 , 0.9798995 ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.99468085, 0.00531915],
+       [0.92485549, 0.07514451],
+       [0.97297297, 0.02702703],
+       [0.95789474, 0.04210526],
+       [0.00571429, 0.99428571],
+       [0.05555556, 0.94444444],
+       [0.98360656, 0.01639344],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.01098901, 0.98901099],
+       [0.98314607, 0.01685393],
+       [0.78977273, 0.21022727],
+       [0.38624339, 0.61375661],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.71957672, 0.28042328],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.82513661, 0.17486339],
+       [1.        , 0.        ],
+       [0.59770115, 0.40229885],
+       [0.11956522, 0.88043478],
+       [0.58201058, 0.41798942],
+       [0.85882353, 0.14117647],
+       [0.        , 1.        ],
+       [0.15555556, 0.84444444],
+       [0.87570621, 0.12429379],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.05940594, 0.94059406],
+       [0.035     , 0.965     ],
+       [0.27225131, 0.72774869],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.80239521, 0.19760479],
+       [0.01507538, 0.98492462],
+       [0.        , 1.        ],
+       [0.01069519, 0.98930481],
+       [0.18905473, 0.81094527],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.96774194, 0.03225806],
+       [0.81621622, 0.18378378],
+       [0.00534759, 0.99465241],
+       [1.        , 0.        ],
+       [0.19889503, 0.80110497],
+       [0.59509202, 0.40490798],
+       [0.        , 1.        ],
+       [0.06703911, 0.93296089],
+       [0.48863636, 0.51136364],
+       [1.        , 0.        ],
+       [0.02298851, 0.97701149],
+       [1.        , 0.        ],
+       [0.24175824, 0.75824176],
+       [0.44886364, 0.55113636],
+       [1.        , 0.        ],
+       [0.01123596, 0.98876404],
+       [0.98076923, 0.01923077],
+       [0.25      , 0.75      ],
+       [0.93373494, 0.06626506],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.79166667, 0.20833333],
+       [1.        , 0.        ],
+       [0.03      , 0.97      ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.97849462, 0.02150538],
+       [1.        , 0.        ],
+       [0.01197605, 0.98802395],
+       [0.96039604, 0.03960396],
+       [0.99456522, 0.00543478],
+       [0.02840909, 0.97159091],
+       [0.22340426, 0.77659574],
+       [0.92857143, 0.07142857],
+       [0.26900585, 0.73099415],
+       [0.98901099, 0.01098901],
+       [0.        , 1.        ],
+       [0.00543478, 0.99456522],
+       [0.70175439, 0.29824561],
+       [0.37628866, 0.62371134],
+       [0.40223464, 0.59776536],
+       [0.85964912, 0.14035088],
+       [0.93121693, 0.06878307],
+       [0.05      , 0.95      ],
+       [0.8241206 , 0.1758794 ],
+       [0.0052356 , 0.9947644 ],
+       [0.        , 1.        ],
+       [0.02105263, 0.97894737],
+       [0.9673913 , 0.0326087 ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.97      , 0.03      ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.38219895, 0.61780105],
+       [0.30319149, 0.69680851],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.36170213, 0.63829787],
+       [1.        , 0.        ],
+       [0.99473684, 0.00526316],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.01117318, 0.98882682],
+       [0.        , 1.        ],
+       [0.97905759, 0.02094241],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.6972973 , 0.3027027 ],
+       [0.93333333, 0.06666667],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.98837209, 0.01162791],
+       [1.        , 0.        ],
+       [0.00492611, 0.99507389],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.09039548, 0.90960452],
+       [1.        , 0.        ],
+       [0.04545455, 0.95454545],
+       [0.00571429, 0.99428571],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.02673797, 0.97326203],
+       [1.        , 0.        ],
+       [0.95027624, 0.04972376],
+       [0.78804348, 0.21195652],
+       [0.6576087 , 0.3423913 ],
+       [0.00518135, 0.99481865],
+       [0.11976048, 0.88023952],
+       [1.        , 0.        ],
+       [0.95054945, 0.04945055],
+       [0.97282609, 0.02717391],
+       [1.        , 0.        ],
+       [0.00518135, 0.99481865],
+       [0.        , 1.        ],
+       [0.44067797, 0.55932203],
+       [0.85714286, 0.14285714],
+       [0.        , 1.        ],
+       [0.00515464, 0.99484536],
+       [0.99462366, 0.00537634],
+       [0.01829268, 0.98170732],
+       [0.        , 1.        ],
+       [0.9375    , 0.0625    ],
+       [0.        , 1.        ],
+       [0.23350254, 0.76649746],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.99481865, 0.00518135],
+       [0.78609626, 0.21390374],
+       [1.        , 0.        ],
+       [0.00534759, 0.99465241],
+       [0.07608696, 0.92391304],
+       [1.        , 0.        ],
+       [0.02139037, 0.97860963],
+       [0.        , 1.        ],
+       [0.05487805, 0.94512195],
+       [0.98843931, 0.01156069],
+       [0.79274611, 0.20725389],
+       [0.        , 1.        ],
+       [0.87939698, 0.12060302],
+       [1.        , 0.        ],
+       [0.21022727, 0.78977273],
+       [0.2173913 , 0.7826087 ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.25301205, 0.74698795],
+       [0.93264249, 0.06735751],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.99473684, 0.00526316],
+       [0.        , 1.        ],
+       [0.5480226 , 0.4519774 ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.11797753, 0.88202247],
+       [0.08988764, 0.91011236],
+       [0.98974359, 0.01025641],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.44508671, 0.55491329],
+       [0.08241758, 0.91758242],
+       [0.5923913 , 0.4076087 ],
+       [0.65957447, 0.34042553],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.63783784, 0.36216216],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.21875   , 0.78125   ],
+       [0.83333333, 0.16666667],
+       [0.06532663, 0.93467337],
+       [1.        , 0.        ],
+       [0.83084577, 0.16915423],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [0.07734807, 0.92265193],
+       [0.01648352, 0.98351648],
+       [0.        , 1.        ],
+       [0.99473684, 0.00526316],
+       [0.9017341 , 0.0982659 ],
+       [0.195     , 0.805     ],
+       [0.92391304, 0.07608696],
+       [0.00520833, 0.99479167],
+       [0.66834171, 0.33165829],
+       [0.08241758, 0.91758242],
+       [0.97714286, 0.02285714],
+       [0.74444444, 0.25555556],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.93513514, 0.06486486],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.29378531, 0.70621469],
+       [0.98404255, 0.01595745],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.01081081, 0.98918919],
+       [0.83425414, 0.16574586],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.75595238, 0.24404762],
+       [0.95408163, 0.04591837],
+       [1.        , 0.        ],
+       [0.66666667, 0.33333333],
+       [0.48538012, 0.51461988],
+       [0.        , 1.        ],
+       [0.91712707, 0.08287293],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.92972973, 0.07027027],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.71764706, 0.28235294],
+       [0.15168539, 0.84831461],
+       [0.49714286, 0.50285714],
+       [0.17977528, 0.82022472],
+       [0.        , 1.        ],
+       [0.87      , 0.13      ],
+       [0.80597015, 0.19402985],
+       [0.01595745, 0.98404255],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.01980198, 0.98019802],
+       [0.94413408, 0.05586592],
+       [0.95135135, 0.04864865],
+       [1.        , 0.        ],
+       [0.53157895, 0.46842105],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.96891192, 0.03108808],
+       [0.03278689, 0.96721311],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.93888889, 0.06111111],
+       [0.00518135, 0.99481865],
+       [0.09444444, 0.90555556],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.02645503, 0.97354497],
+       [1.        , 0.        ],
+       [0.08426966, 0.91573034],
+       [0.        , 1.        ],
+       [0.01104972, 0.98895028],
+       [0.        , 1.        ],
+       [0.35602094, 0.64397906],
+       [0.0621118 , 0.9378882 ],
+       [0.21875   , 0.78125   ],
+       [1.        , 0.        ],
+       [0.98342541, 0.01657459],
+       [0.19565217, 0.80434783],
+       [0.97849462, 0.02150538],
+       [0.        , 1.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.95833333, 0.04166667],
+       [0.32984293, 0.67015707],
+       [0.98113208, 0.01886792],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [1.        , 0.        ],
+       [0.        , 1.        ],
+       [0.04117647, 0.95882353],
+       [0.99484536, 0.00515464],
+       [1.        , 0.        ],
+       [0.05617978, 0.94382022],
+       [0.68421053, 0.31578947]])
+</pre></div></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="7-3_patch_random_space.html" class="btn btn-neutral float-right" title="7.3 随机补丁和随机空间" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="7-1_voting_classifier.html" class="btn btn-neutral float-left" title="7.1 投票分类器" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

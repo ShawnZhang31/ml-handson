@@ -112,6 +112,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter7/index.html">7. 集成学习与随机森林</a></li>
 </ul>
 
             
@@ -454,7 +455,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="5.1-线性SVM分类">
 <h1>5.1 线性SVM分类<a class="headerlink" href="#5.1-线性SVM分类" title="永久链接至标题">¶</a></h1>
 <p>可以将SVM分类器视为在类之间拟合可能的最宽的街道（平行的虚线所示）,因此这也叫作大间隔分类.</p>
-<p>请注意，在“街道以外”的地方增加更多训练实例不会对决策边界产生影响，也就是说它完全由位于街道边缘的实例所决定（或者称之为”支持”），这些实例被称为支持向量。</p>
+<p>请注意，在“街道以外”的地方增加更多训练实例不会对决策边界产生影响，也就是说它完全由位于街道边缘的实例所决定（或者称之为“支持”），这些实例被称为支持向量。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -837,8 +838,8 @@ Pipeline(steps=[(&#39;scaler&#39;, StandardScaler()),
 <div class="output_area docutils container">
 <img alt="../_images/chapter5_5-1_linear_svm_18_0.svg" src="../_images/chapter5_5-1_linear_svm_18_0.svg" /></div>
 </div>
-<p>我们可以将SVC类与线性内核一起使用，而不使用LinearSVC类。创建SVC模型时，我们可以编写SVC（kernel=”linear”，C=1）。或者我们可以将SGDClassifier类与SGDClassifier（loss=”hinge”，alpha=1/（m*C））一起使用。这将使用常规的随机梯度下降（见第4章）来训练线性SVM分类器。它的收敛速度不如LinearSVC类，但是对处理在线分类任务或不适合内存的庞大数据集（核外训练）很有用。</p>
-<p><strong>LinearSVC类会对偏置项进行正则化，所以你需要先减去平均值，使训练集居中。如果使用StandardScaler会自动进行这一步。此外，请确保超参数loss设置为”hinge”，因为它不是默认值。最后，为了获得更好的性能，还应该将超参数dual设置为False，除非特征数量比训练实例还多</strong></p>
+<p>我们可以将SVC类与线性内核一起使用，而不使用LinearSVC类。创建SVC模型时，我们可以编写SVC（kernel=“linear”，C=1）。或者我们可以将SGDClassifier类与SGDClassifier（loss=“hinge”，alpha=1/（m*C））一起使用。这将使用常规的随机梯度下降（见第4章）来训练线性SVM分类器。它的收敛速度不如LinearSVC类，但是对处理在线分类任务或不适合内存的庞大数据集（核外训练）很有用。</p>
+<p><strong>LinearSVC类会对偏置项进行正则化，所以你需要先减去平均值，使训练集居中。如果使用StandardScaler会自动进行这一步。此外，请确保超参数loss设置为“hinge”，因为它不是默认值。最后，为了获得更好的性能，还应该将超参数dual设置为False，除非特征数量比训练实例还多</strong></p>
 </div>
 
 
