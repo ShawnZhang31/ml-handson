@@ -9,3 +9,4 @@
    :maxdepth: 1
 
    8-1_curse_of_dimension.ipynb
+   8-2_popular_method_of_dimensionality_reduction.ipynb
