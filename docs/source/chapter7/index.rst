@@ -12,3 +12,4 @@
    7-4_randomforest.ipynb
    7-5_adaboost.ipynb
    7-6_stacking.ipynb
+   7-7_Q&A.ipynb
