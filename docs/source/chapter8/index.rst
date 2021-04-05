@@ -15,3 +15,4 @@
    8-5_LLE.ipynb
    8-6_other_reduce.ipynb
    8-7_exercise_qa.ipynb
+   8-7_exercise_9.ipynb
