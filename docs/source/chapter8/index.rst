@@ -12,3 +12,4 @@
    8-2_popular_method_of_dimensionality_reduction.ipynb
    8-3_PCA.ipynb
    8-4_kene_PCA.ipynb
+   8-5_LLE.ipynb
