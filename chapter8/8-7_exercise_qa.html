@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>8.7 练习Q&amp;A &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="8.7 练习9" href="8-7_exercise_9.html" />
+    <link rel="prev" title="8.6 其他降维技术" href="8-6_other_reduce.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter3/index.html">3. 分类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter7/index.html">7. 集成学习与随机森林</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">8. 降维</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="8-1_curse_of_dimension.html">8.1 维度的诅咒</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-2_popular_method_of_dimensionality_reduction.html">8.2 降维的主要方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-3_PCA.html">8.3 PCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-4_kene_PCA.html">8.4 内核PCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-5_LLE.html">8.5 LLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-6_other_reduce.html">8.6 其他降维技术</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.7 练习Q&amp;A</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-7_exercise_9.html">8.7 练习9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-7_exercise_10.html">8.7 练习10</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">8. 降维</a> &raquo;</li>
+        
+      <li>8.7 练习Q&amp;A</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter8/8-7_exercise_qa.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="8.7-练习Q&amp;A">
+<h1>8.7 练习Q&amp;A<a class="headerlink" href="#8.7-练习Q&A" title="永久链接至标题">¶</a></h1>
+<ol class="arabic simple">
+<li><p>减少数据集维度的主要动机是什么？主要缺点是什么？</p></li>
+</ol>
+<ul class="simple">
+<li><p>主要动机：</p>
+<ul>
+<li><p>为了加速后续的训练算法（在某些情况下，也可能为了消除噪声和冗余特征，使训练算法性能更好）</p></li>
+<li><p>为了将数据可视化，并从中获得洞见，了解最重要的特征</p></li>
+<li><p>为了节省空间（压缩）</p></li>
+</ul>
+</li>
+<li><p>主要弊端：</p>
+<ul>
+<li><p>丢失部分信息，可能使后续训练算法的性能降低</p></li>
+<li><p>可能是计算密集型的</p></li>
+<li><p>为机器学习流水线增添了些许复杂度</p></li>
+<li><p>转换后的特征难以解释</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>维度的诅咒是什么？</p></li>
+</ol>
+<p>维度的诅咒是指许多在低维空间中不存在的问题，在高维空间中发生。在机器学习领域，一个常见的现象是随机抽样的高维向量通常非常稀疏，提升了过拟合的风险，同时也使得在没有充足训练数据的情况下，要识别数据中的模式非常困难</p>
+<ol class="arabic simple" start="3">
+<li><p>一旦降低了数据集的维度，是否可以逆操作？如果可以，怎么做？如果不能，为什么？</p></li>
+</ol>
+<p>一旦使用我们讨论的任意算法减少了数据集的维度，就几乎不可能再将操作完美地逆转，因为在降维过程中必然丢失了一部分信息。此外，虽然有一些算法（例如PCA）拥有简单的逆转换过程，可以重建出与原始数据集相似的数据集，但是也有一些算法不能实现逆转（例如T-SNE）</p>
+<ol class="arabic simple" start="4">
+<li><p>可以使用PCA来减少高度非线性的数据集的维度吗？</p></li>
+</ol>
+<p>对大多数数据集来说，PCA可以用来进行显著降维，即便是高度非线性的数据集，因为它至少可以消除无用的维度。但是如果不存在无用的维度（例如瑞士卷），那么使用PCA降维将会损失太多信息。你希望的是将瑞士卷展开，而不是将其压扁。</p>
+<ol class="arabic simple" start="5">
+<li><p>假设你在1000维的数据集上执行PCA，将可解释方差比设置为95%。结果数据集将具有多少个维度？</p></li>
+</ol>
+<p>这是一个不好回答的问题，它取决于数据集。我们来看看两个极端的示例。首先，假设数据集是由几乎完全对齐的点组成的，在这种情况下，PCA可以将数据集降至一维，同时保留95%的方差。现在，试想数据集由完全随机的点组成，分散在1000个维度上，在这种情况下，需要在950个维度上保留95%的方差。所以，这个问题的答案是：取决于数据集，它可能是1到950之间的任何数字。将解释方差绘制成关于维度数量的函数，可以对数据集的内在维度获得一个粗略的概念。</p>
+<ol class="arabic simple" start="6">
+<li><p>在什么情况下，你将使用常规PCA、增量PCA、随机PCA或内核PCA？</p></li>
+</ol>
+<p>常规PCA是默认选择，但是它仅适用于内存足够处理训练集的时候。增量PCA对于内存无法支持的大型数据集非常有用，但是它比常规PCA要慢一些，所以如果内存能够支持，还是应该使用常规PCA。当你需要随时应用PCA来处理每次新增的实例时，增量PCA对于在线任务同样有用。当你想大大降低维度数量，并且内存能够支持数据集时，使用随机PCA非常有效，它比常规PCA快得多。最后，对于非线性数据集，使用核化PCA非常有效。</p>
+<ol class="arabic simple" start="7">
+<li><p>如何评估数据集中的降维算法的性能？</p></li>
+</ol>
+<p>直观来说，如果降维算法能够消除许多维度并且不会丢失太多信息，那么这就算一个好的降维算法。<strong>进行衡量的方法之一是应用逆转换然后测量重建误差。然而并不是所有的降维算法都提供了逆转换。还有另一种选择，如果你将降维当作一个预处理过程，用在其他机器学习算法（比如随机森林分类器）之前，那么可以通过简单测量第二个算法的性能来进行评估。如果降维过程没有损失太多信息，那么第二个算法的性能应该跟使用原始数据集一样好。</strong></p>
+<ol class="arabic simple" start="8">
+<li><p>链接两个不同的降维算法是否有意义？</p></li>
+</ol>
+<p><strong>链接两个不同的降维算法绝对是有意义的。</strong>常见的示例是使用PCA快速去除大量无用的维度，然后应用另一种更慢的降维算法，如LLE。这种两步走的策略产生的结果可能与仅使用LLE相同，但是时间要短的多。</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="8-7_exercise_9.html" class="btn btn-neutral float-right" title="8.7 练习9" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="8-6_other_reduce.html" class="btn btn-neutral float-left" title="8.6 其他降维技术" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

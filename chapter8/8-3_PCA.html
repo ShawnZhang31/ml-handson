@@ -1,0 +1,1068 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>8.3 PCA &mdash; 机器学习实战 1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/katex-math.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script src="../_static/translations.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+        <script src="../_static/katex_autorenderer.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="8.4 内核PCA" href="8-4_kene_PCA.html" />
+    <link rel="prev" title="8.2 降维的主要方法" href="8-2_popular_method_of_dimensionality_reduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 机器学习实战
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/README.html">0. 机器学习实战</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%A7%88/ml_overview.html">1. 机器学习概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c2_end2end/index.html">2. 端到端的机器学习项目</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter3/index.html">3. 分类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter4/index.html">4. 训练模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter5/index.html">5. 支持向量机</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter6/index.html">6. 决策树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../chapter7/index.html">7. 集成学习与随机森林</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">8. 降维</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="8-1_curse_of_dimension.html">8.1 维度的诅咒</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-2_popular_method_of_dimensionality_reduction.html">8.2 降维的主要方法</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8.3 PCA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.1-保留差异性">8.3.1 保留差异性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.2-主要成分">8.3.2 主要成分</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.3-向下投影到d维度">8.3.3 向下投影到d维度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.4-Scikit-Learn-PCA">8.3.4 Scikit-Learn PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.5-可解释方差比">8.3.5 可解释方差比</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.6-选择正确的维度">8.3.6 选择正确的维度</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.7-PCA压缩">8.3.7 PCA压缩</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.8-随机PCA">8.3.8 随机PCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.3.9-增量PCA">8.3.9 增量PCA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="8-4_kene_PCA.html">8.4 内核PCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-5_LLE.html">8.5 LLE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-6_other_reduce.html">8.6 其他降维技术</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-7_exercise_qa.html">8.7 练习Q&amp;A</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-7_exercise_9.html">8.7 练习9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8-7_exercise_10.html">8.7 练习10</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">机器学习实战</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">8. 降维</a> &raquo;</li>
+        
+      <li>8.3 PCA</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/chapter8/8-3_PCA.ipynb" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="8.3-PCA">
+<h1>8.3 PCA<a class="headerlink" href="#8.3-PCA" title="永久链接至标题">¶</a></h1>
+<p>PCA首先识别最靠近数据的超平面，然后将数据投影到该平面上。</p>
+<div class="section" id="8.3.1-保留差异性">
+<h2>8.3.1 保留差异性<a class="headerlink" href="#8.3.1-保留差异性" title="永久链接至标题">¶</a></h2>
+<p>将训练集投影到低维超平面之前需要选择正确的超平面。</p>
+</div>
+<div class="section" id="8.3.2-主要成分">
+<h2>8.3.2 主要成分<a class="headerlink" href="#8.3.2-主要成分" title="永久链接至标题">¶</a></h2>
+<p><strong>主成分分析可以在训练集中识别出哪条轴对差异性的贡献度最高。</strong> 轴的数量与数据集维度数量相同。</p>
+<p>第i个轴称为数据的第i个主要成分（PC）</p>
+<p>对于每个主要成分，PCA都找到一个指向PC方向的零中心单位向量。由于两个相对的单位向量位于同一轴上，因此PCA返回的单位向量的方向不稳定：如果稍微扰动训练集并再次运行PCA，则单位向量可能会指向原始向量的相反方向。但是，它们通常仍位于相同的轴上。在某些情况下，一对单位向量甚至可以旋转或交换（如果沿这两个轴的方差接近），但是它们定义的平面通常保持不变。</p>
+<p>异值分解（SVD）的标准矩阵分解技术，可以将训练集矩阵X分解为三个矩阵<span class="math">\(U\sum V^T\)</span>的矩阵乘法，其中V包含定义所有主要成分的单位向量。如公式8-1所示:</p>
+<div class="math">
+\[V = \begin{bmatrix}
+ | & | & \cdots & | \\
+ c_1 & c_2 & \cdots & c_n \\
+ | & | & \cdots & |
+ \end{bmatrix}  \tag{8-1}\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mlp</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.5</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.7</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">w1</span> <span class="o">+</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">w2</span> <span class="o">+</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="n">X</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ 0.7039474 ,  0.65945649,  0.3645693 ],
+       [-1.0763742 , -0.50036633, -0.21646923],
+       [-0.90914129,  0.22798983,  0.05968884],
+       [-0.26327638,  0.52076062,  0.31957985],
+       [ 1.10617261,  0.17601773,  0.13888377],
+       [ 1.0008109 ,  0.15934054,  0.07250963],
+       [ 0.87852969, -0.25299137, -0.07699588],
+       [-1.13697989, -0.29958862, -0.2851556 ],
+       [-0.36237145,  0.50948368,  0.10889779],
+       [-0.7732104 ,  0.3332867 ,  0.05678017],
+       [ 0.77535051, -0.28414251,  0.01996138],
+       [-0.95258223, -0.54563776, -0.17623123],
+       [-1.14143853, -0.19599228, -0.17164135],
+       [ 1.10180912,  0.27754754,  0.33879858],
+       [ 1.12822483,  0.30165509,  0.17685333],
+       [ 1.16129536,  0.28698597,  0.47424224],
+       [ 0.97281446,  0.60223335,  0.34051818],
+       [ 0.05953046,  0.59871039,  0.09985041],
+       [ 0.47966775,  0.76970355,  0.17178859],
+       [ 0.9661238 ,  0.46601271,  0.28466344],
+       [-0.34153172,  0.51072655,  0.09671852],
+       [ 1.13380853,  0.21921337,  0.25054491],
+       [ 1.020407  ,  0.4885153 ,  0.29591905],
+       [ 0.85841436,  0.63059006,  0.26773556],
+       [ 0.43824402,  0.70283331,  0.16999502],
+       [-1.05976188, -0.0660738 , -0.27728305],
+       [ 1.13581555,  0.22121998,  0.13529605],
+       [ 0.20093918,  0.66039263,  0.30385159],
+       [-0.28623722,  0.4727371 ,  0.13460678],
+       [ 0.90027098, -0.17051433, -0.08570108],
+       [-0.49173768,  0.44562969,  0.10183323],
+       [ 1.14483602,  0.28675094,  0.23904062],
+       [ 0.88957526, -0.17373573, -0.05154894],
+       [-1.05882181, -0.53261965, -0.25029556],
+       [-1.00446822, -0.5114785 , -0.2480695 ],
+       [-1.16886922, -0.17851496, -0.28473844],
+       [ 0.98490146,  0.57478291,  0.30670375],
+       [ 0.99720618,  0.03755275,  0.1670649 ],
+       [-0.63771362,  0.20328049,  0.10551791],
+       [ 0.47071022,  0.70922771,  0.36521954],
+       [ 0.99426781,  0.0655089 , -0.01868749],
+       [ 0.19810244,  0.71508125,  0.14055212],
+       [ 0.82343124, -0.29393378,  0.04566652],
+       [-1.08356691, -0.48601033, -0.2027812 ],
+       [ 1.0551596 ,  0.48738838,  0.30323724],
+       [-0.5941532 ,  0.36237974,  0.43457175],
+       [ 0.98319006,  0.58951053,  0.33226122],
+       [ 0.14188144,  0.66739636,  0.32796361],
+       [-0.08189834,  0.57844634,  0.26074425],
+       [ 1.09686691,  0.2654652 ,  0.25446538],
+       [-1.01951937, -0.54541863, -0.29710445],
+       [-1.078681  , -0.04351171, -0.04502469],
+       [-1.04575029, -0.40183135, -0.30240695],
+       [-1.09803432, -0.35709955, -0.24061516],
+       [-0.31204162,  0.45416936,  0.05651029],
+       [-1.09798616, -0.41953513, -0.22747174],
+       [ 0.88434302, -0.10675966,  0.28787226],
+       [ 1.09610293,  0.32705216,  0.02099942],
+       [ 0.80052164, -0.14013724,  0.10663701],
+       [ 0.9015005 ,  0.56018338,  0.09693348]])
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 使用Numpy的svd()函数来获取训练集的所有主成分</span>
+<span class="n">X_centered</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">Vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">X_centered</span><span class="p">)</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">Vt</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Vt</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">m</span><span class="p">,</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(60, 3)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X_centered</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">S</span><span class="p">[:</span><span class="n">n</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">X_centered</span><span class="p">,</span> <span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vt</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+True
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">W2</span> <span class="o">=</span> <span class="n">Vt</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">X2D</span> <span class="o">=</span> <span class="n">X_centered</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X2D_using_svd</span> <span class="o">=</span> <span class="n">X2D</span>
+</pre></div>
+</div>
+</div>
+<p>PCA假定数据集以原点为中心。正如我们将看到的，Scikit-Learn的PCA类负责为你居中数据。如果你自己实现PCA（如上例所示），或者使用其他库，请不要忘记首先将数据居中。</p>
+</div>
+<div class="section" id="8.3.3-向下投影到d维度">
+<h2>8.3.3 向下投影到d维度<a class="headerlink" href="#8.3.3-向下投影到d维度" title="永久链接至标题">¶</a></h2>
+<p>一旦确定了所有主要成分，你就可以将数据集投影到前d个主要成分定义的超平面上，从而将数据集的维度降低到d维。选择这个超平面可确保投影将保留尽可能多的差异性。</p>
+<p>要将训练集投影到超平面上并得到维度为d的简化数据集<span class="math">\(X_{d-proj}\)</span>，计算训练集矩阵X与矩阵<span class="math">\(W_d\)</span>的矩阵相乘，矩阵<span class="math">\(W_d\)</span>定义为包含V的前<span class="math">\(d\)</span>列的矩阵。如公式8-2所示:</p>
+<div class="math">
+\[X_{d-proj} = X W_d \tag{8-2}\]</div>
+</div>
+<div class="section" id="8.3.4-Scikit-Learn-PCA">
+<h2>8.3.4 Scikit-Learn PCA<a class="headerlink" href="#8.3.4-Scikit-Learn-PCA" title="永久链接至标题">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X2D</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">X2D</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-0.690074  , -0.36150744],
+       [ 1.39636097,  0.34497714],
+       [ 1.00728461, -0.35025708],
+       [ 0.2736333 , -0.50516373],
+       [-0.91324535,  0.26290852]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X2D_using_svd</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-0.690074  , -0.36150744],
+       [ 1.39636097,  0.34497714],
+       [ 1.00728461, -0.35025708],
+       [ 0.2736333 , -0.50516373],
+       [-0.91324535,  0.26290852]])
+</pre></div></div>
+</div>
+<p>注意在数据集上执行PCA多次可能结果会有轻微的不同，这是由于一些投影轴的方向有可能翻转了。</p>
+</div>
+<div class="section" id="8.3.5-可解释方差比">
+<h2>8.3.5 可解释方差比<a class="headerlink" href="#8.3.5-可解释方差比" title="永久链接至标题">¶</a></h2>
+<p>另一个有用的信息是每个主成分的可解释方差比，可以通过explained_variance_ratio_变量来获得。该比率表示沿每个成分的数据集方差的比率。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.85406025, 0.13622918])
+</pre></div></div>
+</div>
+<p>此输出告诉你，数据集方差的84.2%位于第一个PC上，而14.6%位于第二个PC上。对于第三个PC，这还不到1.2%，因此可以合理地假设第三个PC携带的信息很少。</p>
+</div>
+<div class="section" id="8.3.6-选择正确的维度">
+<h2>8.3.6 选择正确的维度<a class="headerlink" href="#8.3.6-选择正确的维度" title="永久链接至标题">¶</a></h2>
+<p>与其任意选择要减小到的维度，不如选择相加足够大的方差部分（例如95%）的维度。当然，如果你是为了数据可视化而降低维度，这种情况下，需要将维度降低到2或3。</p>
+<p>以下代码在不降低维度的情况下执行PCA，然后计算保留95%训练集方差所需的最小维度：</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 以下代码在不降低维度的情况下执行PCA，然后计算保留95%训练集所需的最小维度</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">cumsum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span>
+<span class="n">cumsum</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.85406025, 0.99028943, 1.        ])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">cumsum</span> <span class="o">&gt;=</span> <span class="mf">0.95</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">d</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2
+</pre></div></div>
+</div>
+<p>然后，你可以设置<code class="docutils literal notranslate"><span class="pre">n_components=d</span></code>并再次运行PCA。但是还有一个更好的选择：将<code class="docutils literal notranslate"><span class="pre">n_components</span></code>设置为0.0到1.0之间的浮点数来表示要保留的方差率，而不是指定要保留的主成分数：</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">X_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_reduced</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[-0.690074  , -0.36150744],
+       [ 1.39636097,  0.34497714],
+       [ 1.00728461, -0.35025708],
+       [ 0.2736333 , -0.50516373],
+       [-0.91324535,  0.26290852],
+       [-0.79710027,  0.26718188],
+       [-0.55173939,  0.65062721],
+       [ 1.41612959,  0.16567641],
+       [ 0.40776059, -0.46053322],
+       [ 0.85209856, -0.40516935],
+       [-0.46269946,  0.61952736],
+       [ 1.2826692 ,  0.41018903],
+       [ 1.37468032,  0.03618608],
+       [-0.96941594,  0.10932241],
+       [-0.97219266,  0.14390464],
+       [-1.05216924,  0.07740862],
+       [-0.92770444, -0.22364286],
+       [-0.01473543, -0.4153169 ],
+       [-0.47010859, -0.46920058],
+       [-0.87761843, -0.08515546],
+       [ 0.38973612, -0.45189716],
+       [-0.96989867,  0.19819051],
+       [-0.93689997, -0.09307933],
+       [-0.81304146, -0.26096051],
+       [-0.41368569, -0.42009096],
+       [ 1.2830484 , -0.02603822],
+       [-0.95210787,  0.23163682],
+       [-0.2005476 , -0.49130242],
+       [ 0.33988682, -0.41263482],
+       [-0.59146086,  0.58475112],
+       [ 0.54812172, -0.43831338],
+       [-0.99520427,  0.14358061],
+       [-0.58645755,  0.57426772],
+       [ 1.39360363,  0.3895672 ],
+       [ 1.33617687,  0.38561674],
+       [ 1.41628081,  0.04632763],
+       [-0.9264541 , -0.18501519],
+       [-0.77991339,  0.34821204],
+       [ 0.74686904, -0.26218164],
+       [-0.48042341, -0.47513888],
+       [-0.75151549,  0.37787401],
+       [-0.18283935, -0.49263035],
+       [-0.51056407,  0.63475101],
+       [ 1.39723764,  0.32572316],
+       [-0.97100408, -0.08408757],
+       [ 0.60807764, -0.49285352],
+       [-0.93297154, -0.20657396],
+       [-0.15026573, -0.52219942],
+       [ 0.09681863, -0.4867323 ],
+       [-0.94691677,  0.14421944],
+       [ 1.36756046,  0.42677217],
+       [ 1.25473742, -0.12194352],
+       [ 1.3577182 ,  0.29036654],
+       [ 1.38554792,  0.21587043],
+       [ 0.38277905, -0.37983393],
+       [ 1.39874611,  0.2685979 ],
+       [-0.65765024,  0.40980972],
+       [-0.92060108,  0.1583512 ],
+       [-0.53772935,  0.47010862],
+       [-0.8066079 , -0.13305015]])
+</pre></div></div>
+</div>
+<p>另一个选择是将可解释方差绘制成维度的函数（简单地用cumsum绘制）。曲线上通常会出现一个拐点，其中可解释方差会停止快速增大。在这种情况下，你可以看到将维度降低到大约100而不会损失太多的可解释方差。</p>
+<p><img alt="fig 8-8" src="../_images/fig_8-8.png" /></p>
+</div>
+<div class="section" id="8.3.7-PCA压缩">
+<h2>8.3.7 PCA压缩<a class="headerlink" href="#8.3.7-PCA压缩" title="永久链接至标题">¶</a></h2>
+<p>降维后，训练集占用的空间要少得多。例如，将PCA应用于MNIST数据集，同时保留其95%的方差。你会发现每个实例将具有150多个特征，而不是原始的784个特征。因此，尽管保留了大多数方差，但数据集现在不到其原始大小的20%！这是一个合理的压缩率，你可以看到这种维度减小极大地加速了分类算法（例如SVM分类器）。通过应用PCA投影的逆变换，还可以将缩减后的数据集解压缩回784维。由于投影会丢失一些信息（在5%的方差被丢弃），因此这不会给你原始的数据，但可能会接近原始数据。</p>
+<p><strong>原始数据与重构数据（压缩后再解压缩）之间的均方距离称为重构误差</strong>。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;mnist_784&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(70000, 784)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">154</span><span class="p">)</span>
+<span class="n">X_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">X_recovered</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">X_reduced</span><span class="p">)</span>
+
+<span class="n">X_reduced</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_recovered</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+((70000, 154), (70000, 784))
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">1</span><span class="p">,]</span>
+<span class="c1"># image = np.reshape(image, (-1, 1))</span>
+<span class="n">image</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">X_recovered</span><span class="p">[:</span><span class="mi">1</span><span class="p">,]</span>
+<span class="c1"># image = np.reshape(image, (-1, 1))</span>
+<span class="n">image</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.image.AxesImage at 0x7fcfb2f0e110&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/chapter8_8-3_PCA_31_1.svg" src="../_images/chapter8_8-3_PCA_31_1.svg" /></div>
+</div>
+<p>PCA逆变换，回到原始数量的维度</p>
+<div class="math">
+\[X_{recovered} = X_{d-proj}W_d^T \tag{8-3}\]</div>
+</div>
+<div class="section" id="8.3.8-随机PCA">
+<h2>8.3.8 随机PCA<a class="headerlink" href="#8.3.8-随机PCA" title="永久链接至标题">¶</a></h2>
+<p>如果将超参数svd_solver设置为“randomized”，则Scikit-Learn将使用一种称为Randomized PCA的随机算法，该算法可以快速找到前d个主成分的近似值。它的计算复杂度为<span class="math">\(O（m\times d^2）+O（d^3）\)</span>，而不是完全SVD方法的<span class="math">\(O（m \times n^2）+O（n^3）\)</span>，因此，当d远远小于n时，它比完全的SVD快得多：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rnd_pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">154</span><span class="p">,</span> <span class="n">svd_solver</span><span class="o">=</span><span class="s2">&quot;randomized&quot;</span><span class="p">)</span>
+<span class="n">X_reduced</span> <span class="o">=</span> <span class="n">rnd_pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>默认情况下，svd_solver实际上设置为“auto”：如果m或n大于500并且d小于m或n的80%，则Scikit-Learn自动使用随机PCA算法，否则它将使用完全的SVD方法。如果要强制Scikit-Learn使用完全的SVD，可以将svd_solver超参数设置为“full”。</p>
+</div>
+<div class="section" id="8.3.9-增量PCA">
+<h2>8.3.9 增量PCA<a class="headerlink" href="#8.3.9-增量PCA" title="永久链接至标题">¶</a></h2>
+<p>前面的PCA实现的一个问题是，它们要求整个训练集都放入内存才能运行算法。幸运的是已经开发了<strong>增量PCA（IPCA）算法</strong>，它们可以使你把训练集划分为多个小批量，并一次将一个小批量送入IPCA算法。这对于大型训练集和在线（即在新实例到来时动态运行）应用PCA很有用。</p>
+<p>以下代码将MNIST数据集拆分为100个小批量（使用NumPy的<code class="docutils literal notranslate"><span class="pre">array_split（）</span></code>函数），并将其馈送到Scikit-Learn的<code class="docutils literal notranslate"><span class="pre">IncrementalPCA</span></code>类，来把MNIST数据集的维度降低到154（就像之前做的那样）。请注意，你必须在每个小批量中调用<code class="docutils literal notranslate"><span class="pre">partial_fit（）</span></code>方法，而不是在整个训练集中调用<code class="docutils literal notranslate"><span class="pre">fit（）</span></code>方法：</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">IncrementalPCA</span>
+
+<span class="n">n_batches</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">inc_pca</span> <span class="o">=</span> <span class="n">IncrementalPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">154</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">X_batch</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n_batches</span><span class="p">):</span>
+    <span class="n">inc_pca</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span>
+
+<span class="n">X_reduced</span> <span class="o">=</span> <span class="n">inc_pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>另外，你可以使用NumPy的<code class="docutils literal notranslate"><span class="pre">memmap</span></code>类，该类使你可以将存储在磁盘上的二进制文件中的大型数组当作完全是在内存中一样来操作，该类仅在需要时才将数据加载到内存中。由于<code class="docutils literal notranslate"><span class="pre">IncrementalPCA</span></code>类在任何给定时间仅使用数组的一小部分，因此内存使用情况处于受控状态。如以下代码所示，这使得调用通常的<code class="docutils literal notranslate"><span class="pre">fit（）</span></code>方法成为可能：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X_mm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;readonly&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="n">m</span> <span class="o">//</span> <span class="n">n_batches</span>
+
+<span class="n">inc_pca</span> <span class="o">=</span> <span class="n">IncrementalPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">154</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+<span class="n">inc_pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_mm</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="8-4_kene_PCA.html" class="btn btn-neutral float-right" title="8.4 内核PCA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="8-2_popular_method_of_dimensionality_reduction.html" class="btn btn-neutral float-left" title="8.2 降维的主要方法" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2020, 守着瓜的猹.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
