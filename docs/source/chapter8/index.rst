@@ -16,3 +16,4 @@
    8-6_other_reduce.ipynb
    8-7_exercise_qa.ipynb
    8-7_exercise_9.ipynb
+   8-7_exercise_10.ipynb
